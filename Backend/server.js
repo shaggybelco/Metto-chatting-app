@@ -35,7 +35,12 @@ app.get("/", (req, res) => {
   res.send("we are here");
 });
 
+//routes
+const reg = require("./app/Routes/register.routes");
+const log = require("./app/Routes/login.routes");
 
+app.use("/api", reg);
+app.use("/api", log);
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);

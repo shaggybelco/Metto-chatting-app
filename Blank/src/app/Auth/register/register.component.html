@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="center">
+    <ion-card class="ion-padding">
+      <ion-card-title> Signup </ion-card-title>
+
+      <ion-card-content>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <div
+            *ngIf="f['cellphone'].touched && f['cellphone'].invalid"
+            class="alert alert-danger mb-1"
+          >
+            <div
+              *ngIf="f['cellphone'].errors && f['cellphone'].errors['required']"
+            >
+              Cellphone is required.
+            </div>
+            <div *ngIf="f['cellphone'].dirty && f['cellphone']errors">
+              Phone number must be 10 numbers.
+            </div>
+          </div>
+          <div
+            *ngIf="f['password'].touched && f['password'].invalid"
+            class="alert alert-danger mb-1"
+          >
+            <div
+              *ngIf="f['password'].errors && f['password'].errors['required']"
+            >
+              Password is required.
+            </div>
+            <div *ngIf="f['password'].dirty && f['password'].errors">
+              Please, enter at lease 6 characters.
+            </div>
+          </div>
+          <div
+            *ngIf="f['name'].touched && f['name'].invalid"
+            class="alert alert-danger mb-1"
+          >
+            <div *ngIf="f['name'].errors && f['name'].errors['required']">
+              Name is required.
+            </div>
+            <div *ngIf="f['name'].dirty && f['name'].errors">
+              Please, enter valid name.
+            </div>
+          </div>
+
+          <ion-item>
+            <ion-label position="floating">Name</ion-label>
+            <ion-input
+              formControlName="name"
+              placeholder="e.g John Mubble"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Cellphone</ion-label>
+            <ion-input
+              (keypress)="keyPress($event)"
+              formControlName="cellphone"
+              type="tel"
+              placeholder="e.g 0712348888"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input
+              formControlName="password"
+              type="password"
+              placeholder="*******"
+            ></ion-input>
+          </ion-item>
+
+          <ion-button
+            [disabled]="!userForm.valid"
+            class="mt-3 mb-3"
+            expand="block"
+            fill="outline"
+            type="submit"
+          >
+            Signup
+          </ion-button>
+        </form>
+
+        <ion-text
+          >Already have an account
+          <a [routerLink]="['/login']">signin</a></ion-text
+        >
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
