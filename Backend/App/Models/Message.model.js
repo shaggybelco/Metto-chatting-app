@@ -15,8 +15,12 @@ module.exports = (mongoose) => {
           type: mongoose.Schema.Types.ObjectId,
           refPath: "recipient_type",
         },
-        content: {
+        message: {
           type: String,
+        },
+        read: {
+          type: Boolean,
+          default: false,
         },
         created_at: {
           type: Date,

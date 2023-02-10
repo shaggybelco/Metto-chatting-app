@@ -1,9 +1,39 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>chatsTab</ion-title>
+    <ion-title>chats</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Chats</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar show-clear-button="focus"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-item button>
+      <ion-avatar slot="start">
+        <img
+          alt="Silhouette of a person's head"
+          src="https://ionicframework.com/docs/img/demos/avatar.svg"
+        />
+      </ion-avatar>
+      <ion-label>
+        Shaggy
+        <p> hey there are u fine?</p>
+      </ion-label>
+      <div class="time">
+       
+        <p class="flex gap-1">
+          <span class="text-sm">2 hours ago</span>
+          <ion-badge slot="end">2</ion-badge>
+        </p>
+      </div>
+    </ion-item>
+  </ion-list>
 
 </ion-content>
