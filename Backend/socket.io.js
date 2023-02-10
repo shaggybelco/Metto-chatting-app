@@ -5,8 +5,6 @@ module.exports = Socket = (server) => {
     },
   });
 
-  console.log(server);
-
   io.on("connection", (sockect) => {
     sockect.on("connected", (userID) => {
       users[userID] = sockect.id;
