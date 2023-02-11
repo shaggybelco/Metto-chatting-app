@@ -17,6 +17,7 @@ export class MessagePage implements OnInit {
 
   id = this.route.snapshot.params['id'];
   name = this.route.snapshot.params['name'];
+  type = this.route.snapshot.params['type'];
   hold: any = this.token.decode();
   message: string = '';
   messages: any;
@@ -50,7 +51,7 @@ export class MessagePage implements OnInit {
       me: this.hold.id,
       otherId: this.id,
       message: this.message,
-      recipient_type: 'user'
+      recipient_type: this.type
     };
 
     console.log(this.message);

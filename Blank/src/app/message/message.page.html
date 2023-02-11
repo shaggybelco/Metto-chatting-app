@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-item>
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/tab/contact-tab"></ion-back-button>
+        <ion-back-button defaultHref="/tab/list"></ion-back-button>
       </ion-buttons>
       <ion-avatar>
         <img
@@ -36,7 +36,8 @@
               />
             </div>
           </div>
-          <div class="chat-header">
+          <div class="chat-header space-x-3">
+            <span *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
             <time className="text-xs opacity-50">12:45</time>
           </div>
           <div

@@ -19,7 +19,7 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item button *ngFor="let user of users" [routerLink]="['/message', user.receiver._id, user.receiver.name]">
+    <ion-item button *ngFor="let user of users" [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]">
       <ion-avatar class="avatar" slot="start">
         <img
           *ngIf="!user.receiver.isAvatar"

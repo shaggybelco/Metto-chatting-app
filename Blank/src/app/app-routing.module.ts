@@ -38,7 +38,7 @@ const routes: Routes = [
     loadChildren: () => import('./contact-tab/contact-tab.module').then( m => m.ContactTabPageModule)
   },
   {
-    path: 'message/:id/:name',
+    path: 'message/:id/:name/:type',
     loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
   }
 

@@ -7,7 +7,18 @@ exports.send = async (req, res, next) => {
     const user = await User.findOne({ _id: req.params.id });
     const otherUser = await User.findOne({ _id: req.params.otherId });
 
-    if (user.length !== 0 && otherUser !== 0) {
+    console.log(otherUser)
+    console.log(user);
+
+    if(user !== null){
+      if(otherUser !== null){
+        
+      }else{
+
+      }
+    }
+
+    if (user !== null && otherUser !== null) {
       const message = new Message({
         sender: user._id,
         receiver: otherUser._id,
