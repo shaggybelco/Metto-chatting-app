@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenService } from '../services/token.service';
 
 @Component({
   selector: 'app-profile-tab',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileTabPage implements OnInit {
 
-  constructor() { }
+  constructor(private token: TokenService) { }
 
+  hold: any;
   ngOnInit() {
+    this.hold = this.token.decode();
   }
 
 }

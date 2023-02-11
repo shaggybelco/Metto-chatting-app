@@ -1,9 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>contactTab</ion-title>
+    <ion-title>Contacts</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Contacts</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar show-clear-button="focus"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
 
+  <ion-list>
+    <ion-item button *ngFor="let user of users">
+      <ion-avatar slot="start">
+        <img
+          alt="Silhouette of a person's head"
+          src="https://ionicframework.com/docs/img/demos/avatar.svg"
+        />
+      </ion-avatar>
+      <ion-label>
+        {{user.name}}
+        <p>+27{{user.cellphone}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

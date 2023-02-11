@@ -8,9 +8,9 @@ mongoose.set('strictPopulate', false);
 const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
-db.users = require("./user.model")(db.mongoose);
-db.messages = require("./message.model")(db.mongoose);
-db.groups = require("./group.model")(db.mongoose);
-db.groupmembers = require("./groupmember.model")(db.mongoose);
+db.users = require("./user.model")(mongoose);
+db.messages = require("./message.model")(mongoose);
+db.groups = require("./group.model")(mongoose);
+db.groupmembers = require("./groupmember.model")(mongoose);
 
 module.exports = db;
