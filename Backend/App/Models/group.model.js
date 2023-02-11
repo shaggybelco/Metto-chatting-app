@@ -16,6 +16,14 @@ module.exports = (mongoose) => {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+      isAvatar: {
+        type: Boolean,
+        default: false,
+      },
+      avatar: {
+        type: String,
+        default: "",
+      },
     })
   );
 

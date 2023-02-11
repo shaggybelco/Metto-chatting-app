@@ -15,25 +15,25 @@
   </ion-header>
 
   <ion-list>
-    <ion-item button>
-      <ion-avatar slot="start">
+    <ion-item button *ngFor="let user of users">
+      <ion-avatar class="avatar" slot="start">
         <img
+          *ngIf="!user.receiver.isAvatar"
           alt="Silhouette of a person's head"
           src="https://ionicframework.com/docs/img/demos/avatar.svg"
         />
+        <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" />
       </ion-avatar>
       <ion-label>
-        Shaggy
-        <p> hey there are u fine?</p>
+        {{user.receiver.name}}
+        <p>{{user.lastMessage.message}}</p>
       </ion-label>
       <div class="time">
-       
         <p class="flex gap-1">
-          <span class="text-sm">2 hours ago</span>
+          <span class="text-sm">{{transform(user.lastMessage.createdAt)}}</span>
           <ion-badge slot="end">2</ion-badge>
         </p>
       </div>
     </ion-item>
   </ion-list>
-
 </ion-content>

@@ -96,6 +96,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           lastMessages.push({
             receiver: user,
             lastMessage: filteredMessages[0],
+            unreadCount: filteredMessages.filter((m) => !m.isRead).length,
           });
         }
       }
@@ -108,6 +109,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           lastMessages.push({
             receiver: group,
             lastMessage: filteredMessages[0],
+            unreadCount: filteredMessages.filter((m) => !m.isRead).length,
           });
         }
       }
