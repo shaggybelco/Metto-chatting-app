@@ -13,7 +13,8 @@ import { MessagePage } from './message.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MessagePageRoutingModule
+    MessagePageRoutingModule,
+    FormsModule
   ],
   declarations: [MessagePage]
 })

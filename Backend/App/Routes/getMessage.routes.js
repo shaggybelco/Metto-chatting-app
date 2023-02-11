@@ -8,6 +8,6 @@ app.use(bodyparser.json());
 
 const controller = require("../Controllers/getMessage.controller");
 
-app.get("/messages/:id", controller.getMessages);
+app.get("/messages/:id/:receiver", controller.getMessages);
 
 module.exports = app;

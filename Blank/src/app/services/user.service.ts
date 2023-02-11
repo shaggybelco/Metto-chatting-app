@@ -13,4 +13,8 @@ export class UserService {
   getUsers(id: any):Observable<any>{
     return this.http.get(`${environment.baseUrl}/users/${id}`);
   }
+
+  getUsersWithLastMessage(data: any): Observable<any>{
+    return this.http.get(`${environment.baseUrl}/userm/${data}`);
+  }
 }
