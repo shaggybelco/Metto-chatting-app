@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const db = require("../models");
+const db = require("../Models");
 const User = db.users;
 
 exports.login = async (req, res) => {
@@ -41,15 +41,5 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
-  }
-};
-
-module.exports.getusers = async (req, res) => {
-  try {
-    const users = await User.find({ _id: { $ne: req.params.id } });
-
-    res.status(200).json(users);
-  } catch (error) {
-    console.log(error.message);
   }
 };

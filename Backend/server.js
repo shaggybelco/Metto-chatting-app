@@ -7,13 +7,13 @@ app.use(express.json());
 
 const server = require("http").createServer(app);
 
-require("./app/configs/dotenv");
+require("./App/configs/dotenv");
 require('./socket.io')(server);
 
 
 app.use(cors());
 
-const db = require("./app/models");
+const db = require("./App/Models");
 
 db.mongoose
   .connect(db.url, {
@@ -36,11 +36,17 @@ app.get("/", (req, res) => {
 });
 
 //routes
-const reg = require("./app/Routes/register.routes");
-const log = require("./app/Routes/login.routes");
+const reg = require("./App/Routes/register.routes");
+const log = require("./App/Routes/login.routes");
+const users = require('./App/Routes/getUsers.routes');
+const message = require("./App/Routes/getMessage.routes");
+const send = require('./App/Routes/sendMessage.routes');
 
 app.use("/api", reg);
 app.use("/api", log);
+app.use("/api", users);
+app.use("/api", message);
+app.use("/api", send);
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);

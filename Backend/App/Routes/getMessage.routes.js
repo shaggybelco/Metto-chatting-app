@@ -6,8 +6,8 @@ const bodyparser = require("body-parser");
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(bodyparser.json());
 
-const controller = require("../controllers/login.controller");
+const controller = require("../Controllers/getMessage.controller");
 
-app.post("/log", controller.login);
+app.get("/messages/:id", controller.getMessages);
 
 module.exports = app;
