@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <ion-buttons>
+        <ion-back-button defaultHref="/contact-tab"></ion-back-button>
+      </ion-buttons>
+      <ion-avatar>
+        <img alt="Silhouette of a person's head"
+        src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <ion-title>{{name}}</ion-title>
+    </ion-item>
+   
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>
+
+<ion-footer [translucent]="true">
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-textarea placeholder="Type something here" [autoGrow]="true">
+      </ion-textarea>
+      <ion-buttons>
+        <ion-button color="secondary" shape="round"><ion-icon style="font-size: 1.5rem;font-weight: bolder;" name="send-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

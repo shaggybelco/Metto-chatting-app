@@ -15,7 +15,7 @@
   </ion-header>
 
   <ion-list>
-    <ion-item button *ngFor="let user of users">
+    <ion-item button *ngFor="let user of users" [routerLink]="['/message', user._id, user.name]" >
       <ion-avatar slot="start">
         <img
           alt="Silhouette of a person's head"
