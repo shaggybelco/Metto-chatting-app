@@ -14,8 +14,12 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-refresher slot="fixed" class="z-10" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
-    <ion-item button *ngFor="let user of users">
+    <ion-item button *ngFor="let user of users" [routerLink]="['/message', user.receiver._id, user.receiver.name]">
       <ion-avatar class="avatar" slot="start">
         <img
           *ngIf="!user.receiver.isAvatar"
@@ -31,7 +35,7 @@
       <div class="time">
         <p class="flex gap-1">
           <span class="text-sm">{{transform(user.lastMessage.createdAt)}}</span>
-          <ion-badge slot="end">2</ion-badge>
+          <ion-badge slot="end" *ngIf="user.unreadCount > 0">{{user.unreadCount}}</ion-badge>
         </p>
       </div>
     </ion-item>

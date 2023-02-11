@@ -29,6 +29,14 @@ export class ChatsTabPage implements OnInit {
     );
   }
 
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      // Any calls to load data go here
+     this.getUsersWithLastMessage();
+      event.target.complete();
+    }, 2000);
+  };
+
   transform(date: string) {
     if (!date) {
       return 'a long time ago';
