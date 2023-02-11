@@ -61,12 +61,18 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
 // user and group
 module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   try {
-    const groupID = await Group.findOne({ user: req.params.id });
+    console.log(req.params.id);
+    console.log(GroupMember);
+    const groupID = await GroupMember.findOne({id: req.params.id});
 
     console.log(groupID)
-
+    if(groupID === null){
+      res.status(404).send({error: 'Not Found'});
+      console.log("No group");
+      return;
+    }
     const messages = await Message.find({
-      $or: [{ sender: req.params.id }, { receiver: req.params.id },{receiver:groupID._id}],
+      $or: [{ sender: req.params.id }, { receiver: req.params.id },{receiver:groupID.group}],
     }).sort({ createdAt: -1 });
 
     const userIds = messages
@@ -83,8 +89,10 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     const groups = await Group.find({
       _id: { $in: groupIds },
+      user: req.params.id,
     });
-
+    
+    console.log(groups);
     const lastMessages = [];
     for (const user of users) {
       const filteredMessages = messages.filter(
