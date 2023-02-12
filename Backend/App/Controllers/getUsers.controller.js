@@ -59,11 +59,12 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
 };
 
 // user and group
+const mongoose = require("mongoose");
+
 module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
+  const id = req.params.id;
   try {
-    console.log(req.params.id);
-    console.log(GroupMember);
-    const groupID = await GroupMember.findOne({ id: req.params.id });
+    const groupID = await GroupMember.findOne({ user: { $eq: id } });
 
     console.log(groupID);
     if (groupID === null) {
@@ -79,7 +80,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       ],
     }).sort({ createdAt: -1 });
 
-    console.log(messages);
+    console.log(groupID.group);
     const userIds = messages
       .filter((m) => m.sender.toString() !== req.params.id)
       .map((m) => m.sender)
@@ -99,10 +100,10 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     const groups = await Group.find({
       _id: { $in: groupIds },
-      user: req.params.id,
+      // created_by: req.params.id,
     });
 
-    console.log(groups);
+    // console.log(groups);
     const lastMessages = [];
     for (const user of users) {
       const filteredMessages = messages.filter(
@@ -163,15 +164,13 @@ exports.getMe = async (req, res, next) => {
 // update profile
 
 exports.updateProfile = async (req, res, next) => {
-  const {  image, isAvatar, name } = req.body;
+  const { image, isAvatar, name } = req.body;
   const id = req.params.id;
   console.log(req.body);
   console.log(image);
   try {
-   
-
     const updated = User.findOneAndUpdate(
-      { _id: id},
+      { _id: id },
       {
         $set: {
           avatar: image,
@@ -188,7 +187,7 @@ exports.updateProfile = async (req, res, next) => {
     res.status(200).json(updated);
   } catch (error) {
     console.log(error);
-    
+
     res.status(400).json(error);
     next(error);
   }

@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollY]="true" [fullscreen]="true" data-theme="winter">
+<ion-content [scrollY]="true" [fullscreen]="true" data-theme="corporate">
   <div class="ion-padding h">
     <section id="message-container" style="overflow-y: scroll">
       <div *ngFor="let mess of messages">
@@ -41,7 +41,7 @@
             <time className="text-xs opacity-50">12:45</time>
           </div>
           <div
-            [ngClass]="mess.sender._id === hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'"
+            [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'"
           >
             {{mess.message}}
           </div>
