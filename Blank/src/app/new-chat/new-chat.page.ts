@@ -88,4 +88,30 @@ export class NewChatPage implements OnInit {
       this.message = `Hello, ${ev.detail.data}!`;
     }
   }
+
+  file: any;
+  input: any;
+  isAvatar: boolean = false;
+  dataUrl: any;
+
+  async openFileBrowser() {
+    this.input = document.createElement('input');
+    this.input.type = 'file';
+    this.input.click();
+
+    this.input.onchange = (e: any) => {
+      this.file = this.input.files[0];
+      console.log(this.file);
+
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        this.dataUrl = reader.result;
+      };
+
+      reader.readAsDataURL(this.file);
+
+    };
+  }
+
 }

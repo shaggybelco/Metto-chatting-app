@@ -43,12 +43,14 @@
 
       <ion-content class="ion-padding">
         <div class="flex justify-center mb-4">
-          <ion-avatar>
+          <ion-avatar class="avatar">
             <img
+            *ngIf="!file"
               alt="not"
               src="https://ionicframework.com/docs/img/demos/avatar.svg"
             />
-            <ion-badge class="add" button><ion-icon style="font-size: 1rem;" name="add-circle"></ion-icon></ion-badge>
+            <img *ngIf="file" [src]="dataUrl" />
+           <ion-icon class="add" (click)="openFileBrowser()" button color="primary" style="font-size: 1.5rem;" name="add-circle"></ion-icon>
           </ion-avatar>
         </div>
         <ion-item lines="none">
