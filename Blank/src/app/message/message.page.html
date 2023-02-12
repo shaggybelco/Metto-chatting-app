@@ -1,16 +1,35 @@
 <ion-header>
   <ion-toolbar>
-    <ion-item>
+    <ion-item lines="none">
       <ion-buttons slot="start">
-        <ion-back-button defaultHref="/tab/list"></ion-back-button>
+        <ion-back-button text="" defaultHref="/tab/list"></ion-back-button>
       </ion-buttons>
-      <ion-avatar>
+      <ion-avatar class="avatar" slot="start">
         <img
+          lazy
+          *ngIf="!haveAvatar"
           alt="Silhouette of a person's head"
           src="https://ionicframework.com/docs/img/demos/avatar.svg"
         />
+        <img
+          lazy
+          *ngIf="haveAvatar"
+          alt="Silhouette of a person's head"
+          [src]="profile"
+        />
       </ion-avatar>
-      <ion-title>{{name}}</ion-title>
+      <ion-label slot="start"
+        >{{name}}
+        <p>Online</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button color="primary" >
+          <ion-icon style="font-size: 1.5rem;" name="call"></ion-icon>
+        </ion-button>
+        <ion-button color="secondary">
+          <ion-icon style="font-size: 1.5rem;" name="videocam"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-toolbar>
 </ion-header>
@@ -28,16 +47,20 @@
                 *ngIf="mess.sender.isAvatar"
                 alt="Silhouette of a person's head"
                 [src]="mess.sender.avatar"
+                loading="lazy"
               />
               <img
                 *ngIf="!mess.sender.isAvatar"
                 alt="Silhouette of a person's head"
                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                loading="lazy"
               />
             </div>
           </div>
           <div class="chat-header space-x-2">
-            <span *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
+            <span *ngIf="mess.recipient_type === 'group'"
+              >{{mess.sender.name}}</span
+            >
             <time className="text-xs opacity-50">12:45</time>
           </div>
           <div
@@ -55,6 +78,11 @@
 <ion-footer [translucent]="true">
   <ion-toolbar>
     <ion-item lines="none">
+      <ion-buttons slot="start">
+        <ion-button (click)="openFileBrowser()">
+          <ion-icon  style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
+        </ion-button>
+      </ion-buttons>
       <ion-textarea
         placeholder="Type something here"
         [(ngModel)]="message"
@@ -66,7 +94,7 @@
         <ion-button color="secondary" shape="round" (click)="send()"
           ><ion-icon
             style="font-size: 1.5rem; font-weight: bolder"
-            name="send-outline"
+            name="send"
           ></ion-icon
         ></ion-button>
       </ion-buttons>

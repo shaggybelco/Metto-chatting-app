@@ -18,6 +18,9 @@ export class MessagePage implements OnInit {
   id = this.route.snapshot.params['id'];
   name = this.route.snapshot.params['name'];
   type = this.route.snapshot.params['type'];
+  profile: string = '';
+  haveAvatar = false;
+
   hold: any = this.token.decode();
   message: string = '';
   messages: any;
@@ -38,6 +41,8 @@ export class MessagePage implements OnInit {
     this.chat.getMessages(Data).subscribe(
       (res: any) => {
         console.log(res);
+        this.profile = res[0].receiver.avatar;
+        this.haveAvatar =res[0].receiver.isAvatar;
         this.messages = res;
       },
       (err: any) => {
@@ -45,6 +50,21 @@ export class MessagePage implements OnInit {
       }
     );
   }
+
+  input: any;
+  files!: File;
+  async openFileBrowser() {
+    this.input = document.createElement('input');
+    this.input.type = 'file';
+    this.input.multiple = true;
+    this.input.click();
+
+    this.input.onchange = (e: any) => {
+      this.files = this.input.files;
+      console.log(this.files);
+    };
+  }
+
 
   send() {
     const Data = {

@@ -21,7 +21,15 @@ module.exports = (mongoose) => {
         read: {
           type: Boolean,
           default: false,
-        }
+        },
+        isFile: {
+          type: Boolean,
+          default: false,
+        },
+        file: {
+          type: String,
+          default: "",
+        },
       },
       { timestamps: true }
     )

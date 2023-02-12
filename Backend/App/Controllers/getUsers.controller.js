@@ -66,7 +66,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   try {
     const groupID = await GroupMember.findOne({ user: { $eq: id } });
 
-    console.log(groupID);
+    // console.log(groupID);
     if (groupID === null) {
       res.status(404).send({ error: "Not Found" });
       console.log("No group");
@@ -80,7 +80,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       ],
     }).sort({ createdAt: -1 });
 
-    console.log(groupID.group);
+    // console.log(groupID.group);
     const userIds = messages
       .filter((m) => m.sender.toString() !== req.params.id)
       .map((m) => m.sender)
@@ -169,7 +169,7 @@ exports.updateProfile = async (req, res, next) => {
   console.log(req.body);
   console.log(image);
   try {
-    const updated = User.findOneAndUpdate(
+    const updated = await User.findOneAndUpdate(
       { _id: id },
       {
         $set: {
@@ -178,17 +178,14 @@ exports.updateProfile = async (req, res, next) => {
           name: req.body.name,
         },
       },
-      { returnOriginal: false },
-      (error) => {
-        if (error) return console.error(error);
-      }
+      { returnOriginal: false }
     );
 
     res.status(200).json(updated);
   } catch (error) {
     console.log(error);
 
-    res.status(400).json(error);
+    res.status(400).json({ message: 'Error updating user profile.' });
     next(error);
   }
 };
