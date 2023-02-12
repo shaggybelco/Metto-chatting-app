@@ -6,7 +6,7 @@ const bodyparser = require("body-parser");
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());
 
-const controller = require("../controllers/getUsers.controller");
+const controller = require("../Controllers/getUsers.controller");
 
 app.get('/users/:id', controller.getusers);
 app.get('/userm/:id', controller.getUsersAndGroupsWithMessage);

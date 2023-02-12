@@ -6,7 +6,7 @@ const bodyparser = require("body-parser");
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(bodyparser.json());
 
-const controller = require("../controllers/login.controller");
+const controller = require("../Controllers/login.controller");
 
 app.post("/log", controller.login);
 

@@ -6,7 +6,7 @@ const bodyparser = require("body-parser");
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(bodyparser.json());
 
-const controller = require("../controllers/register.controller");
+const controller = require("../Controllers/register.controller");
 
 app.post("/reg", controller.register);
 
