@@ -54,7 +54,7 @@ exports.getMessages = async (req, res, next) => {
       ],
     })
     .sort({ createdAt: 1 });
-
+    
     // Check if receiver is a user or a group
     let receiver = await User.findOne({ _id: req.params.receiver });
     if (!receiver) {

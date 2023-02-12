@@ -63,21 +63,31 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   try {
     console.log(req.params.id);
     console.log(GroupMember);
-    const groupID = await GroupMember.findOne({id: req.params.id});
+    const groupID = await GroupMember.findOne({ id: req.params.id });
 
-    console.log(groupID)
-    if(groupID === null){
-      res.status(404).send({error: 'Not Found'});
+    console.log(groupID);
+    if (groupID === null) {
+      res.status(404).send({ error: "Not Found" });
       console.log("No group");
       return;
     }
     const messages = await Message.find({
-      $or: [{ sender: req.params.id }, { receiver: req.params.id },{receiver:groupID.group}],
+      $or: [
+        { sender: req.params.id },
+        { receiver: req.params.id },
+        { receiver: groupID.group },
+      ],
     }).sort({ createdAt: -1 });
 
+    console.log(messages);
     const userIds = messages
-      .filter((m) => m.receiver.toString() !== req.params.id)
-      .map((m) => m.receiver);
+      .filter((m) => m.sender.toString() !== req.params.id)
+      .map((m) => m.sender)
+      .concat(
+        messages
+          .filter((m) => m.receiver.toString() !== req.params.id)
+          .map((m) => m.receiver)
+      );
 
     const groupIds = messages
       .filter((m) => m.recipient_type === "group")
@@ -91,7 +101,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       _id: { $in: groupIds },
       user: req.params.id,
     });
-    
+
     console.log(groups);
     const lastMessages = [];
     for (const user of users) {
