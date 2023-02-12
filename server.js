@@ -13,7 +13,7 @@ require('./socket.io')(server);
 
 app.use(cors());
 
-const db = require("/App/Models");
+const db = require("./App/Models");
 
 db.mongoose
   .connect(db.url, {
