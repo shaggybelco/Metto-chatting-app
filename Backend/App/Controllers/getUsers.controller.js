@@ -3,7 +3,6 @@ const User = db.users;
 const Message = db.messages;
 const Group = db.groups;
 const GroupMember = db.groupmembers;
-const cloudinary = require("../Configs/cloudinary.config");
 
 module.exports.getusers = async (req, res) => {
   try {
