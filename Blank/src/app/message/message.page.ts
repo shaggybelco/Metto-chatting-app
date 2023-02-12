@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
+import { TransformService } from '../services/transform.service';
 
 @Component({
   selector: 'app-message',
@@ -12,7 +13,8 @@ export class MessagePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
-    private chat: ChatService
+    private chat: ChatService,
+    public trans: TransformService
   ) {}
 
   id = this.route.snapshot.params['id'];

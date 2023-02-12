@@ -41,7 +41,7 @@
       </ion-label>
       <div class="time">
         <p class="flex gap-1">
-          <span class="text-sm">{{transform(user.lastMessage.createdAt)}}</span>
+          <span class="text-sm">{{trans.transform(user.lastMessage.createdAt)}}</span>
           <ion-badge slot="end" *ngIf="user.unreadCount > 0"
             >{{user.unreadCount}}</ion-badge
           >
@@ -49,4 +49,10 @@
       </div>
     </ion-item>
   </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chatbubble-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

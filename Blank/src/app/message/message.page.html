@@ -61,7 +61,7 @@
             <span *ngIf="mess.recipient_type === 'group'"
               >{{mess.sender.name}}</span
             >
-            <time className="text-xs opacity-50">12:45</time>
+            <time className="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
           </div>
           <div
             [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'"
@@ -79,7 +79,7 @@
   <ion-toolbar>
     <ion-item lines="none">
       <ion-buttons slot="start">
-        <ion-button (click)="openFileBrowser()">
+        <ion-button color="secondary"  (click)="openFileBrowser()">
           <ion-icon  style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
         </ion-button>
       </ion-buttons>
