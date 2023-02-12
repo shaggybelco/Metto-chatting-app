@@ -3,6 +3,7 @@ const User = db.users;
 const Message = db.messages;
 const Group = db.groups;
 const GroupMember = db.groupmembers;
+const cloudinary = require("../Configs/cloudinary.config");
 
 module.exports.getusers = async (req, res) => {
   try {
@@ -146,5 +147,49 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
     console.log(error.message);
     res.status(500).json({ message: error.message });
     next();
+  }
+};
+
+// get logged in user
+exports.getMe = async (req, res, next) => {
+  try {
+    const hold = await User.find({ _id: req.params.id });
+
+    res.status(200).json(hold);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// update profile
+
+exports.updateProfile = async (req, res, next) => {
+  const {  image, isAvatar, name } = req.body;
+  const id = req.params.id;
+  console.log(req.body);
+  console.log(image);
+  try {
+   
+
+    const updated = User.findOneAndUpdate(
+      { _id: id},
+      {
+        $set: {
+          avatar: image,
+          isAvatar: true,
+          name: req.body.name,
+        },
+      },
+      { returnOriginal: false },
+      (error) => {
+        if (error) return console.error(error);
+      }
+    );
+
+    res.status(200).json(updated);
+  } catch (error) {
+    console.log(error);
+    next(error);
+    res.status(400).json(error);
   }
 };

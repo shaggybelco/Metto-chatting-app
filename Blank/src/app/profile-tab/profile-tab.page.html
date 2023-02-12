@@ -1,9 +1,81 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profileTab</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/chat"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Profile </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card class="mt-6">
+    <ion-img
+      *ngIf="!me.isAvatar"
+      lazy
+      src="https://ionicframework.com/docs/img/demos/avatar.svg"
+    ></ion-img>
+    <ion-img
+      lazy
+      alt="Silhouette of a person's head"
+      *ngIf="me.isAvatar"
+      [src]="me.avatar"
+    ></ion-img>
+    <ion-card-header>
+      <ion-item lines="none">
+        <ion-label>
+          {{me.name}}
+          <p>0{{me.cellphone}}</p>
+        </ion-label>
+        <ion-text button id="open-modal-1">
+          <ion-icon name="pencil-sharp"></ion-icon>
+        </ion-text>
+      </ion-item>
+    </ion-card-header>
+  </ion-card>
 
+  <ion-modal
+    #modal
+    trigger="open-modal-1"
+    [canDismiss]="canDismiss"
+    [presentingElement]="presentingElement"
+  >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Update profile</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="update()">Save</ion-button>
+            <ion-button (click)="modal.dismiss()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div class="avte">
+          <ion-avatar class="avatar avt">
+            <img *ngIf="me.isAvatar && !file" [src]="me.avatar" />
+            <img
+              *ngIf="!me.isAvatar && !file"
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+            />
+            <img *ngIf="file && me.isAvatar" [src]="dataUrl" />
+          </ion-avatar>
+        </div>
+        <h1 *ngIf="file" class="text-center">file selected</h1>
+        <div class="avte">
+          <ion-button (click)="openFileBrowser()">Change picture</ion-button>
+        </div>
+
+        <div class="avte">
+          <ion-item lines="none" style="width: 100%">
+            <ion-label position="floating">Your username</ion-label>
+            <ion-input
+              style="background-color: transparent"
+              placeholder="Enter username"
+              [(ngModel)]="username"
+            ></ion-input>
+          </ion-item>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
