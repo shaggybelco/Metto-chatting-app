@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'new-chat',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
