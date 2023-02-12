@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-title>Chats</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -20,6 +20,7 @@
 
   <ion-list>
     <ion-item
+    detail="false"
       button
       *ngFor="let user of users"
       [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]"
@@ -51,7 +52,7 @@
   </ion-list>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button>
+    <ion-fab-button color="secondary" [routerLink]="['/new-chat']" routerLinkActive="new-chat" >
       <ion-icon name="chatbubble-ellipses"></ion-icon>
     </ion-fab-button>
   </ion-fab>

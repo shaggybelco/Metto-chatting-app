@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tab" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select contact</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item lines="none" detail="false" button>
+      <ion-icon name="people" slot="start" color="primary"></ion-icon>
+      <ion-label>New group</ion-label>
+    </ion-item>
+
+    <ion-item lines="none" detail="false" button>
+      <ion-icon name="person-add" slot="start" color="primary"></ion-icon>
+      <ion-label>New contact</ion-label>
+    </ion-item>
+    <ion-text class="px-2 m-3">Contants on Metto</ion-text>
+    <ion-item lines="none" detail="false" button *ngFor="let item of contacts">
+      <ion-avatar slot="start" class="avatar">
+        <img src="image" />
+      </ion-avatar>
+      <ion-label>Name</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

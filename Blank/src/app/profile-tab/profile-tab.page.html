@@ -1,13 +1,16 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/chat"></ion-back-button>
-    </ion-buttons>
+  <ion-toolbar color="primary">
     <ion-title>Profile </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Chats</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
   <ion-card class="mt-6">
     <ion-img
       *ngIf="!me.isAvatar"
