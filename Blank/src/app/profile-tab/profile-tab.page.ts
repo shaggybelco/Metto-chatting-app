@@ -100,7 +100,7 @@ export class ProfileTabPage implements OnInit {
     const { role } = await actionSheet.onWillDismiss();
 
     if (role === 'confirm') {
-      this.getMe();
+      // this.getMe();
     }
 
     return role === 'confirm';
