@@ -26,7 +26,7 @@ export class ProfileTabPage implements OnInit {
     this.getMe();
   }
 
-  getMe(){
+  getMe() {
     this.prof.getMe(this.decode.id).subscribe(
       (res: any) => {
         console.log(res[0]);
@@ -60,7 +60,6 @@ export class ProfileTabPage implements OnInit {
       };
 
       reader.readAsDataURL(this.file);
-
     };
   }
 
@@ -72,12 +71,11 @@ export class ProfileTabPage implements OnInit {
     };
 
     console.log(data);
-    this.prof.upload$.subscribe((res:any)=>{
-      console.log(res)
-    })
+    this.prof.upload$.subscribe((res: any) => {
+      console.log(res);
+    });
     this.prof.uploadImage(this.file, data);
     this.getMe();
-  
   }
 
   canDismiss = async () => {
@@ -87,10 +85,12 @@ export class ProfileTabPage implements OnInit {
         {
           text: 'Yes',
           role: 'confirm',
+          icon: 'checkmark',
         },
         {
           text: 'No',
-          role: 'cancel',
+          role: 'destructive',
+          icon: 'ban', 
         },
       ],
     });

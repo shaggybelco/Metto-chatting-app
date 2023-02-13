@@ -74,15 +74,18 @@
     >
       <ng-template>
         <ion-header>
-          <ion-toolbar>
+          <ion-toolbar color="secondary">
             <ion-title>Update profile</ion-title>
-            <ion-buttons slot="end">
-              <ion-button [disabled]="prof.upload$ | async" (click)="update()">Save</ion-button>
-              <ion-button [disabled]="prof.upload$ | async" (click)="modal.dismiss()">Close</ion-button>
-            </ion-buttons>
             <ion-progress-bar *ngIf="prof.upload$ | async" type="indeterminate" color="secondary"></ion-progress-bar>
           </ion-toolbar>
         </ion-header>
+
+        <ion-header collapse="condense">
+          <ion-toolbar>
+            <ion-title size="large">Update profile</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
         <ion-content class="ion-padding">
           <div class="avte">
             <ion-avatar class="avatar avt">
@@ -100,7 +103,7 @@
           </div>
 
           <div class="avte">
-            <ion-item lines="none" style="width: 100%">
+            <ion-item fill="outline" style="width: 100%">
               <ion-label position="floating">Your username</ion-label>
               <ion-input
                 style="background-color: transparent"
@@ -108,6 +111,11 @@
                 [(ngModel)]="username"
               ></ion-input>
             </ion-item>
+          </div>
+
+          <div class="avte">
+            <ion-button [disabled]="prof.upload$ | async" (click)="update()">Save</ion-button>
+            <ion-button color="warning" [disabled]="prof.upload$ | async" (click)="modal.dismiss()">Close</ion-button>
           </div>
         </ion-content>
       </ng-template>
