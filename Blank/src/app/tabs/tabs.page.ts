@@ -9,7 +9,7 @@ export class TabsPage implements OnInit {
 
   constructor() { }
 
-  @Input() tab = '';
+  @Input() tab = 'list';
 
   setActiveTab(selectedTab: string) {
     this.tab = selectedTab;
