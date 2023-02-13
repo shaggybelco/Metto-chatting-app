@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Metto
+      METTO
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +14,15 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to have fun?</strong>
-    <p routerLink="/login">Click here</p>
+
+    <ion-img src="../../assets//chatbubble.png"></ion-img>
+    <ion-button routerLink="/login">Talk with your people<ion-icon name="caret-forward"></ion-icon>
+    </ion-button>
   </div>
+
+  <div class="flex flex-col-reverse opacity-20">
+    <div class="text-center p-2 absolute bottom-0"> Provided by Belco</div>
+    <div class="text-center p-2 absolute bottom-4">Metto</div>
+  </div>
+  
 </ion-content>

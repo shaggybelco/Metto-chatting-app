@@ -23,6 +23,15 @@ export class RegisterComponent implements OnInit {
   }
 
   userForm!: FormGroup;
+  step: number = 1;
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
   
 
   get f() { return this.userForm.controls; }
