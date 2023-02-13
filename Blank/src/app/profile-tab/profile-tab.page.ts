@@ -19,7 +19,7 @@ export class ProfileTabPage implements OnInit {
 
   presentingElement = undefined;
   decode: any = this.token.decode();
-  me: any = {};
+  me: any;
   username: string = '';
 
   ngOnInit() {
