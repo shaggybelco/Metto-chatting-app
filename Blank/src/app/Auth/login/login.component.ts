@@ -24,7 +24,9 @@ export class LoginComponent implements OnInit {
   userForm!: FormGroup;
 
   
-  
+  customCounterFormatter(inputLength: number, maxLength: number) {
+    return `${maxLength - inputLength} characters remaining`;
+  }
 
   get f() { return this.userForm.controls; }
 

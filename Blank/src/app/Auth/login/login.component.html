@@ -25,9 +25,9 @@
             <div *ngIf="f['password'].dirty && f['password'].errors">Please, enter at lease 6 characters.</div>
           </div>
 
-          <ion-item>
+          <ion-item counter="true">
             <ion-label position="floating">Cellphone</ion-label>
-            <ion-input (keypress)="keyPress($event)" formControlName="cellphone" type="tel"
+            <ion-input maxlength="10" (keypress)="keyPress($event)" formControlName="cellphone" type="tel"
               placeholder="e.g 0712348888"></ion-input>
           </ion-item>
 

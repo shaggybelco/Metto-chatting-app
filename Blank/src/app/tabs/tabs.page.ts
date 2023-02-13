@@ -11,6 +11,10 @@ export class TabsPage implements OnInit {
 
   @Input() tab = 'list';
 
+  setActiveTab(selectedTab: string) {
+    this.tab = selectedTab;
+  }
+
   ngOnInit(): void {
   }
 
