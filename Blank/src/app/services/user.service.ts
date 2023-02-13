@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,6 +10,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${environment.cloud_name}/upload`;
+  public upload$: BehaviorSubject<any> = new BehaviorSubject(false);
 
   getUsers(id: any): Observable<any> {
     return this.http.get(`${environment.baseUrl}/users/${id}`);
@@ -28,6 +29,7 @@ export class UserService {
   }
 
   async uploadImage(file: File, data: any) {
+    this.upload$.next(true);
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
@@ -56,6 +58,7 @@ export class UserService {
               .subscribe(
                 (updated: any) => {
                   console.log(updated);
+                  this.upload$.next(false);
                 },
                 (err: any) => {
                   console.log(err);
@@ -64,6 +67,7 @@ export class UserService {
           },
           (err: any) => {
             console.log(err);
+            this.upload$.next(false);
           }
         );
     } else {
@@ -73,11 +77,14 @@ export class UserService {
         .subscribe(
           (updated: any) => {
             console.log(updated);
+            this.upload$.next(false);
           },
           (err: any) => {
             console.log(err);
+            this.upload$.next(false);
           }
         );
     }
   }
+  
 }

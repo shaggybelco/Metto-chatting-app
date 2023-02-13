@@ -11,7 +11,7 @@ import { UserService } from '../services/user.service';
 })
 export class ProfileTabPage implements OnInit {
   constructor(
-    private prof: UserService,
+    public prof: UserService,
     private route: ActivatedRoute,
     private actionSheetCtrl: ActionSheetController,
     private token: TokenService
@@ -72,7 +72,11 @@ export class ProfileTabPage implements OnInit {
     };
 
     console.log(data);
+    this.prof.upload$.subscribe((res:any)=>{
+      console.log(res)
+    })
     this.prof.uploadImage(this.file, data);
+    this.getMe();
   
   }
 

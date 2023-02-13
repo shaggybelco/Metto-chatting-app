@@ -15,7 +15,7 @@
   <ion-card class="mt-6" *ngIf="!me">
     <ion-skeleton-text
       [animated]="true"
-      style="height: 600px"
+      style="height: 500px"
     ></ion-skeleton-text>
     <ion-card-header>
       <ion-item lines="none">
@@ -77,9 +77,10 @@
           <ion-toolbar>
             <ion-title>Update profile</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="update()">Save</ion-button>
-              <ion-button (click)="modal.dismiss()">Close</ion-button>
+              <ion-button [disabled]="prof.upload$ | async" (click)="update()">Save</ion-button>
+              <ion-button [disabled]="prof.upload$ | async" (click)="modal.dismiss()">Close</ion-button>
             </ion-buttons>
+            <ion-progress-bar *ngIf="prof.upload$ | async" type="indeterminate" color="secondary"></ion-progress-bar>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
