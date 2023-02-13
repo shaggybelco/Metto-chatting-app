@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://metto-chatting-app-backend-production.up.railway.app',
+  baseUrl: 'https://metto-chatting-app-backend-production.up.railway.app/api',
   baseUrlr: 'https://metto-chatting.onrender.com/api',
   baseUrls: 'http://localhost:3333/api',
   cloud_name: 'dqgb5h17l',
