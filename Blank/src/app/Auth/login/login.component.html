@@ -40,7 +40,7 @@
               <ion-input maxlength="10" (keypress)="keyPress($event)" formControlName="cellphone" type="tel"
                 placeholder="e.g 0712348888"></ion-input>
             </ion-item>
-            <ion-button type="button" (click)="nextStep()">Next</ion-button>
+            <ion-button type="button" (click)="nextStep()" [disabled]="userForm.get('cellphone')?.invalid">Next</ion-button>
           </ng-container>
         
           <ng-container *ngIf="step === 2">
