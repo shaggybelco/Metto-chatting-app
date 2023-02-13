@@ -9,7 +9,11 @@ import { TransformService } from '../services/transform.service';
   styleUrls: ['./chats-tab.page.scss'],
 })
 export class ChatsTabPage implements OnInit {
-  constructor(private token: TokenService, private user: UserService, public trans: TransformService) {}
+  constructor(
+    private token: TokenService,
+    private user: UserService,
+    public trans: TransformService
+  ) {}
 
   hold: any;
   users: any;
@@ -33,8 +37,8 @@ export class ChatsTabPage implements OnInit {
   handleRefresh(event: any) {
     setTimeout(() => {
       // Any calls to load data go here
-     this.getUsersWithLastMessage();
+      this.getUsersWithLastMessage();
       event.target.complete();
     }, 2000);
-  };
+  }
 }

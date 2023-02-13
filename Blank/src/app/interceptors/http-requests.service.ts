@@ -18,38 +18,17 @@ export class HttpRequestsService implements HttpInterceptor {
 
   constructor(private route: Router) {}
 
-  removeRequest(req: HttpRequest<any>) {
-    const i = this.requests.indexOf(req);
-    if (i >= 0) {
-      this.requests.splice(i, 1);
-    }
-    this.showLoader(this.requests.length > 0);
-  }
-
-  showLoader(isShow: boolean) {
-    if (isShow) {
-      // Show Loader
-      console.log('loading...');
-    } else {
-      // Hide Loader
-      console.log('hide loader...');
-    }
-  }
-
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     this.requests.push(request);
-    this.showLoader(true);
     return next.handle(request).pipe(
       tap((event: any) => {
         if (event instanceof HttpResponse) {
-          this.removeRequest(request);
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        this.removeRequest(request);
         const ErrorMessage = this.setError(error);
         // this.notify.showError(ErrorMessage);
         console.log(ErrorMessage);

@@ -19,8 +19,55 @@
   </ion-refresher>
 
   <ion-list>
+    <!-- skeleton loading -->
+    <div *ngIf="!users">
+      <ion-item
+        detail="false"
+        *ngFor="let item of [1,2,3,4,5,6,7,8,9,0,1,2,3,4]"
+      >
+        <!-- avatar -->
+        <ion-avatar class="avatar" slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+          <div class="flex opacity-50">
+            <!-- checkmark -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 5%"
+            ></ion-skeleton-text>
+            <!-- message -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 60%"
+            ></ion-skeleton-text>
+          </div>
+        </ion-label>
+        <div class="time">
+          <p class="flex gap-1">
+            <!-- date -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 100%"
+            ></ion-skeleton-text>
+            <!-- badge -->
+            <ion-skeleton-text
+              slot="end"
+              [animated]="true"
+              style="width: 50%"
+            ></ion-skeleton-text>
+          </p>
+        </div>
+      </ion-item>
+    </div>
+
+    <!-- retreived data -->
     <ion-item
-    detail="false"
+      detail="false"
       button
       *ngFor="let user of users"
       [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]"
@@ -36,13 +83,18 @@
       <ion-label>
         {{user.receiver.name}}
         <div class="flex opacity-50">
-          <ion-icon *ngIf="user.lastMessage.sender === hold.id" name="checkmark-done"></ion-icon>
+          <ion-icon
+            *ngIf="user.lastMessage.sender === hold.id"
+            name="checkmark-done"
+          ></ion-icon>
           <p>{{user.lastMessage.message}}</p>
         </div>
       </ion-label>
       <div class="time">
         <p class="flex gap-1">
-          <span class="text-sm">{{trans.transform(user.lastMessage.createdAt)}}</span>
+          <span class="text-sm"
+            >{{trans.transform(user.lastMessage.createdAt)}}</span
+          >
           <ion-badge slot="end" *ngIf="user.unreadCount > 0"
             >{{user.unreadCount}}</ion-badge
           >
@@ -52,7 +104,11 @@
   </ion-list>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button color="secondary" [routerLink]="['/new-chat']" routerLinkActive="new-chat" >
+    <ion-fab-button
+      color="secondary"
+      [routerLink]="['/new-chat']"
+      routerLinkActive="new-chat"
+    >
       <ion-icon name="chatbubble-ellipses"></ion-icon>
     </ion-fab-button>
   </ion-fab>
