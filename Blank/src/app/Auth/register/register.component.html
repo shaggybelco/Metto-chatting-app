@@ -20,10 +20,9 @@
       <ion-card-content>
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
           <ul class="steps">
-            <li class="step step-info">Fly to moon</li>
-            <li class="step step-info">Shrink the moon</li>
-            <li class="step step-info">Grab the moon</li>
-            <li class="step step-error" data-content="?">Sit on toilet</li>
+            <li [ngClass]="step === 1? 'step step-info': 'step step-info'"></li>
+            <li [ngClass]="step > 1? 'step step-info': 'step'"></li>
+            <li [ngClass]="step === 3? 'step step-info': 'step'"></li>
           </ul>
           <ng-container *ngIf="step === 1">
             <!-- form step 1 content -->

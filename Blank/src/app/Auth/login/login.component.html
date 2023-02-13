@@ -23,6 +23,11 @@
 
       <ion-card-content>
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <ul class="steps">
+            <li [ngClass]="step === 1? 'step step-info': 'step step-info'"></li>
+            <li [ngClass]="step === 2? 'step step-info': 'step'"></li>
+          </ul>
+
           <ng-container *ngIf="step === 1">
             <!-- form step 1 content -->
             <div *ngIf="f['cellphone'].touched && f['cellphone'].invalid" class="alert alert-danger mb-1">
