@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Contacts</ion-title>
+    <ion-progress-bar *ngIf="!users" color="danger" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
@@ -15,6 +16,38 @@
   </ion-header>
 
   <ion-list>
+     <!-- skeleton loading -->
+     <div *ngIf="!users">
+      <ion-item
+        detail="false"
+        *ngFor="let item of [1,2,3,4,5,6,7,8,9,0,1,2,3,4]"
+      >
+        <!-- avatar -->
+        <ion-avatar class="avatar" slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+          <div class="flex opacity-50">
+            <!-- checkmark -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 5%"
+            ></ion-skeleton-text>
+            <!-- message -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 60%"
+            ></ion-skeleton-text>
+          </div>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <!-- retreived data -->
     <ion-item button *ngFor="let user of users" [routerLink]="['/message', user._id, user.name, 'user']" >
       <ion-avatar slot="start">
         <img

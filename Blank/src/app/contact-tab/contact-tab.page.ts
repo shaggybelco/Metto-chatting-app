@@ -12,7 +12,7 @@ export class ContactTabPage implements OnInit {
   constructor(private token: TokenService, private user: UserService) { }
 
   hold: any;
-  users: any = [];
+  users: any;
 
   ngOnInit() {
     this.hold = this.token.decode();
