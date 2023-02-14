@@ -4,6 +4,7 @@ import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-new-chat',
@@ -11,19 +12,34 @@ import { OverlayEventDetail } from '@ionic/core/components';
   styleUrls: ['./new-chat.page.scss'],
 })
 export class NewChatPage implements OnInit {
-  constructor(private user: UserService, private token: TokenService) {}
+  constructor(
+    private user: UserService,
+    private token: TokenService,
+    private route: ActivatedRoute
+  ) {}
   hold: any = this.token.decode();
   contactsDatabase: any = [];
 
   ngOnInit() {
-    this.retrieveListOfContacts();
-    this.user.getUsers('63e68fd1a77a5619c9057c27').subscribe((res: any) => {
-      console.log(res);
-      this.contactsDatabase = res;
+    // this.retrieveListOfContacts();
+    //   this.user.getUsers(this.hold.id).subscribe((res: any) => {
+    //     console.log(res);
+    //     this.contactsDatabase = res;
+    //   });
+    this.route.paramMap.subscribe(params => {
+      // Do any re-initialization here
+      console.log('Component re-initialized');
+      this.retrieveListOfContacts();
+      this.user.getUsers(this.hold.id).subscribe((res: any) => {
+        console.log(res);
+        this.contactsDatabase = res;
+      });
     });
   }
 
-  contacts: any = [];
+  contacts: any;
+  notRegistered: any;
+
 
   retrieveListOfContacts = async () => {
     const projection = {
@@ -56,21 +72,23 @@ export class NewChatPage implements OnInit {
         for (const dbContact of this.contactsDatabase) {
           // Compare the name and normalized phone number of the current contact with those in your database
           if (phone === dbContact.cellphone.toString()) {
-            console.log(`Match found: ${phone}`);
-            this.contacts.push({name, phone})
+            alert(`Match found: ${phone}`);
+            this.contacts.push({ name, phone });
             // Perform some action based on the match, such as updating information in your database
+          } else {
+            this.notRegistered.push({ name, phone });
           }
         }
       }
     }
-    console.log(this.contacts)
+    console.log(this.contacts);
   };
 
-
-   @ViewChild(IonModal)
+  @ViewChild(IonModal)
   modal!: IonModal;
 
-  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+  message =
+    'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
   desc!: string;
 
@@ -110,8 +128,6 @@ export class NewChatPage implements OnInit {
       };
 
       reader.readAsDataURL(this.file);
-
     };
   }
-
 }
