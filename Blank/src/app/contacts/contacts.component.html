@@ -1,5 +1,9 @@
 <ion-content>
   <ion-list>
+    <ion-item lines="none" detail="false" button>
+      <ion-icon name="person-add" slot="start" color="primary"></ion-icon>
+      <ion-label>New contact</ion-label>
+    </ion-item>
     <!-- skeleton loading -->
     <div *ngIf="contacts.length < 1 && notRegistered.length < 1">
       <ion-item
@@ -33,11 +37,8 @@
 
     <!-- retreived data -->
 
-    <ion-item lines="none" detail="false" button>
-      <ion-icon name="person-add" slot="start" color="primary"></ion-icon>
-      <ion-label>New contact</ion-label>
-    </ion-item>
-    <div>
+    
+    <div *ngIf="contacts.length > 0">
       <!-- <pre>{{contacts| json}}</pre> -->
       <ion-text class="px-2 m-3">Contants on Metto</ion-text>
       <!-- <pre>{{contacts$ | async | json}}</pre> -->
@@ -64,7 +65,7 @@
       </ion-item>
     </div>
 
-    <div>
+    <div *ngIf="notRegistered.length > 0">
       <ion-text class="px-2 m-3">Contants not in Metto</ion-text>
       <!-- <pre>{{notRegistered | json}}</pre> -->
       <ion-item

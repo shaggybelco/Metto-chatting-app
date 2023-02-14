@@ -110,4 +110,11 @@ export class ContactsComponent implements OnInit {
         a.name.display.localeCompare(b.name.display)
     );
   };
+
+  ngOnDestroy() {
+    // Unsubscribe from any subscriptions or clear any resources here
+    this.contactSubject.unsubscribe();
+    this.notRegistered = [];
+    this.contacts = [];
+  }
 }
