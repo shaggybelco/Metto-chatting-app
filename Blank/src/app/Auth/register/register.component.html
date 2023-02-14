@@ -26,7 +26,7 @@
           </ul>
           <ng-container *ngIf="step === 1">
             <!-- form step 1 content -->
-            <div *ngIf="f['cellphone'].touched && f['cellphone'].invalid" class="alert alert-danger mb-1">
+            <div *ngIf="f['cellphone'].touched && f['cellphone'].invalid" class="alert alert-danger mb-1 mt-2">
               <div *ngIf="f['cellphone'].errors && f['cellphone'].errors['required']">Cellphone is required.</div>
               <div *ngIf="f['cellphone'].dirty && f['cellphone']errors">Phone number must be 10 numbers. </div>
             </div>
@@ -42,7 +42,7 @@
           <ng-container *ngIf="step === 2">
             <!-- form step 2 content -->
 
-            <div *ngIf="f['password'].touched && f['password'].invalid" class="alert alert-danger  mb-1">
+            <div *ngIf="f['password'].touched && f['password'].invalid" class="alert alert-danger  mb-1 mt-2">
               <div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
               <div *ngIf="f['password'].dirty && f['password'].errors">Please, enter at lease 6 characters.</div>
             </div>
