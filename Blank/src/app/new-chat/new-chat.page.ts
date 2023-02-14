@@ -101,12 +101,10 @@ export class NewChatPage implements OnInit {
       );
     });
 
-    this.contacts$.pipe(
-      map((results: any) => results.oneOne.sort((a: { name: { display: string; }; }, b: { name: { display: any; }; }) => a.name.display.localeCompare(b.name.display)))
-    ).subscribe(sortedResults => {
-      // Do something with the sorted results
-      this.contactSubject.next(sortedResults);
-    });
+    this.contacts.sort(
+      (a: { name: { display: string } }, b: { name: { display: any } }) =>
+        a.name.display.localeCompare(b.name.display)
+    );
 
     this.notRegistered.sort(
       (a: { name: { display: string } }, b: { name: { display: any } }) =>

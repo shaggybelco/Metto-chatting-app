@@ -89,12 +89,13 @@
         <ion-content class="ion-padding">
           <div class="avte">
             <ion-avatar class="avatar avt">
-              <img *ngIf="me.isAvatar && !file" [src]="me.avatar" />
+              <img *ngIf="me.isAvatar && !file" [src]="me.avatar" lazy/>
               <img
                 *ngIf="!me.isAvatar && !file"
                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                lazy
               />
-              <img *ngIf="file && me.isAvatar" [src]="dataUrl" />
+              <img *ngIf="file && me.isAvatar" [src]="dataUrl" lazy/>
             </ion-avatar>
           </div>
           <!-- <h1 *ngIf="file" class="text-center">file selected</h1> -->
