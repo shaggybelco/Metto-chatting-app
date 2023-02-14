@@ -29,7 +29,7 @@
       <ion-label>New contact</ion-label>
     </ion-item>
     <div>
-      <pre>{{contacts| json}}</pre>
+      <!-- <pre>{{contacts| json}}</pre> -->
       <ion-text class="px-2 m-3">Contants on Metto</ion-text>
       <!-- <pre>{{contacts$ | async | json}}</pre> -->
       <ion-item
@@ -43,7 +43,7 @@
           <img [src]="item.db.isAvatar ? item.db.avatar: 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
         </ion-avatar>
         <ion-label
-          >{{item.db.name}}
+          >{{item.name.display}}
           <p>{{item.db.cellphone}}</p>
         </ion-label>
       </ion-item>

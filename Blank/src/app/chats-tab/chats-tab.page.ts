@@ -3,6 +3,8 @@ import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { TransformService } from '../services/transform.service';
 import { StatusBar } from '@capacitor/status-bar';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Component({
   selector: 'app-chats-tab',
@@ -18,6 +20,7 @@ export class ChatsTabPage implements OnInit {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
 
+  public load$: BehaviorSubject<any> = new BehaviorSubject(false);
   hold: any;
   users: any;
   ngOnInit() {
@@ -26,13 +29,16 @@ export class ChatsTabPage implements OnInit {
   }
 
   getUsersWithLastMessage() {
+    this.load$.next(true);
     this.user.getUsersWithLastMessage(this.hold.id).subscribe(
       (res: any) => {
         console.log(res.lastMessages);
         this.users = res.lastMessages;
+        this.load$.next(false);
       },
       (err: any) => {
         console.log(err);
+        this.load$.next(false);
       }
     );
   }

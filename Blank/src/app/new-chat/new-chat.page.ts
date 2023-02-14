@@ -5,7 +5,7 @@ import { UserService } from '../services/user.service';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-new-chat',
@@ -35,7 +35,7 @@ export class NewChatPage implements OnInit {
   handleRefresh(event: any) {
     setTimeout(() => {
       // Any calls to load data go here
-      
+
       this.user.getUsers(this.hold.id).subscribe((res: any) => {
         console.log(res);
         this.contacts = [];
@@ -86,16 +86,32 @@ export class NewChatPage implements OnInit {
             (dbContact: any) => dbContact.cellphone.toString() === one
           );
           if (filteredContacts.length > 0) {
-            this.contacts.push({db: filteredContacts[0], oneOne}); 
+            this.contacts.push({ db: filteredContacts[0], oneOne, name });
             this.contactSubject.next(this.contacts);
           }
         }
       }
     }
 
-    this.notRegistered = result.contacts.filter(contact => {
-      return !this.contacts.some((reg: any) => reg.oneOne.number?.replace(/\D/g, '') === contact?.phones?.[0]?.number?.replace(/\D/g, ''));
+    this.notRegistered = result.contacts.filter((contact) => {
+      return !this.contacts.some(
+        (reg: any) =>
+          reg.oneOne.number?.replace(/\D/g, '') ===
+          contact?.phones?.[0]?.number?.replace(/\D/g, '')
+      );
     });
+
+    this.contacts$.pipe(
+      map((results: any) => results.oneOne.sort((a: { name: { display: string; }; }, b: { name: { display: any; }; }) => a.name.display.localeCompare(b.name.display)))
+    ).subscribe(sortedResults => {
+      // Do something with the sorted results
+      this.contactSubject.next(sortedResults);
+    });
+
+    this.notRegistered.sort(
+      (a: { name: { display: string } }, b: { name: { display: any } }) =>
+        a.name.display.localeCompare(b.name.display)
+    );
   };
 
   @ViewChild(IonModal)
