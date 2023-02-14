@@ -22,7 +22,7 @@ export class ChatsTabPage implements OnInit {
 
   public load$: BehaviorSubject<any> = new BehaviorSubject(false);
   hold: any;
-  users: any;
+  users: any = [];
   ngOnInit() {
     this.hold = this.token.decode();
     this.getUsersWithLastMessage();
