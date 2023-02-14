@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StatusBar } from '@capacitor/status-bar';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 
@@ -9,7 +10,7 @@ import { UserService } from '../services/user.service';
 })
 export class ContactTabPage implements OnInit {
 
-  constructor(private token: TokenService, private user: UserService) { }
+  constructor(private token: TokenService, private user: UserService) {StatusBar.setBackgroundColor({ color: '#3dc2ff' }); }
 
   hold: any;
   users: any;

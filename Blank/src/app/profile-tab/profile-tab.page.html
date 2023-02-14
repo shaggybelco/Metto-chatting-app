@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="secondary">
     <ion-title>Profile </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -99,7 +99,7 @@
           </div>
           <!-- <h1 *ngIf="file" class="text-center">file selected</h1> -->
           <div class="avte">
-            <ion-button (click)="openFileBrowser()">Change picture</ion-button>
+            <ion-button color="secondary" (click)="openFileBrowser()">Change picture</ion-button>
           </div>
 
           <div class="avte">
@@ -114,7 +114,7 @@
           </div>
 
           <div class="avte">
-            <ion-button [disabled]="prof.upload$ | async" (click)="update()">Save</ion-button>
+            <ion-button color="secondary" [disabled]="prof.upload$ | async" (click)="update()">Save</ion-button>
             <ion-button color="warning" [disabled]="prof.upload$ | async" (click)="modal.dismiss()">Close</ion-button>
           </div>
         </ion-content>

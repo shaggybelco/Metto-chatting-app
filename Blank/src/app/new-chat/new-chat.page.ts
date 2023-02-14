@@ -25,20 +25,26 @@ export class NewChatPage implements OnInit {
   contactsDatabase: any = [];
 
   ngOnInit() {
-    // this.retrieveListOfContacts();
-    //   this.user.getUsers(this.hold.id).subscribe((res: any) => {
-    //     console.log(res);
-    //     this.contactsDatabase = res;
-    //   });
-    this.route.paramMap.subscribe(params => {
-      // Do any re-initialization here
-      console.log('Component re-initialized');
+    this.user.getUsers(this.hold.id).subscribe((res: any) => {
+      console.log(res);
+      this.contactsDatabase = res;
       this.retrieveListOfContacts();
+    });
+  }
+
+  handleRefresh(event: any) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      
       this.user.getUsers(this.hold.id).subscribe((res: any) => {
         console.log(res);
+        this.contacts = [];
+        this.contactSubject.next(this.contacts);
         this.contactsDatabase = res;
+        this.retrieveListOfContacts();
       });
-    });
+      event.target.complete();
+    }, 2000);
   }
 
   contacts$!: Observable<any[]>;
@@ -46,7 +52,6 @@ export class NewChatPage implements OnInit {
 
   contacts: any = [];
   notRegistered: any = [];
-
 
   retrieveListOfContacts = async () => {
     const projection = {
@@ -61,7 +66,6 @@ export class NewChatPage implements OnInit {
     });
 
     this.notRegistered = result.contacts;
-
     // Iterate over the contacts retrieved from the device's database
     for (const contact of result.contacts) {
       // Get the name and phone number of the current contact
@@ -69,28 +73,29 @@ export class NewChatPage implements OnInit {
 
       // Check if the contact has any phone numbers associated with it
       if (phones && phones.length > 0) {
-        // Normalize the phone number by removing the '27' prefix
-        let phone = phones?.[0].number?.replace(/\D/g, '');
-        if (phone?.startsWith('27')) {
-          phone = phone.slice(2);
-        } else if (phone?.startsWith('0')) {
-          phone = phone.slice(1);
-        }
+        for (const oneOne of phones) {
+          let one = oneOne?.number?.replace(/\D/g, '');
+          if (oneOne?.number?.startsWith('27')) {
+            one = one?.slice(2);
+          }
+          if (oneOne?.number?.startsWith('0')) {
+            one = one?.slice(1);
+          }
 
-        // Iterate over the contacts in your database
-        for (const dbContact of this.contactsDatabase) {
-          // Compare the name and normalized phone number of the current contact with those in your database
-          if (phone === dbContact.cellphone.toString()) {
-            alert(`Match found: ${phone}`);
-            let newContact = {name, phone};
-            // this.contacts.push({ name, phone });
-            let currentContacts = this.contactSubject.getValue();
-            this.contactSubject.next([...currentContacts, newContact]);
-            // Perform some action based on the match, such as updating information in your database
+          const filteredContacts = this.contactsDatabase.filter(
+            (dbContact: any) => dbContact.cellphone.toString() === one
+          );
+          if (filteredContacts.length > 0) {
+            this.contacts.push({db: filteredContacts[0], oneOne}); 
+            this.contactSubject.next(this.contacts);
           }
         }
       }
     }
+
+    this.notRegistered = result.contacts.filter(contact => {
+      return !this.contacts.some((reg: any) => reg.oneOne.number?.replace(/\D/g, '') === contact?.phones?.[0]?.number?.replace(/\D/g, ''));
+    });
   };
 
   @ViewChild(IonModal)

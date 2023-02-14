@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Select contact</ion-title>
     <ion-progress-bar
-      *ngIf="contacts.length > 0 && notRegistered.length > 0"
+      *ngIf="contacts.length < 1 && notRegistered.length < 1"
       type="indeterminate"
       color="danger"
     ></ion-progress-bar>
@@ -13,6 +13,11 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-refresher slot="fixed" class="z-10" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
     <ion-item lines="none" detail="false" button id="open-modal-11">
       <ion-icon name="people" slot="start" color="primary"></ion-icon>
@@ -24,9 +29,9 @@
       <ion-label>New contact</ion-label>
     </ion-item>
     <div>
-     
+      <pre>{{contacts| json}}</pre>
       <ion-text class="px-2 m-3">Contants on Metto</ion-text>
-      <pre>{{contacts$ | async | json}}</pre>
+      <!-- <pre>{{contacts$ | async | json}}</pre> -->
       <ion-item
         lines="none"
         detail="false"
@@ -35,18 +40,18 @@
       >
       
         <ion-avatar slot="start" class="avatar">
-          <img src="image" />
+          <img [src]="item.db.isAvatar ? item.db.avatar: 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
         </ion-avatar>
         <ion-label
-          >{{item.name.display}}
-          <p>{{item.phone?.[0]?.number}}</p>
+          >{{item.db.name}}
+          <p>{{item.db.cellphone}}</p>
         </ion-label>
       </ion-item>
     </div>
 
     <div>
       <ion-text class="px-2 m-3">Contants not in Metto</ion-text>
-      <pre>{{notRegistered | json}}</pre>
+      <!-- <pre>{{notRegistered | json}}</pre> -->
       <ion-item
         lines="none"
         detail="false"
@@ -55,7 +60,7 @@
       >
       
         <ion-avatar slot="start" class="avatar">
-          <img src="image" />
+          <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         </ion-avatar>
         <ion-label
           >{{item.name.display}}

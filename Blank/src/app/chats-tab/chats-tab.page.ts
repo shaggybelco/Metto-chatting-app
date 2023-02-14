@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { TransformService } from '../services/transform.service';
+import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-chats-tab',
@@ -13,7 +14,9 @@ export class ChatsTabPage implements OnInit {
     private token: TokenService,
     private user: UserService,
     public trans: TransformService
-  ) {}
+  ) {
+    StatusBar.setBackgroundColor({ color: '#3dc2ff' });
+  }
 
   hold: any;
   users: any;
