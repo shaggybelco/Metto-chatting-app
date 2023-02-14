@@ -6,6 +6,7 @@ import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-new-chat',
@@ -20,6 +21,7 @@ export class NewChatPage implements OnInit {
   ) {
     this.contactSubject = new BehaviorSubject<any[]>([]);
     this.contacts$ = this.contactSubject.asObservable();
+    StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
   hold: any = this.token.decode();
   contactsDatabase: any = [];

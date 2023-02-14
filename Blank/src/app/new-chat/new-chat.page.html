@@ -4,11 +4,6 @@
       <ion-back-button defaultHref="/tab" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Select contact</ion-title>
-    <ion-progress-bar
-      *ngIf="contacts.length < 1 && notRegistered.length < 1"
-      type="indeterminate"
-      color="danger"
-    ></ion-progress-bar>
   </ion-toolbar>
 </ion-header>
 
@@ -19,6 +14,7 @@
   </ion-refresher>
 
   <ion-list>
+
     <ion-item lines="none" detail="false" button id="open-modal-11">
       <ion-icon name="people" slot="start" color="primary"></ion-icon>
       <ion-label>New group</ion-label>
@@ -28,7 +24,40 @@
       <ion-icon name="person-add" slot="start" color="primary"></ion-icon>
       <ion-label>New contact</ion-label>
     </ion-item>
-    <div>
+
+    <!-- skeleton loading -->
+    <div  *ngIf="contacts.length < 1 && notRegistered.length < 1">
+      <ion-item
+        detail="false"
+        *ngFor="let item of [1,2,3,4,5,6,7,8,9,0,1,2,3,4]"
+      >
+        <!-- avatar -->
+        <ion-avatar class="avatar" slot="start">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 30%"
+          ></ion-skeleton-text>
+          <div class="flex opacity-50">
+            <!-- checkmark -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 5%"
+            ></ion-skeleton-text>
+            <!-- message -->
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 60%"
+            ></ion-skeleton-text>
+          </div>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <!-- retreived data -->
+    <div >
       <!-- <pre>{{contacts| json}}</pre> -->
       <ion-text class="px-2 m-3">Contants on Metto</ion-text>
       <!-- <pre>{{contacts$ | async | json}}</pre> -->
@@ -36,7 +65,7 @@
         lines="none"
         detail="false"
         button
-        *ngFor="let item of contacts$ | async"
+        *ngFor="let item of contacts"
       >
       
         <ion-avatar slot="start" class="avatar">
