@@ -68,15 +68,15 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     // console.log(groupID);
     if (groupID === null) {
-      res.status(404).send({ error: "Not Found" });
+      // res.status(404).send({ error: "Not Found" });
       console.log("No group");
-      return;
+      // return;
     }
     const messages = await Message.find({
       $or: [
         { sender: req.params.id },
         { receiver: req.params.id },
-        { receiver: groupID.group },
+        { receiver: groupID?.group },
       ],
     }).sort({ createdAt: -1 });
 
