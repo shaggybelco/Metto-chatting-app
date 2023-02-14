@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>Select contact</ion-title>
     <ion-progress-bar
-      *ngIf="!contacts && !notRegistered"
+      *ngIf="contacts.length > 0 && notRegistered.length > 0"
       type="indeterminate"
       color="danger"
     ></ion-progress-bar>
@@ -24,15 +24,16 @@
       <ion-label>New contact</ion-label>
     </ion-item>
     <div>
-      
+     
       <ion-text class="px-2 m-3">Contants on Metto</ion-text>
+      <pre>{{contacts$ | async | json}}</pre>
       <ion-item
         lines="none"
         detail="false"
         button
-        *ngFor="let item of contacts"
+        *ngFor="let item of contacts$ | async"
       >
-      <pre>{{contacts | json}}</pre>
+      
         <ion-avatar slot="start" class="avatar">
           <img src="image" />
         </ion-avatar>
@@ -45,19 +46,20 @@
 
     <div>
       <ion-text class="px-2 m-3">Contants not in Metto</ion-text>
+      <pre>{{notRegistered | json}}</pre>
       <ion-item
         lines="none"
         detail="false"
         button
         *ngFor="let item of notRegistered"
       >
-      <pre>{{notRegistered | json}}</pre>
+      
         <ion-avatar slot="start" class="avatar">
           <img src="image" />
         </ion-avatar>
         <ion-label
           >{{item.name.display}}
-          <p>{{item.phone?.[0]?.number}}</p>
+          <p>{{item.phones?.[0]?.number}}</p>
         </ion-label>
       </ion-item>
     </div>

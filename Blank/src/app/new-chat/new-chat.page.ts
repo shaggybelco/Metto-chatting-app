@@ -5,6 +5,7 @@ import { UserService } from '../services/user.service';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-new-chat',
@@ -16,7 +17,10 @@ export class NewChatPage implements OnInit {
     private user: UserService,
     private token: TokenService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.contactSubject = new BehaviorSubject<any[]>([]);
+    this.contacts$ = this.contactSubject.asObservable();
+  }
   hold: any = this.token.decode();
   contactsDatabase: any = [];
 
@@ -37,8 +41,11 @@ export class NewChatPage implements OnInit {
     });
   }
 
-  contacts: any;
-  notRegistered: any;
+  contacts$!: Observable<any[]>;
+  private contactSubject!: BehaviorSubject<any[]>;
+
+  contacts: any = [];
+  notRegistered: any = [];
 
 
   retrieveListOfContacts = async () => {
@@ -52,6 +59,8 @@ export class NewChatPage implements OnInit {
     const result = await Contacts.getContacts({
       projection,
     });
+
+    this.notRegistered = result.contacts;
 
     // Iterate over the contacts retrieved from the device's database
     for (const contact of result.contacts) {
@@ -73,15 +82,15 @@ export class NewChatPage implements OnInit {
           // Compare the name and normalized phone number of the current contact with those in your database
           if (phone === dbContact.cellphone.toString()) {
             alert(`Match found: ${phone}`);
-            this.contacts.push({ name, phone });
+            let newContact = {name, phone};
+            // this.contacts.push({ name, phone });
+            let currentContacts = this.contactSubject.getValue();
+            this.contactSubject.next([...currentContacts, newContact]);
             // Perform some action based on the match, such as updating information in your database
-          } else {
-            this.notRegistered.push({ name, phone });
           }
         }
       }
     }
-    console.log(this.contacts);
   };
 
   @ViewChild(IonModal)
