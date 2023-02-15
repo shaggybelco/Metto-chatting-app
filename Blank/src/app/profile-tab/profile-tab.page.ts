@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { StatusBar } from '@capacitor/status-bar';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile-tab',
@@ -13,9 +13,9 @@ import { StatusBar } from '@capacitor/status-bar';
 export class ProfileTabPage implements OnInit {
   constructor(
     public prof: UserService,
-    private route: ActivatedRoute,
     private actionSheetCtrl: ActionSheetController,
-    private token: TokenService
+    private token: TokenService,
+    private platform: Platform
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }

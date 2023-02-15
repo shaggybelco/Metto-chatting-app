@@ -27,7 +27,7 @@
     "@capacitor/ios": "4.6.3",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/status-bar": "4.1.1",
-    "@ionic/angular": "^6.1.9",
+    "@ionic/angular": "^6.5.3",
     "daisyui": "^2.50.0",
     "ionicons": "^6.0.3",
     "jwt-decode": "^3.1.2",
