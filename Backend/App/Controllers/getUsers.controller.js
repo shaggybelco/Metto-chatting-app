@@ -6,7 +6,7 @@ const GroupMember = db.groupmembers;
 
 module.exports.getusers = async (req, res) => {
   try {
-    const users = await User.find({ _id: { $ne: req.params.id } });
+    const users = await User.find({});
 
     res.status(200).json(users);
   } catch (error) {
