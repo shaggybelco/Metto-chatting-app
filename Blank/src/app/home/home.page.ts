@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,8 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor() {
+    StatusBar.setBackgroundColor({color: '#3880ff'});
+  }
 
 }

@@ -59,7 +59,8 @@
           />
         </ion-avatar>
         <ion-label
-          >{{ item.name.display }}
+          >
+          {{ item.name.display }}<span *ngIf="hold.cellphone === item.db.cellphone">(me)</span>
           <p>+27{{ item.db.cellphone }}</p>
         </ion-label>
       </ion-item>
