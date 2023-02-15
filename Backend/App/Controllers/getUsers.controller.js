@@ -7,7 +7,7 @@ const GroupMember = db.groupmembers;
 module.exports.getusers = async (req, res) => {
   try {
     const users = await User.find({});
-console.log(users);
+    console.log(users);
     res.status(200).json(users);
   } catch (error) {
     console.log(error.message);
@@ -185,7 +185,7 @@ exports.updateProfile = async (req, res, next) => {
   } catch (error) {
     console.log(error);
 
-    res.status(400).json({ message: 'Error updating user profile.' });
+    res.status(400).json({ message: "Error updating user profile." });
     next(error);
   }
 };
