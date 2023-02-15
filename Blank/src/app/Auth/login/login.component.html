@@ -22,8 +22,9 @@
       </ion-card-title> -->
 
       <ion-card-content>
+        <ion-progress-bar type="indeterminate"></ion-progress-bar>
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-          <ul class="steps">
+          <ul class="steps mt-5">
             <li [ngClass]="step === 1? 'step step-info': 'step step-info'"></li>
             <li [ngClass]="step === 2? 'step step-info': 'step'"></li>
           </ul>
