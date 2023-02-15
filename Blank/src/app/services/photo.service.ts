@@ -23,17 +23,14 @@ export class PhotoService {
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
       quality: 100,
+      saveToGallery: true,
     });
 
-    this.photos.unshift({
-      filepath: 'soon...',
-      webviewPath: capturedPhoto.webPath,
-    });
+   
 
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(capturedPhoto);
     this.photos.unshift(savedImageFile);
-    console.log(this.photos);
   }
 
   private async savePicture(photo: Photo) {
@@ -45,9 +42,10 @@ export class PhotoService {
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
-      directory: Directory.Data,
+      directory: Directory.Documents,
     });
 
+    console.log(savedFile);
     // Use webPath to display the new image instead of base64 since it's
     // already loaded into memory
     return {

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>Metto</string>
+	<string>Metto</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,6 +22,18 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<string>This app needs access to open files to function properly</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to camera to function properly</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app needs access to your contacts to function properly.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs access to camera storage to function properly</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to camera library to function properly</string>
+	<key>UIFileSharingEnabled</key>
+	<string>This app needs access to share file to function properly</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -45,19 +57,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	 <key>NSContactsUsageDescription</key>
-    <string>This app needs access to your contacts to function properly.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app needs access to camera to function properly</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app needs access to camera storage to function properly</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to camera library to function properly</string>
-
-
-	<key>UIFileSharingEnabled</key>
-	<string>This app needs access to share file to function properly</string>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<string>This app needs access to open files to function properly</string>
 </dict>
 </plist>
