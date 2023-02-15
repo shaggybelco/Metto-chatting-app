@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { StatusBar } from '@capacitor/status-bar';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
     private user: AuthService,
     private router: Router,
     private token: TokenService
-  ) {}
+  ) { StatusBar.setBackgroundColor({color: '#3880ff'});}
 
   userForm!: FormGroup;
   step: number = 1;
