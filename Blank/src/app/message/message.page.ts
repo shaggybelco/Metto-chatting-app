@@ -4,6 +4,8 @@ import { IonContent } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { PhotoService } from '../services/photo.service';
 
 @Component({
   selector: 'app-message',
@@ -15,7 +17,8 @@ export class MessagePage implements OnInit {
     private route: ActivatedRoute,
     private token: TokenService,
     private chat: ChatService,
-    public trans: TransformService
+    public trans: TransformService,
+    public photoService: PhotoService
   ) {}
 
   id = this.route.snapshot.params['id'];
@@ -51,6 +54,9 @@ export class MessagePage implements OnInit {
     this.getMessages();
   }
 
+  addPhoto() {
+    this.photoService.addNewToGallery();
+  }
   getMessages() {
     const Data = {
       me: this.hold.id,

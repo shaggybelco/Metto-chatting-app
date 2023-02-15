@@ -59,15 +59,29 @@
           <!-- <div className="chat-footer opacity-50">Delivered</div> -->
         </div>
       </div>
+
+     
+
     </section>
   </div>
+</ion-content>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+        <ion-img [src]="photo.webviewPath"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- ion-fab markup  -->
 </ion-content>
 
 <ion-footer [translucent]="true">
   <ion-toolbar>
     <ion-item lines="none">
       <ion-buttons slot="start">
-        <ion-button color="secondary"  (click)="openFileBrowser()">
+        <ion-button color="secondary"  (click)="addPhoto()">
           <ion-icon  style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
         </ion-button>
       </ion-buttons>

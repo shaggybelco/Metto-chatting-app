@@ -53,5 +53,11 @@
 	<string>This app needs access to camera storage to function properly</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to camera library to function properly</string>
+
+
+	<key>UIFileSharingEnabled</key>
+	<string>This app needs access to share file to function properly</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<string>This app needs access to open files to function properly</string>
 </dict>
 </plist>
