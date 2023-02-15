@@ -22,6 +22,7 @@
     "@capacitor-community/contacts": "^4.0.2",
     "@capacitor/android": "^4.6.3",
     "@capacitor/app": "4.1.1",
+    "@capacitor/camera": "^4.1.4",
     "@capacitor/core": "4.6.3",
     "@capacitor/haptics": "4.1.0",
     "@capacitor/ios": "4.6.3",

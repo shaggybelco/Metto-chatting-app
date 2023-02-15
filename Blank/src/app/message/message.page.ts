@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
@@ -26,7 +27,25 @@ export class MessagePage implements OnInit {
   hold: any = this.token.decode();
   message: string = '';
   messages: any;
+  @ViewChild(IonContent) content!: IonContent;
 
+  scrollToBottom() {
+    // Passing a duration to the method makes it so the scroll slowly
+    // goes to the bottom instead of instantly
+    this.content.scrollToBottom(500);
+    // this.markAsRead();
+  }
+
+  scrollToTop() {
+    // Passing a duration to the method makes it so the scroll slowly
+    // goes to the top instead of instantly
+    this.content.scrollToTop(500);
+  }
+
+  ngAfterViewChecked() {
+    // this.chat.viewMessage();
+    this.scrollToBottom();
+  }
 
   ngOnInit(): void {
     this.getMessages();
