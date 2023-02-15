@@ -44,22 +44,7 @@
         <div
           [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'"
         >
-          <div class="chat-image avatar">
-            <div class="w-10 rounded-full">
-              <img
-                *ngIf="mess.sender.isAvatar"
-                alt="Silhouette of a person's head"
-                [src]="mess.sender.avatar"
-                loading="lazy"
-              />
-              <img
-                *ngIf="!mess.sender.isAvatar"
-                alt="Silhouette of a person's head"
-                src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                loading="lazy"
-              />
-            </div>
-          </div>
+         
           <div class="chat-header space-x-2">
             <span *ngIf="mess.recipient_type === 'group'"
               >{{mess.sender.name}}</span

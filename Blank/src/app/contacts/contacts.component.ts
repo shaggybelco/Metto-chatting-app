@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Contacts } from '@capacitor-community/contacts';
 import { StatusBar } from '@capacitor/status-bar';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 
@@ -11,10 +11,10 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent implements OnInit {
-
   constructor(
     private user: UserService,
     private token: TokenService,
+    private zone: NgZone
   ) {
     this.contactSubject = new BehaviorSubject<any[]>([]);
     this.contacts$ = this.contactSubject.asObservable();
@@ -22,28 +22,39 @@ export class ContactsComponent implements OnInit {
   }
   hold: any = this.token.decode();
   contactsDatabase: any = [];
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit() {
-    this.user.getUsers(this.hold.id).subscribe((res: any) => {
-      console.log(res);
-      this.contactsDatabase = res;
-      this.retrieveListOfContacts();
-    });
+    this.getUsers();
+  }
+
+  getUsers() {
+    this.loading$.next(true);
+    this.user
+      .getUsers(this.hold.id)
+      .pipe(
+        tap((res: any) => {
+          console.log(res);
+          this.contactsDatabase = res;
+        })
+      )
+      .subscribe(() => {
+        this.retrieveListOfContacts();
+        this.loading$.next(false);
+      });
   }
 
   handleRefresh(event: any) {
-    setTimeout(() => {
-      // Any calls to load data go here
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        // Any calls to load data go here
+        this.getUsers();
 
-      this.user.getUsers(this.hold.id).subscribe((res: any) => {
-        console.log(res);
-        this.contacts = [];
-        this.contactSubject.next(this.contacts);
-        this.contactsDatabase = res;
-        this.retrieveListOfContacts();
-      });
-      event.target.complete();
-    }, 2000);
+        this.zone.run(() => {
+          event.target.complete();
+        });
+      }, 2000);
+    });
   }
 
   contacts$!: Observable<any[]>;
@@ -84,10 +95,12 @@ export class ContactsComponent implements OnInit {
           const filteredContacts = this.contactsDatabase.filter(
             (dbContact: any) => dbContact.cellphone.toString() === one
           );
+          const newContacts = [];
           if (filteredContacts.length > 0) {
-            this.contacts.push({ db: filteredContacts[0], oneOne, name });
-            this.contactSubject.next(this.contacts);
+            newContacts.push({ db: filteredContacts[0], oneOne, name });
           }
+          this.contacts.push(...newContacts);
+          this.contactSubject.next(this.contacts);
         }
       }
     }
