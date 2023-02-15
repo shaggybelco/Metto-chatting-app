@@ -7,7 +7,7 @@ app.use(express.json());
 
 const server = require("http").createServer(app);
 
-require("./App/Configs/dotenv");
+require("./app/Configs/dotenv");
 require('./socket.io')(server);
 
 
