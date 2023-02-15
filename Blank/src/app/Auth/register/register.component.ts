@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StatusBar } from '@capacitor/status-bar';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -32,7 +33,7 @@ export class RegisterComponent implements OnInit {
       event.preventDefault();
     }
   }
-
+  public load$: BehaviorSubject<any> = new BehaviorSubject(false);
   userForm!: FormGroup;
   step: number = 1;
 
@@ -65,16 +66,19 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
+    this.load$.next(true)
     console.log(this.userForm.value);
     this.user.signup(this.userForm.value).subscribe({
       next: (res: any) => {
         console.log(res);
         localStorage.setItem('token', res.token);
         this.token.token = res.token;
+        this.load$.next(false);
         this.router.navigate(['/tab']);
       },
       error: (err: any) => {
         console.log(err);
+        this.load$.next(false);
       },
     });
   }

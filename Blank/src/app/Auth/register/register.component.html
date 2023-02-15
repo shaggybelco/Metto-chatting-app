@@ -18,7 +18,7 @@
       <!-- <ion-card-title> Signup </ion-card-title> -->
 
       <ion-card-content>
-        <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        <ion-progress-bar *ngIf="load$ |async"  type="indeterminate"></ion-progress-bar>
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
           <ul class="steps mt-5">
             <li [ngClass]="step === 1? 'step step-info': 'step step-info'"></li>

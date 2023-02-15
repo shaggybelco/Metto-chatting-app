@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { StatusBar } from '@capacitor/status-bar';
+import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   userForm!: FormGroup;
   step: number = 1;
-
+  public load$: BehaviorSubject<any> = new BehaviorSubject(false);
   nextStep() {
     this.step++;
   }
@@ -61,16 +62,18 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     console.log(this.userForm.value);
-
+    this.load$.next(true);
     this.user.signin(this.userForm.value).subscribe({
       next: (res: any) => {
         console.log(res);
         localStorage.setItem('token', res.token);
         this.token.token = res.token;
+        this.load$.next(false);
         this.router.navigate(['/tab']);
       },
       error: (err: any) => {
         console.log(err);
+        this.load$.next(false);
       },
     });
   }
