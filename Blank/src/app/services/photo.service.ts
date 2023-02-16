@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import {
   Camera,
@@ -7,7 +8,9 @@ import {
 } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
+import { BehaviorSubject } from 'rxjs';
 import { UserPhoto } from '../model/userPhoto';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +18,7 @@ import { UserPhoto } from '../model/userPhoto';
 export class PhotoService {
   public photos: UserPhoto[] = [];
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   public async addNewToGallery() {
     // Take a photo
@@ -25,8 +28,6 @@ export class PhotoService {
       quality: 100,
       saveToGallery: true,
     });
-
-   
 
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(capturedPhoto);
@@ -39,18 +40,20 @@ export class PhotoService {
 
     // Write the file to the data directory
     const fileName = new Date().getTime() + '.jpeg';
-    const savedFile = await Filesystem.writeFile({
-      path: fileName,
-      data: base64Data,
-      directory: Directory.Documents,
-    });
+    // const savedFile = await Filesystem.writeFile({
+    //   path: fileName,
+    //   data: base64Data,
+    //   directory: Directory.Documents,
+    // });
 
-    console.log(savedFile);
+    // console.log(base64Data);
+
+    // console.log(savedFile);
     // Use webPath to display the new image instead of base64 since it's
     // already loaded into memory
     return {
       filepath: fileName,
-      webviewPath: photo.webPath,
+      webviewPath: base64Data,
     };
   }
 

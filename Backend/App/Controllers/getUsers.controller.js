@@ -175,7 +175,7 @@ exports.updateProfile = async (req, res, next) => {
       {
         $set: {
           avatar: image,
-          isAvatar: true,
+          isAvatar: isAvatar,
           name: req.body.name,
         },
       },

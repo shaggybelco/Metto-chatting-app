@@ -30,6 +30,7 @@ export class MessagePage implements OnInit {
   hold: any = this.token.decode();
   message: string = '';
   messages: any;
+  isFile: boolean = false;
   @ViewChild(IonContent) content!: IonContent;
 
   scrollToBottom() {
@@ -54,8 +55,21 @@ export class MessagePage implements OnInit {
     this.getMessages();
   }
 
+ 
   addPhoto() {
     this.photoService.addNewToGallery();
+  }
+
+  dataUrl: any;
+  ngDoCheck() {
+    // console.log(this.photoService.photos);
+    if(this.photoService.photos && this.photoService.photos.length > 0) {
+      this.isFile = true;
+      this.dataUrl = this.photoService.photos[0].webviewPath;
+      // console.log(this.dataUrl);
+    }else {
+      this.isFile = false;
+    }
   }
   getMessages() {
     const Data = {
@@ -83,7 +97,7 @@ export class MessagePage implements OnInit {
   async openFileBrowser() {
     this.input = document.createElement('input');
     this.input.type = 'file';
-    this.input.multiple = true;
+    this.input.multiple = false;
     this.input.click();
 
     this.input.onchange = (e: any) => {
@@ -94,14 +108,24 @@ export class MessagePage implements OnInit {
 
 
   send() {
+    if(this.dataUrl){
+      this.isFile = true;
+    }else{
+      this.isFile = false;
+    }
+
     const Data = {
       me: this.hold.id,
       otherId: this.id,
       message: this.message,
-      recipient_type: this.type
+      recipient_type: this.type,
+      isFile: this.isFile,
+      file: this.dataUrl
     };
 
-    console.log(this.message);
+    const url = this.chat.uploadImage(this.dataUrl, Data);
+
+    console.log(url);
     if (this.message !== '') {
       this.chat.send(Data).subscribe(
         (res: any) => {

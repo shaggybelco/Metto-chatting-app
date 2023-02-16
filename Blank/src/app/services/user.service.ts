@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${environment.cloud_name}/upload`;
+  CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
   public upload$: BehaviorSubject<any> = new BehaviorSubject(false);
 
   getUsers(id: any): Observable<any> {
@@ -24,8 +24,8 @@ export class UserService {
     return this.http.get(`${environment.baseUrl}/me/${userId}`);
   }
 
-  updateProfile(data: any, file: any): Observable<any> {
-    return this.http.put(`${environment.baseUrl}/updatepp/${data.id}`, file);
+  updateProfile(data: any): Observable<any> {
+    return this.http.put(`${environment.baseUrl}/updatepp/${data.id}`, data);
   }
 
   async uploadImage(file: File, data: any) {
@@ -53,17 +53,16 @@ export class UserService {
               image: res.secure_url,
             };
 
-            this.http
-              .put(`${environment.baseUrl}/updatepp/${data.id}`, After)
-              .subscribe(
-                (updated: any) => {
-                  console.log(updated);
-                  this.upload$.next(false);
-                },
-                (err: any) => {
-                  console.log(err);
-                }
-              );
+            this.updateProfile(After).subscribe(
+              (updated: any) => {
+                this.upload$.next(false);
+                console.log(updated);
+              },
+              (error: any) => {
+                this.upload$.next(false);
+                console.log(error);
+              }
+            );
           },
           (err: any) => {
             console.log(err);
@@ -71,20 +70,7 @@ export class UserService {
           }
         );
     } else {
-      console.log('no file')
-      this.http
-        .put(`${environment.baseUrl}/updatepp/${data.id}`, data)
-        .subscribe(
-          (updated: any) => {
-            console.log(updated);
-            this.upload$.next(false);
-          },
-          (err: any) => {
-            console.log(err);
-            this.upload$.next(false);
-          }
-        );
+      console.log('no file');
     }
   }
-  
 }

@@ -67,10 +67,15 @@ export class ProfileTabPage implements OnInit {
   }
 
   update() {
+    if(this.file){
+      this.isAvatar = true
+    }else{
+      this.isAvatar = false
+    }
     const data = {
       id: this.decode.id,
       name: this.username,
-      isAvatar: true,
+      isAvatar: this.isAvatar,
     };
 
     console.log(data);

@@ -82,6 +82,7 @@
       </ion-avatar>
       <ion-label>
         {{user.receiver.name}}
+        <span *ngIf="user.receiver._id === hold.id" >(You)</span>
         <div class="flex opacity-50">
           <ion-icon
             *ngIf="user.lastMessage.sender === hold.id"

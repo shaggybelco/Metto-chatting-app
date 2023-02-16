@@ -10,7 +10,7 @@ const server = require("http").createServer(app);
 require('./App/Configs/dotenv');
 require('./socket.io')(server);
 
-app.use(cors());
+app.use(cors({origin: '*'}));
 
 const db = require("./App/Models");
 
