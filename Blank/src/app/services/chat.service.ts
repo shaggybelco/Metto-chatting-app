@@ -11,17 +11,23 @@ export class ChatService {
   constructor(private http: HttpClient, private photoService: PhotoService) {}
 
   getMessages(data: any): Observable<any> {
-    return this.http.get(`${environment.baseUrl}/messages/${data.me}/${data.receiver}`, data);
+    return this.http.get(
+      `${environment.baseUrl}/messages/${data.me}/${data.receiver}`,
+      data
+    );
   }
 
-  send(data: any): Observable<any>{
-    return this.http.post(`${environment.baseUrl}/messages/${data.me}/${data.otherId}`, data)
+  send(data: any): Observable<any> {
+    return this.http.post(
+      `${environment.baseUrl}/messages/${data.me}/${data.otherId}`,
+      data
+    );
   }
-  
+
   public upload$: BehaviorSubject<any> = new BehaviorSubject(false);
   CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
 
-  async uploadImage(files: File, data: any) {
+  async uploadImage(data: any,files?: any) {
     this.upload$.next(true);
     if (files) {
       const formData = new FormData();
@@ -37,8 +43,8 @@ export class ChatService {
             'X-Requested-With': 'XMLHttpRequest',
           },
         })
-        .subscribe(
-          (res: any) => {
+        .subscribe({
+          next: (res: any) => {
             console.log(res);
 
             const After = {
@@ -46,29 +52,42 @@ export class ChatService {
               file: res.secure_url,
             };
             console.log(After);
-            
+
             this.send(After).subscribe({
               next: (sent: any) => {
                 console.log(sent);
                 this.upload$.next(true);
+                this.photoService.photos = [];
               },
               error: (err) => {
                 console.log(err);
                 this.upload$.next(false);
               },
             });
-           
+
             return After;
           },
-          (err: any) => {
+          error: (err: any) => {
             console.log(err);
             this.upload$.next(false);
-          }
-        );
+          },
+        });
     } else {
       console.log('no file');
+
+      this.send(data).subscribe({
+        next: (sent: any) => {
+          console.log(sent);
+          this.upload$.next(true);
+          this.photoService.photos = [];
+        },
+        error: (err) => {
+          console.log(err);
+          this.upload$.next(false);
+        },
+      });
+
       return data;
     }
   }
-  
 }

@@ -83,12 +83,14 @@
       <ion-label>
         {{user.receiver.name}}
         <span *ngIf="user.receiver._id === hold.id" >(You)</span>
-        <div class="flex opacity-50">
+        <div class="flex opacity-50 space-x-1 justify-start">
           <ion-icon
             *ngIf="user.lastMessage.sender === hold.id"
             name="checkmark-done"
           ></ion-icon>
-          <p>{{user.lastMessage.message}}</p>
+          <p *ngIf="user.lastMessage.message">{{user.lastMessage.message}}</p>
+          <p *ngIf="!user.lastMessage.message"><ion-icon name="image"></ion-icon></p>
+          <p *ngIf="!user.lastMessage.message">Photo</p>
         </div>
       </ion-label>
       <div class="time">

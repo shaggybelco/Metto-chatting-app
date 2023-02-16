@@ -4,13 +4,8 @@ import { IonContent } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
-import {
-  Camera,
-  CameraResultType,
-  CameraSource,
-  Photo,
-} from '@capacitor/camera';
 import { PhotoService } from '../services/photo.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -37,6 +32,7 @@ export class MessagePage implements OnInit {
   messages: any;
   isFile: boolean = false;
   @ViewChild(IonContent) content!: IonContent;
+  public image$: BehaviorSubject<any> = new BehaviorSubject('');
 
   scrollToBottom() {
     // Passing a duration to the method makes it so the scroll slowly
@@ -66,13 +62,14 @@ export class MessagePage implements OnInit {
 
   dataUrl: any;
   ngDoCheck() {
-    // console.log(this.photoService.photos);
+    console.log(this.photoService.photos);
     if (this.photoService.photos && this.photoService.photos.length > 0) {
       this.isFile = true;
-      this.dataUrl = this.photoService.photos[0].webviewPath;
-      // console.log(this.dataUrl);
+      this.image$.next(this.photoService.photos);
+      // this.dataUrl = this.photoService.photos[this.photoService.photos.length -1].webviewPath;
     } else {
       this.isFile = false;
+      this.image$.next(''); 
     }
   }
   getMessages() {
@@ -111,25 +108,45 @@ export class MessagePage implements OnInit {
   }
 
   send() {
-    if (this.isFile) {
-      this.isFile = true;
-    } else {
-      this.isFile = false;
-    }
-
     const Data = {
       me: this.hold.id,
       otherId: this.id,
-      message: this.message,
       recipient_type: this.type,
+      message: this.message,
       isFile: this.isFile,
     };
 
-    if (this.message !== '') {
-      this.chat.uploadImage(this.dataUrl, Data);
-    }else{
-      return;
+    if (this.message !== '' || this.isFile === true) {
+      const lng = this.photoService.photos.length;
+      for (let i = 0; i < this.photoService.photos.length; i++) {
+        if(this.photoService.photos.length === lng -1){
+          const newData = {
+            me: this.hold.id,
+            otherId: this.id,
+            message: this.message,
+            recipient_type: this.type,
+            isFile: this.isFile,
+          };
+          this.chat.uploadImage(newData, this.photoService.photos[i].webviewPath);
+        }
+        this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath);
+      }
+      
+    } 
+    console.log(this.isFile)
+    if(this.message !== '' && this.isFile === false){ 
+      const newData = {
+        me: this.hold.id,
+        otherId: this.id,
+        message: this.message,
+        recipient_type: this.type,
+        isFile: this.isFile,
+      };
+      console.log(newData);
+      this.chat.uploadImage(newData);
+      this.message = '';
     }
+
     // console.log();
     // if (this.message !== '') {
     //   this.chat.send(Data).subscribe(

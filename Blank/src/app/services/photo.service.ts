@@ -24,7 +24,7 @@ export class PhotoService {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
+      source: CameraSource.Prompt,
       quality: 100,
       saveToGallery: true,
     });

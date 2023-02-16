@@ -5,25 +5,15 @@
         <ion-back-button text="" defaultHref="/tab/list"></ion-back-button>
       </ion-buttons>
       <ion-avatar class="avatar" slot="start">
-        <img
-          lazy
-          *ngIf="!haveAvatar"
-          alt="Silhouette of a person's head"
-          src="https://ionicframework.com/docs/img/demos/avatar.svg"
-        />
-        <img
-          lazy
-          *ngIf="haveAvatar"
-          alt="Silhouette of a person's head"
-          [src]="profile"
-        />
+        <img lazy *ngIf="!haveAvatar" alt="Silhouette of a person's head"
+          src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <img lazy *ngIf="haveAvatar" alt="Silhouette of a person's head" [src]="profile" />
       </ion-avatar>
-      <ion-label slot="start"
-        >{{name}}
+      <ion-label slot="start">{{name}}
         <p>Online</p>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button color="secondary" >
+        <ion-button color="secondary">
           <ion-icon style="font-size: 1.3rem;" name="call"></ion-icon>
         </ion-button>
         <ion-button color="secondary">
@@ -41,64 +31,45 @@
   <div class="ion-padding h">
     <section id="message-container" style="overflow-y: scroll">
       <div *ngFor="let mess of messages">
-        <div
-          [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'"
-        >
-         
+        <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+
           <div class="chat-header space-x-2">
-            <span *ngIf="mess.recipient_type === 'group'"
-              >{{mess.sender.name}}</span
-            >
+            <span *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
             <time className="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
           </div>
-          <div
-            [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'"
-          >
+          <div [style]="mess.file ? '': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'">
+          <img *ngIf="mess.isFile" style="width: 300px;border-radius: 0px;"  [src]="mess.file"/>
             {{mess.message}}
           </div>
           <!-- <div className="chat-footer opacity-50">Delivered</div> -->
         </div>
       </div>
-
-     
-
     </section>
   </div>
 </ion-content>
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
-        <ion-img [src]="photo.webviewPath"></ion-img>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <!-- ion-fab markup  -->
-</ion-content>
 
 <ion-footer [translucent]="true">
+  <div *ngIf="isFile" class="flex justify-start flex-row w-full">
+    <div *ngFor="let item of image$ | async">
+      <ion-thumbnail>
+        <ion-img [src]="item.webviewPath"></ion-img>
+      </ion-thumbnail>
+    </div>
+  </div>
   <ion-toolbar>
+
     <ion-item lines="none">
       <ion-buttons slot="start">
-        <ion-button color="secondary"  (click)="addPhoto()">
-          <ion-icon  style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
+        <ion-button color="secondary" (click)="addPhoto()">
+          <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-textarea
-        placeholder="Type something here"
-        [(ngModel)]="message"
-        [autoGrow]="true"
-        (keyup.enter)="send()"
-      >
+      <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keyup.enter)="send()">
       </ion-textarea>
       <ion-buttons>
-        <ion-button color="secondary" shape="round" (click)="send()"
-          ><ion-icon
-            style="font-size: 1.5rem; font-weight: bolder"
-            name="send"
-          ></ion-icon
-        ></ion-button>
+        <ion-button color="secondary" shape="round" (click)="send()">
+          <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="send"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-item>
   </ion-toolbar>
