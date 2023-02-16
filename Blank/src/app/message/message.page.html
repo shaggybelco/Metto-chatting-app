@@ -48,7 +48,7 @@
   </div>
 </ion-content>
 
-<ion-footer [translucent]="true">
+<ion-footer [translucent]="false">
   <div *ngIf="isFile" class="flex justify-start flex-row w-full">
     <div *ngFor="let item of image$ | async">
       <ion-thumbnail>
