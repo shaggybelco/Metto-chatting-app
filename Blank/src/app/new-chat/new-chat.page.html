@@ -29,9 +29,7 @@
           </ion-buttons>
           <ion-title>New group</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" color="primary" [strong]="true"
-              >Create</ion-button
-            >
+            <ion-button (click)="confirm()" color="primary" [strong]="true">Create</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -39,39 +37,20 @@
       <ion-content class="ion-padding">
         <div class="flex justify-center mb-4">
           <ion-avatar class="avatar">
-            <img
-              *ngIf="!file"
-              alt="not"
-              src="https://ionicframework.com/docs/img/demos/avatar.svg"
-            />
+            <img *ngIf="!file" alt="not" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             <img *ngIf="file" [src]="dataUrl" />
-            <ion-icon
-              class="add"
-              (click)="openFileBrowser()"
-              button
-              color="primary"
-              style="font-size: 1.5rem"
-              name="add-circle"
-            ></ion-icon>
+            <ion-icon class="add" (click)="openFileBrowser()" button color="primary" style="font-size: 1.5rem"
+              name="add-circle"></ion-icon>
           </ion-avatar>
         </div>
         <ion-item lines="none">
           <ion-label position="stacked">Name</ion-label>
-          <ion-input
-            type="text"
-            placeholder="Your name"
-            [(ngModel)]="name"
-          ></ion-input>
+          <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="stacked">Description</ion-label>
-          <ion-textarea
-            [autoGrow]="true"
-            type="text"
-            placeholder="Your name"
-            [(ngModel)]="desc"
-          ></ion-textarea>
+          <ion-textarea [autoGrow]="true" type="text" placeholder="Your name" [(ngModel)]="desc"></ion-textarea>
         </ion-item>
       </ion-content>
     </ng-template>

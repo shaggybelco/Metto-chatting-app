@@ -88,7 +88,8 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
         messages
           .filter((m) => m.receiver.toString() !== req.params.id)
           .map((m) => m.receiver)
-      );
+      )
+      .concat(req.params.id); // add user's id to the array
 
     const groupIds = messages
       .filter((m) => m.recipient_type === "group")
