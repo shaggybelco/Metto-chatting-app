@@ -6,5 +6,6 @@ export const environment = {
   cloud_name: 'dqgb5h17l',
   api_key: '281331871495664',
   api_secret: '_nNPAd9aIwMzX2kREA0NEb_Utsg',
-  cloud_preset: 'btpenpbr'
+  cloud_preset: 'btpenpbr',
+  CLOUDINARY_URL: 'https://api.cloudinary.com/v1_1'
 };

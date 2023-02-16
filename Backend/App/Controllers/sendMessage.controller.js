@@ -21,6 +21,8 @@ exports.send = async (req, res, next) => {
           receiver: otherUser._id,
           message: req.body.message,
           recipient_type: req.body.recipient_type,
+          isFile: req.body.isFile,
+          file: req.body.file
         });
         message.save(message).then((response) => {
           res.status(200).json(response);
@@ -40,6 +42,8 @@ exports.send = async (req, res, next) => {
           receiver: otherUser._id,
           message: req.body.message,
           recipient_type: req.body.recipient_type,
+          isFile: req.body.isFile,
+          file: req.body.file
         });
         message.save(message).then((response) => {
           res.status(200).json(response);

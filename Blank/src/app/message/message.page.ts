@@ -4,7 +4,12 @@ import { IonContent } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
 import { PhotoService } from '../services/photo.service';
 
 @Component({
@@ -55,7 +60,6 @@ export class MessagePage implements OnInit {
     this.getMessages();
   }
 
- 
   addPhoto() {
     this.photoService.addNewToGallery();
   }
@@ -63,11 +67,11 @@ export class MessagePage implements OnInit {
   dataUrl: any;
   ngDoCheck() {
     // console.log(this.photoService.photos);
-    if(this.photoService.photos && this.photoService.photos.length > 0) {
+    if (this.photoService.photos && this.photoService.photos.length > 0) {
       this.isFile = true;
       this.dataUrl = this.photoService.photos[0].webviewPath;
       // console.log(this.dataUrl);
-    }else {
+    } else {
       this.isFile = false;
     }
   }
@@ -83,7 +87,7 @@ export class MessagePage implements OnInit {
       (res: any) => {
         console.log(res);
         this.profile = res[0].receiver.avatar;
-        this.haveAvatar =res[0].receiver.isAvatar;
+        this.haveAvatar = res[0].receiver.isAvatar;
         this.messages = res;
       },
       (err: any) => {
@@ -106,11 +110,10 @@ export class MessagePage implements OnInit {
     };
   }
 
-
   send() {
-    if(this.dataUrl){
+    if (this.isFile) {
       this.isFile = true;
-    }else{
+    } else {
       this.isFile = false;
     }
 
@@ -120,24 +123,26 @@ export class MessagePage implements OnInit {
       message: this.message,
       recipient_type: this.type,
       isFile: this.isFile,
-      file: this.dataUrl
     };
 
-    const url = this.chat.uploadImage(this.dataUrl, Data);
-
-    console.log(url);
     if (this.message !== '') {
-      this.chat.send(Data).subscribe(
-        (res: any) => {
-          console.log(res);
-        },
-        (err: any) => {
-          console.log(err);
-        }
-      );
-    } else {
+      this.chat.uploadImage(this.dataUrl, Data);
+    }else{
       return;
     }
+    // console.log();
+    // if (this.message !== '') {
+    //   this.chat.send(Data).subscribe(
+    //     (res: any) => {
+    //       console.log(res);
+    //     },
+    //     (err: any) => {
+    //       console.log(err);
+    //     }
+    //   );
+    // } else {
+    //   return;
+    // }
 
     this.message = '';
   }
