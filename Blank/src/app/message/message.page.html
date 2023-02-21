@@ -27,7 +27,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollY]="true" [fullscreen]="true" data-theme="corporate">
+<ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald">
   <div class="ion-padding h">
     <section id="message-container" style="overflow-y: scroll">
       <div *ngFor="let mess of messages">
@@ -37,8 +37,8 @@
             <span *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
             <time className="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
           </div>
-          <div [style]="mess.file ? '': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'">
-          <img *ngIf="mess.isFile" style="width: 300px;border-radius: 0px;"  [src]="mess.file"/>
+          <div [style]="mess.file ? 'padding: 2px;': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'">
+          <img *ngIf="mess.isFile" style="width: 300px;border-radius: 15px;"  [src]="mess.file"/>
             {{mess.message}}
           </div>
           <!-- <div className="chat-footer opacity-50">Delivered</div> -->

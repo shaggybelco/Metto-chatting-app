@@ -119,6 +119,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           receiver: user,
           lastMessage: filteredMessages[0],
           unreadCount: filteredMessages.filter((m) => !m.isRead).length,
+          filteredMessages: filteredMessages
         });
       }
     }

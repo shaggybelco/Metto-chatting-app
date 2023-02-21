@@ -14,7 +14,8 @@ import {ContactsComponent} from '../contacts/contacts.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    ContactTabPageRoutingModule
+    ContactTabPageRoutingModule,
+  
   ],
   declarations: [ContactTabPage, ContactsComponent],
   exports: [ContactsComponent]
