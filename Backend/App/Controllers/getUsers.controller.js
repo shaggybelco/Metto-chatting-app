@@ -75,11 +75,8 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
         { receiver: req.params.id },
         { receiver: groupID?.group },
       ],
-    }).populate({
-      path: 'receiver',
-      model: 'user' | 'group',
     })
-    .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 });
 
     // console.log(groupID.group);
     const userIds = messages
@@ -120,7 +117,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           receiver: user,
           lastMessage: filteredMessages[0],
           unreadCount: filteredMessages.filter((m) => !m.isRead).length,
-          filteredMessages: filteredMessages
+          filteredMessages: filteredMessages,
         });
       }
     }
@@ -134,7 +131,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           receiver: group,
           lastMessage: filteredMessages[0],
           unreadCount: filteredMessages.filter((m) => !m.isRead).length,
-          filteredMessages: filteredMessages
+          filteredMessages: filteredMessages,
         });
       }
     }
