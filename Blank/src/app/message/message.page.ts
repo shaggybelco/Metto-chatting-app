@@ -54,11 +54,15 @@ export class MessagePage implements OnInit {
     this.scrollToBottom();
   }
 
-  subscription: Subscription = new Subscription;
+  subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
     // this.getMessages();
-    this.subscription = this.storage.currentMessage.subscribe(message => this.messages = message)
+    this.subscription = this.storage.currentMessage.subscribe(
+      (message) => (this.messages = message)
+    );
+    this.profile = this.messages[0].receiver.avatar;
+    this.haveAvatar = this.messages[0].receiver.isAvatar;
   }
 
   addPhoto() {
@@ -74,7 +78,7 @@ export class MessagePage implements OnInit {
       // this.dataUrl = this.photoService.photos[this.photoService.photos.length -1].webviewPath;
     } else {
       this.isFile = false;
-      this.image$.next(''); 
+      this.image$.next('');
     }
   }
   getMessages() {
@@ -124,7 +128,7 @@ export class MessagePage implements OnInit {
     if (this.message !== '' || this.isFile === true) {
       const lng = this.photoService.photos.length;
       for (let i = 0; i < this.photoService.photos.length; i++) {
-        if(this.photoService.photos.length === lng -1){
+        if (this.photoService.photos.length === lng - 1) {
           const newData = {
             me: this.hold.id,
             otherId: this.id,
@@ -132,14 +136,16 @@ export class MessagePage implements OnInit {
             recipient_type: this.type,
             isFile: this.isFile,
           };
-          this.chat.uploadImage(newData, this.photoService.photos[i].webviewPath);
+          this.chat.uploadImage(
+            newData,
+            this.photoService.photos[i].webviewPath
+          );
         }
         this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath);
       }
-      
-    } 
-    console.log(this.isFile)
-    if(this.message !== '' && this.isFile === false){ 
+    }
+    console.log(this.isFile);
+    if (this.message !== '' && this.isFile === false) {
       const newData = {
         me: this.hold.id,
         otherId: this.id,
@@ -168,5 +174,4 @@ export class MessagePage implements OnInit {
 
     this.message = '';
   }
-
 }
