@@ -79,6 +79,9 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       .populate({
         path: "receiver",
         model: "user" | "group",
+      },{
+        path: 'sender',
+        model: 'user' | 'group',
       })
       .sort({ createdAt: -1 });
 
@@ -128,7 +131,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     for (const group of groups) {
       const filteredMessages = messages.filter(
-        (m) => m.receiver.toString() === group._id.toString()
+        (m) => m.receiver._id.toString() === group._id.toString()
       );
       if (filteredMessages.length) {
         lastMessages.push({
