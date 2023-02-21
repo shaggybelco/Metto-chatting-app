@@ -1,3 +1,4 @@
+import { StorageService } from './../services/storage.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
@@ -5,7 +6,7 @@ import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
 import { PhotoService } from '../services/photo.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -18,7 +19,8 @@ export class MessagePage implements OnInit {
     private token: TokenService,
     private chat: ChatService,
     public trans: TransformService,
-    public photoService: PhotoService
+    public photoService: PhotoService,
+    private storage: StorageService
   ) {}
 
   id = this.route.snapshot.params['id'];
@@ -52,8 +54,11 @@ export class MessagePage implements OnInit {
     this.scrollToBottom();
   }
 
+  subscription: Subscription = new Subscription;
+
   ngOnInit(): void {
     this.getMessages();
+    this.subscription = this.storage.currentMessage.subscribe(message => this.messages = message)
   }
 
   addPhoto() {
@@ -62,7 +67,7 @@ export class MessagePage implements OnInit {
 
   dataUrl: any;
   ngDoCheck() {
-    console.log(this.photoService.photos);
+    // console.log(this.photoService.photos);
     if (this.photoService.photos && this.photoService.photos.length > 0) {
       this.isFile = true;
       this.image$.next(this.photoService.photos);
@@ -163,4 +168,5 @@ export class MessagePage implements OnInit {
 
     this.message = '';
   }
+
 }

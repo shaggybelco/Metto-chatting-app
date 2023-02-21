@@ -66,53 +66,16 @@
     </div>
 
     <!-- retreived data -->
-    <ion-item
-      detail="false"
-      button
-      *ngFor="let user of users"
-      [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]"
-    >
-      <ion-avatar class="avatar" slot="start">
-        <img
-          alt="Silhouette of a person's head"
-          [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'"
-          
-        />
-        <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
-      </ion-avatar>
-      <ion-label>
-        {{user.receiver.name}}
-        <span *ngIf="user.receiver._id === hold.id" >(You)</span>
-        <div class="flex opacity-50 space-x-1 justify-start">
-          <ion-icon
-            *ngIf="user.lastMessage.sender === hold.id"
-            name="checkmark-done"
-          ></ion-icon>
-          <p *ngIf="user.lastMessage.message">{{user.lastMessage.message}}</p>
-          <p *ngIf="!user.lastMessage.message"><ion-icon name="image"></ion-icon></p>
-          <p *ngIf="!user.lastMessage.message">Photo</p>
-        </div>
-      </ion-label>
-      <div class="time">
-        <p class="flex gap-1">
-          <span class="text-sm"
-            >{{trans.transform(user.lastMessage.createdAt)}}</span
-          >
-          <ion-badge slot="end" *ngIf="user.unreadCount > 0" color="secondary"
-            >{{user.unreadCount}}</ion-badge
-          >
-        </p>
-      </div>
-    </ion-item>
+   <app-chat-list [userList]="users"></app-chat-list>
   </ion-list>
   <div *ngIf="users.length < 1">
-  <ion-card class="center" *ngIf="!(load$ | async)">
-    <ion-card-content>
-      <ion-card-title>You have no messages yet.</ion-card-title>
-      <ion-card-subtitle>Create new ones.</ion-card-subtitle>
-    </ion-card-content>
-  </ion-card>
-</div>
+    <ion-card class="center" *ngIf="!(load$ | async)">
+      <ion-card-content>
+        <ion-card-title>You have no messages yet.</ion-card-title>
+        <ion-card-subtitle>Create new ones.</ion-card-subtitle>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button

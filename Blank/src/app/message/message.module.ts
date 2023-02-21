@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MessagePageRoutingModule } from './message-routing.module';
 
 import { MessagePage } from './message.page';
+import { ChatsTabPageModule } from '../chats-tab/chats-tab.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { MessagePage } from './message.page';
     FormsModule,
     IonicModule,
     MessagePageRoutingModule,
-    FormsModule
+    FormsModule,
+    ChatsTabPageModule
   ],
   declarations: [MessagePage]
 })

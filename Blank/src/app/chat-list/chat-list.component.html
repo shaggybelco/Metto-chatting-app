@@ -1,0 +1,31 @@
+<!-- retreived data -->
+<!-- [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]" -->
+<ion-list>
+  <ion-item detail="false" button *ngFor="let user of userList; let i = index"
+   (click)="goToMessage(user.receiver._id, user.receiver.name, user.lastMessage.recipient_type, i)"
+    >
+    <ion-avatar class="avatar" slot="start">
+      <img alt="Silhouette of a person's head"
+        [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+      <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
+    </ion-avatar>
+    <ion-label>
+      {{user.receiver.name}}
+      <span *ngIf="user.receiver._id === hold.id">(You)</span>
+      <div class="flex opacity-50 space-x-1 justify-start">
+        <ion-icon *ngIf="user.lastMessage.sender === hold.id" name="checkmark-done"></ion-icon>
+        <p *ngIf="user.lastMessage.message">{{user.lastMessage.message}}</p>
+        <p *ngIf="!user.lastMessage.message">
+          <ion-icon name="image"></ion-icon>
+        </p>
+        <p *ngIf="!user.lastMessage.message">Photo</p>
+      </div>
+    </ion-label>
+    <div class="time">
+      <p class="flex gap-1">
+        <span class="text-sm">{{trans.transform(user.lastMessage.createdAt)}}</span>
+        <ion-badge slot="end" *ngIf="user.unreadCount > 0" color="secondary">{{user.unreadCount}}</ion-badge>
+      </p>
+    </div>
+  </ion-item>
+</ion-list>

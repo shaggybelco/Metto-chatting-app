@@ -58,9 +58,6 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
   }
 };
 
-// user and group
-const mongoose = require("mongoose");
-
 module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -78,7 +75,11 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
         { receiver: req.params.id },
         { receiver: groupID?.group },
       ],
-    }).sort({ createdAt: -1 });
+    }).populate({
+      path: 'receiver',
+      model: 'user' | 'group',
+    })
+    .sort({ createdAt: -1 });
 
     // console.log(groupID.group);
     const userIds = messages
