@@ -57,7 +57,7 @@ export class MessagePage implements OnInit {
   subscription: Subscription = new Subscription;
 
   ngOnInit(): void {
-    this.getMessages();
+    // this.getMessages();
     this.subscription = this.storage.currentMessage.subscribe(message => this.messages = message)
   }
 
