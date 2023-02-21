@@ -39,7 +39,7 @@
           </div>
           <div [style]="mess.file ? 'padding: 2px;': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'">
           <img *ngIf="mess.isFile" lazy style="width: 300px;border-radius: 15px;"  [src]="mess.file"/>
-           <span [style]="mess.isFile ? 'padding: 10px;': ''"> {{mess.message}}</span>
+           <span [style]="mess.isFile && mess.message ? 'padding: 10px;': ''"> {{mess.message}}</span>
           </div>
           <!-- <div className="chat-footer opacity-50">Delivered</div> -->
         </div>
