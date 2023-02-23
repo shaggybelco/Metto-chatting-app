@@ -32,7 +32,7 @@ export class HttpRequestsService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         const ErrorMessage = this.setError(error);
         // this.notify.showError(ErrorMessage);
-        
+
         this.showError(ErrorMessage);
         console.log(ErrorMessage);
         return throwError(error);
@@ -40,14 +40,13 @@ export class HttpRequestsService implements HttpInterceptor {
     );
   }
 
-    showError = async (err: any) => {
+  showError = async (err: any) => {
     await Toast.show({
       text: err,
       duration: 'long',
       position: 'top',
     });
   };
-  
 
   setError(error: HttpErrorResponse) {
     let ErrorMessage = 'Sorry we are facing technical problems';
