@@ -32,10 +32,8 @@ export class ChatsTabPage implements OnInit {
     this.hold = this.token.decode();
 
     if (this.storage.get('users') === null) {
-      alert('no users');
       this.getUsersWithLastMessage();
     } else {
-      alert('users already');
       this.users = this.storage.get('users');
     }
   }
@@ -47,7 +45,6 @@ export class ChatsTabPage implements OnInit {
         console.log(res.lastMessages);
         this.users = res.lastMessages;
         this.storage.set('users', this.users);
-
         this.load$.next(false);
       },
       (err: any) => {
@@ -56,6 +53,7 @@ export class ChatsTabPage implements OnInit {
       }
     );
   }
+  
 
   handleRefresh(event: any) {
     setTimeout(() => {

@@ -64,29 +64,32 @@ export class MessagePage implements OnInit {
     if (this.id) {
       this.getMessages();
     } else {
-      this.subscription = this.storage.currentMessage.subscribe(
-        (message: any) =>
-          (this.messages = message.sort(
-            (
-              a: { createdAt: string | number | Date },
-              b: { createdAt: string | number | Date }
-            ) => {
-              return (
-                new Date(a.createdAt).getTime() -
-                new Date(b.createdAt).getTime()
-              );
-            }
-          ))
-      );
-
-      this.userSub = this.storage.user.subscribe((user: any) => {
-        console.log(user);
-        this.profile = user.avatar;
-        this.haveAvatar = user.isAvatar;
-        this.name = user.name;
-      })
-     
+      this.getMessagesUsingInput();
     }
+  }
+
+  getMessagesUsingInput() {
+    this.subscription = this.storage.currentMessage.subscribe(
+      (message: any) =>
+        (this.messages = message.sort(
+          (
+            a: { createdAt: string | number | Date },
+            b: { createdAt: string | number | Date }
+          ) => {
+            return (
+              new Date(a.createdAt).getTime() -
+              new Date(b.createdAt).getTime()
+            );
+          }
+        ))
+    );
+
+    this.userSub = this.storage.user.subscribe((user: any) => {
+      console.log(user);
+      this.profile = user.avatar;
+      this.haveAvatar = user.isAvatar;
+      this.name = user.name;
+    })
   }
 
   addPhoto() {
@@ -165,7 +168,9 @@ export class MessagePage implements OnInit {
             this.photoService.photos[i].webviewPath
           );
         }
-        this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath);
+        this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath).finally(() => {
+          this.getMessages();
+        });
       }
     }
     console.log(this.isFile);

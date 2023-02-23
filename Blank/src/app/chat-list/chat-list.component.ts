@@ -1,6 +1,6 @@
 import { StorageService } from './../services/storage.service';
 import { TransformService } from './../services/transform.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 
@@ -38,5 +38,10 @@ export class ChatListComponent implements OnInit {
     console.log(this.userList[i]?.filteredMessages?.reverse());
     this.storage.changeMessage(this.userList[i]?.filteredMessages, this.userList[i].receiver);
     this.route.navigate(['/message']);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes['userList']['currentValue']);
+    this.storage.set('users', changes['userList']['currentValue']);
   }
 }
