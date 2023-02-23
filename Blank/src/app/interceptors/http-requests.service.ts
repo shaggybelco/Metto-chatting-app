@@ -32,20 +32,21 @@ export class HttpRequestsService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         const ErrorMessage = this.setError(error);
         // this.notify.showError(ErrorMessage);
-        const showHelloToast = async () => {
-          await Toast.show({
-            text: ErrorMessage,
-            duration: 'long',
-            position: 'top',
-          });
-        };
-
+        
+        this.showError(ErrorMessage);
         console.log(ErrorMessage);
         return throwError(error);
       })
     );
   }
 
+    showError = async (err: any) => {
+    await Toast.show({
+      text: err,
+      duration: 'long',
+      position: 'top',
+    });
+  };
   
 
   setError(error: HttpErrorResponse) {
