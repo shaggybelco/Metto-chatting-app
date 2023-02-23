@@ -4,7 +4,7 @@ import { UserService } from '../services/user.service';
 import { TransformService } from '../services/transform.service';
 import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject } from 'rxjs';
-
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-chats-tab',
@@ -15,7 +15,8 @@ export class ChatsTabPage implements OnInit {
   constructor(
     private token: TokenService,
     private user: UserService,
-    public trans: TransformService
+    public trans: TransformService,
+    public storage: StorageService
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
@@ -23,9 +24,20 @@ export class ChatsTabPage implements OnInit {
   public load$: BehaviorSubject<any> = new BehaviorSubject(false);
   hold: any;
   users: any = [];
+  us: any;
+
+  private userSource = new BehaviorSubject<any[]>([]);
+  users$ = this.userSource.asObservable();
   ngOnInit() {
     this.hold = this.token.decode();
-    this.getUsersWithLastMessage();
+
+    if (this.storage.get('users') === null) {
+      alert('no users');
+      this.getUsersWithLastMessage();
+    } else {
+      alert('users already');
+      this.users = this.storage.get('users');
+    }
   }
 
   getUsersWithLastMessage() {
@@ -34,6 +46,8 @@ export class ChatsTabPage implements OnInit {
       (res: any) => {
         console.log(res.lastMessages);
         this.users = res.lastMessages;
+        this.storage.set('users', this.users);
+
         this.load$.next(false);
       },
       (err: any) => {

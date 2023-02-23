@@ -32,6 +32,7 @@
     "@capacitor/status-bar": "4.1.1",
     "@ionic/angular": "^6.5.3",
     "@ionic/pwa-elements": "^3.1.1",
+    "@ionic/storage-angular": "^3.0.6",
     "daisyui": "^2.50.0",
     "ionicons": "^6.0.3",
     "jwt-decode": "^3.1.2",

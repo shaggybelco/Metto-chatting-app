@@ -66,7 +66,8 @@
     </div>
 
     <!-- retreived data -->
-   <app-chat-list [userList]="users"></app-chat-list>
+    <pre>{{us | json}}</pre>
+    <app-chat-list [userList]="users"></app-chat-list>
   </ion-list>
   <div *ngIf="users.length < 1">
     <ion-card class="center" *ngIf="!(load$ | async)">
