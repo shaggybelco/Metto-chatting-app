@@ -58,16 +58,34 @@ export class MessagePage implements OnInit {
   }
 
   subscription: Subscription = new Subscription();
+  userSub: Subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.id) {
       this.getMessages();
     } else {
       this.subscription = this.storage.currentMessage.subscribe(
-        (message) => (this.messages = message)
+        (message: any) =>
+          (this.messages = message.sort(
+            (
+              a: { createdAt: string | number | Date },
+              b: { createdAt: string | number | Date }
+            ) => {
+              return (
+                new Date(a.createdAt).getTime() -
+                new Date(b.createdAt).getTime()
+              );
+            }
+          ))
       );
-      this.profile = this.messages[0].receiver.avatar;
-      this.haveAvatar = this.messages[0].receiver.isAvatar;
+
+      this.userSub = this.storage.user.subscribe((user: any) => {
+        console.log(user);
+        this.profile = user.avatar;
+        this.haveAvatar = user.isAvatar;
+        this.name = user.name;
+      })
+     
     }
   }
 

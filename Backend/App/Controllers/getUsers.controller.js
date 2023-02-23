@@ -76,12 +76,11 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
         { receiver: groupID?.group },
       ],
     })
-      .populate(
-        {
-          path: "receiver",
-          model: "user" | "group",
-        }
-      ).populate({ path: "sender", model: "user" })
+      .populate({
+        path: "receiver",
+        model: "user" | "group",
+      })
+      .populate({ path: "sender", model: "user" })
       .sort({ createdAt: -1 });
 
     // console.log(groupID.group);
@@ -97,7 +96,8 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     const groupIds = messages
       .filter((m) => m.recipient_type === "group")
-      .map((m) => m.receiver._id);
+      .map((m) => m.receiver._id)
+      .concat(groupID.group);
 
     const users = await User.find({
       _id: { $in: userIds },

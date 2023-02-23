@@ -9,8 +9,11 @@ export class StorageService {
   
   private messageSource = new BehaviorSubject([]);
   currentMessage = this.messageSource.asObservable();
+  private otherUsers = new BehaviorSubject({});
+  user = this.otherUsers.asObservable();
 
-  changeMessage(message: any) {
-    this.messageSource.next(message)
+  changeMessage(message: any, otherUser: any) {
+    this.messageSource.next(message);
+    this.otherUsers.next(otherUser);
   }
 }

@@ -32,7 +32,7 @@ export class ChatListComponent implements OnInit {
   goToMessage(id: string, name: string, type: string, i: number) {
     console.log(id, name, type);
     console.log(this.userList[i]?.filteredMessages?.reverse());
-    this.storage.changeMessage(this.userList[i]?.filteredMessages);
+    this.storage.changeMessage(this.userList[i]?.filteredMessages, this.userList[i].receiver);
     this.route.navigate(['/message']);
   }
 }
