@@ -41,7 +41,7 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['userList']['currentValue']);
-    this.storage.set('users', changes['userList']['currentValue']);
+    console.log(this.userList);
+    this.storage.set('users', this.userList);
   }
 }

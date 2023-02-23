@@ -9,6 +9,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { Toast } from '@capacitor/toast';
 
 @Injectable({
   providedIn: 'root',
@@ -31,11 +32,21 @@ export class HttpRequestsService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         const ErrorMessage = this.setError(error);
         // this.notify.showError(ErrorMessage);
+        const showHelloToast = async () => {
+          await Toast.show({
+            text: ErrorMessage,
+            duration: 'long',
+            position: 'top',
+          });
+        };
+
         console.log(ErrorMessage);
         return throwError(error);
       })
     );
   }
+
+  
 
   setError(error: HttpErrorResponse) {
     let ErrorMessage = 'Sorry we are facing technical problems';

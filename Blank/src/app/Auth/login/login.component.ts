@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';

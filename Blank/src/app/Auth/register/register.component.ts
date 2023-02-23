@@ -10,6 +10,7 @@ import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
+import { Toast } from '@capacitor/toast';
 
 @Component({
   selector: 'app-register',

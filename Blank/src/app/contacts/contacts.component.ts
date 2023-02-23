@@ -44,8 +44,8 @@ export class ContactsComponent implements OnInit {
     const filteredContacts = localStorage.getItem('filtered');
     const filteredTimestamp = localStorage.getItem('filtered_timestamp');
 
-    if (filteredContacts && filteredTimestamp) {
-      const lastUpdated: any = new Date(filteredTimestamp);
+    if (filteredContacts && timestamp) {
+      const lastUpdated: any = new Date(timestamp);
       const now: any = new Date();
       const hoursElapsed = Math.abs(now - lastUpdated) / 36e5;
       if (hoursElapsed > 24) {
@@ -112,73 +112,78 @@ export class ContactsComponent implements OnInit {
   notRegistered: any = [];
 
   retrieveListOfContacts = async () => {
+    console.time('retrieveListOfContacts'); // start a timer to measure the function's execution time
+  
     const projection = {
-      // Specify which fields should be retrieved.
       name: true,
       phones: true,
       postalAddresses: true,
     };
-
+  
     const result = await Contacts.getContacts({
       projection,
     });
-
+  
     this.notRegistered = result.contacts;
-    // Iterate over the contacts retrieved from the device's database
+  
+    const newContacts = []; // create an array to hold the new contacts
+    const notRegistered = []; // create an array to hold the not registered contacts
+  
     for (const contact of result.contacts) {
-      // Get the name and phone number of the current contact
       const { name, phones } = contact;
-
-      // Check if the contact has any phone numbers associated with it
+  
       if (phones && phones.length > 0) {
-        for (const oneOne of phones) {
-          let one = oneOne?.number?.replace(/\D/g, '');
-          if (oneOne?.number?.startsWith('27')) {
-            one = one?.slice(2);
+        for (const phone of phones) {
+          let number = phone?.number?.replace(/\D/g, '');
+          if (phone?.number?.startsWith('27')) {
+            number = number?.slice(2);
           }
-          if (oneOne?.number?.startsWith('0')) {
-            one = one?.slice(1);
+          if (phone?.number?.startsWith('0')) {
+            number = number?.slice(1);
           }
-
+  
           const filteredContacts = this.contactsDatabase.filter(
-            (dbContact: any) => dbContact.cellphone.toString() === one
+            (dbContact: any) => dbContact.cellphone.toString() === number
           );
-          const newContacts = [];
+  
           if (filteredContacts.length > 0) {
-            newContacts.push({ db: filteredContacts[0], oneOne, name });
+            newContacts.push({ db: filteredContacts[0], phone, name });
+          } else {
+            notRegistered.push({ contact, phone, name });
           }
-          this.contacts.push(...newContacts);
-          this.contactSubject.next(this.contacts);
         }
       }
     }
-
-    this.notRegistered = result.contacts.filter((contact) => {
-      return !this.contacts.some(
-        (reg: any) =>
-          reg.oneOne.number?.replace(/\D/g, '') ===
-          contact?.phones?.[0]?.number?.replace(/\D/g, '')
-      );
-    });
-
+  
+    this.contacts.push(...newContacts);
+    this.contactSubject.next(this.contacts);
+  
+    this.notRegistered = notRegistered;
+  
     this.contacts.sort(
       (a: { name: { display: string } }, b: { name: { display: any } }) =>
         a.name.display.localeCompare(b.name.display)
     );
-
+  
     this.notRegistered.sort(
       (a: { name: { display: string } }, b: { name: { display: any } }) =>
         a.name.display.localeCompare(b.name.display)
     );
-
+  
     function setLocalStorageItem(key: string, value: any) {
       localStorage.setItem(key, JSON.stringify(value));
-      localStorage.setItem(`${key}_timestamp`, new Date().toISOString());
+      // set the timestamp only once
+      if (key === 'contacts') {
+        localStorage.setItem(`${key}_timestamp`, new Date().toISOString());
+      }
     }
-
+  
     setLocalStorageItem('contacts', this.contacts);
     setLocalStorageItem('filtered', this.notRegistered);
+  
+    console.timeEnd('retrieveListOfContacts'); // end the timer and log the execution time to the console
   };
+  
 
   ngOnDestroy() {
     // Unsubscribe from any subscriptions or clear any resources here
