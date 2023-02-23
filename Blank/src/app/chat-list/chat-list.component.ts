@@ -33,6 +33,6 @@ export class ChatListComponent implements OnInit {
     console.log(id, name, type);
     console.log(this.userList[i]?.filteredMessages?.reverse());
     this.storage.changeMessage(this.userList[i]?.filteredMessages);
-    this.route.navigate(['/message', id, name, type]);
+    this.route.navigate(['/message']);
   }
 }

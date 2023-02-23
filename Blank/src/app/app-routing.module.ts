@@ -42,6 +42,10 @@ const routes: Routes = [
     loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
   },
   {
+    path: 'message',
+    loadChildren: () => import('./message/message.module').then( m => m.MessagePageModule)
+  },
+  {
     path: 'new-chat',
     loadChildren: () => import('./new-chat/new-chat.module').then( m => m.NewChatPageModule)
   }

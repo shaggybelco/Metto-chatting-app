@@ -7,6 +7,7 @@ import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
 import { PhotoService } from '../services/photo.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
   selector: 'app-message',
@@ -21,7 +22,9 @@ export class MessagePage implements OnInit {
     public trans: TransformService,
     public photoService: PhotoService,
     private storage: StorageService
-  ) {}
+  ) {
+    StatusBar.setBackgroundColor({ color: '#3dc2ff' });
+  }
 
   id = this.route.snapshot.params['id'];
   name = this.route.snapshot.params['name'];
@@ -57,12 +60,15 @@ export class MessagePage implements OnInit {
   subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    // this.getMessages();
-    this.subscription = this.storage.currentMessage.subscribe(
-      (message) => (this.messages = message)
-    );
-    this.profile = this.messages[0].receiver.avatar;
-    this.haveAvatar = this.messages[0].receiver.isAvatar;
+    if (this.id) {
+      this.getMessages();
+    } else {
+      this.subscription = this.storage.currentMessage.subscribe(
+        (message) => (this.messages = message)
+      );
+      this.profile = this.messages[0].receiver.avatar;
+      this.haveAvatar = this.messages[0].receiver.isAvatar;
+    }
   }
 
   addPhoto() {
