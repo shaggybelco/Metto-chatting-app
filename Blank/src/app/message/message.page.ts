@@ -59,6 +59,7 @@ export class MessagePage implements OnInit {
 
   subscription: Subscription = new Subscription();
   userSub: Subscription = new Subscription();
+  userType: Subscription = new Subscription();
 
   ngOnInit(): void {
     if (this.id) {
@@ -89,6 +90,12 @@ export class MessagePage implements OnInit {
       this.profile = user.avatar;
       this.haveAvatar = user.isAvatar;
       this.name = user.name;
+      this.id = user._id;
+    })
+
+    this.userType = this.storage.types.subscribe((types: any) => {
+      console.log(types);
+      this.type = types;
     })
   }
 

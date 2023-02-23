@@ -29,9 +29,12 @@ export class StorageService {
   currentMessage = this.messageSource.asObservable();
   private otherUsers = new BehaviorSubject<any>({});
   user = this.otherUsers.asObservable();
+  private userType = new BehaviorSubject<any>('');
+  types = this.userType.asObservable();
 
-  changeMessage(message: any[], otherUser: any): void {
+  changeMessage(message: any[], otherUser: any, type: string): void {
     this.messageSource.next(message);
     this.otherUsers.next(otherUser);
+    this.userType.next(type);
   }
 }
