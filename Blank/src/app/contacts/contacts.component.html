@@ -4,10 +4,6 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item lines="none" detail="false" button>
-      <ion-icon name="person-add" slot="start" color="primary"></ion-icon>
-      <ion-label>New contact</ion-label>
-    </ion-item>
     <!-- skeleton loading -->
     <div *ngIf="loading$ |async">
       <ion-item
