@@ -18,6 +18,7 @@ export class ChatService {
 
   connect(id: any){
     this.sock.on('connect', () => {
+      this.sock.emit('connect', id);
       console.log('connected');
     })
     socket.on("connect", () => {
@@ -27,6 +28,10 @@ export class ChatService {
   }
 
   public getNewMessage = () => {
+    this.sock.on('mesRec', (message: any)=>{
+      console.log(message)
+      this.message$.next(message);
+    })
     socket.on('mesRec', (message) =>{
       console.log(message)
       this.message$.next(message);
