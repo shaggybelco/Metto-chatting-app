@@ -11,7 +11,7 @@ exports.send = async (req, res, next) => {
       const otherUser = await Group.findOne({ _id: req.params.otherId });
       const isMember = await GroupMember.findOne({ user: req.params.id });
 
-      if (isMember !== null) {
+      if (isMember === null) {
         res.status(400).json({ error: "user is not a member of this group" });
       } else if (user === null && otherUser === null) {
         res.status(400).json({ error: "user does not exist" });
