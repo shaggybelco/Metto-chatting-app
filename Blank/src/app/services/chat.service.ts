@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PhotoService } from './photo.service';
 import { io } from "socket.io-client";
+import { Socket } from 'ngx-socket-io';
+
 
 const socket = io(`http://localhost:3333`);
 
@@ -11,10 +13,13 @@ const socket = io(`http://localhost:3333`);
   providedIn: 'root',
 })
 export class ChatService {
-  constructor(private http: HttpClient, private photoService: PhotoService) {}
+  constructor(private http: HttpClient, private photoService: PhotoService, private sock: Socket) {}
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
 
   connect(id: any){
+    this.sock.on('connect', () => {
+      console.log('connected');
+    })
     socket.on("connect", () => {
       socket.emit('connected', id);
       console.log(socket.id)

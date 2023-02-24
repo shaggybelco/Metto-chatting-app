@@ -27,7 +27,7 @@ export class ChatListComponent implements OnInit {
   }
 
   ngDoCheck() {
-    console.log(this.userList);
+    // console.log(this.userList);
   }
 
   trackItems(index: number, itemObject: any) {
