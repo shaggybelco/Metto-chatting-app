@@ -3,12 +3,32 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PhotoService } from './photo.service';
+import { io } from "socket.io-client";
+
+const socket = io(`http://localhost:3333`);
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   constructor(private http: HttpClient, private photoService: PhotoService) {}
+  public message$: BehaviorSubject<any> = new BehaviorSubject({});
+
+  connect(id: any){
+    socket.on("connect", () => {
+      socket.emit('connected', id);
+      console.log(socket.id)
+    });
+  }
+
+  public getNewMessage = () => {
+    socket.on('mesRec', (message) =>{
+      console.log(message)
+      this.message$.next(message);
+    });
+
+    return this.message$.asObservable();
+  };
 
   getMessages(data: any): Observable<any> {
     return this.http.get(
@@ -18,6 +38,8 @@ export class ChatService {
   }
 
   send(data: any): Observable<any> {
+    // socket.emit('send', data);
+
     return this.http.post(
       `${environment.baseUrl}/messages/${data.me}/${data.otherId}`,
       data
@@ -52,20 +74,24 @@ export class ChatService {
               file: res.secure_url,
             };
             console.log(After);
+            this.upload$.next(true);
 
-            this.send(After).subscribe({
-              next: (sent: any) => {
-                console.log(sent);
-                this.upload$.next(true);
-                this.photoService.photos = [];
-              },
-              error: (err) => {
-                console.log(err);
-                this.upload$.next(false);
-              },
-            });
+             socket.emit('send', data);
 
-            return After;
+
+            // this.send(After).subscribe({
+            //   next: (sent: any) => {
+            //     console.log(sent);
+                
+            //     this.photoService.photos = [];
+            //   },
+            //   error: (err) => {
+            //     console.log(err);
+            //     this.upload$.next(false);
+            //   },
+            // });
+
+            // return After;
           },
           error: (err: any) => {
             console.log(err);
@@ -74,20 +100,23 @@ export class ChatService {
         });
     } else {
       console.log('no file');
+      this.upload$.next(true);
 
-      this.send(data).subscribe({
-        next: (sent: any) => {
-          console.log(sent);
-          this.upload$.next(true);
-          this.photoService.photos = [];
-        },
-        error: (err) => {
-          console.log(err);
-          this.upload$.next(false);
-        },
-      });
+       socket.emit('send', data);
 
-      return data;
+      // this.send(data).subscribe({
+      //   next: (sent: any) => {
+      //     console.log(sent);
+          
+      //     this.photoService.photos = [];
+      //   },
+      //   error: (err) => {
+      //     console.log(err);
+      //     this.upload$.next(false);
+      //   },
+      // });
+
+      // return data;
     }
   }
 }

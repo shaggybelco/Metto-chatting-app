@@ -26,9 +26,9 @@ export class ChatListComponent implements OnInit {
     this.hold = this.token.decode();
   }
 
-  // ngDoCheck() {
-  //   console.log(this.userList);
-  // }
+  ngDoCheck() {
+    console.log(this.userList);
+  }
 
   trackItems(index: number, itemObject: any) {
     return itemObject.id;
@@ -46,7 +46,7 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.userList);
+    console.log(changes);
     this.storage.set('users', this.userList);
   }
 }

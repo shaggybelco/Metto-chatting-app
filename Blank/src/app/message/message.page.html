@@ -10,7 +10,7 @@
         <img lazy *ngIf="haveAvatar" alt="Silhouette of a person's head" [src]="profile" />
       </ion-avatar>
       <ion-label slot="start">{{name}}
-        <p>Online</p>
+        <p *ngIf="type === 'group'" >users</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button color="secondary">
@@ -30,7 +30,7 @@
 <ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald">
   <div class="ion-padding h">
     <section id="message-container" style="overflow-y: scroll">
-      <div *ngFor="let mess of messages">
+      <div *ngFor="let mess of message$ | async">
         <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
 
           <div class="chat-header space-x-2">

@@ -60,8 +60,23 @@ export class MessagePage implements OnInit {
   subscription: Subscription = new Subscription();
   userSub: Subscription = new Subscription();
   userType: Subscription = new Subscription();
+  public message$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   ngOnInit(): void {
+    this.chat.connect(this.hold.id);
+
+    this.chat.getNewMessage().subscribe({
+      next: (val: any) => {
+        // console.log(val);
+        this.message$.next(val);
+        // this.message$.subscribe({
+        //   next: (res: any) => {
+        //     // console.log(res);
+        //   },
+        // });
+      },
+    });
+
     if (this.id) {
       this.getMessages();
     } else {
@@ -70,19 +85,19 @@ export class MessagePage implements OnInit {
   }
 
   getMessagesUsingInput() {
-    this.subscription = this.storage.currentMessage.subscribe(
-      (message: any) =>
-        (this.messages = message.sort(
+    this.subscription = this.storage.currentMessage.subscribe((message: any) =>
+      this.message$.next(
+        message.sort(
           (
             a: { createdAt: string | number | Date },
             b: { createdAt: string | number | Date }
           ) => {
             return (
-              new Date(a.createdAt).getTime() -
-              new Date(b.createdAt).getTime()
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
             );
           }
-        ))
+        )
+      )
     );
 
     this.userSub = this.storage.user.subscribe((user: any) => {
@@ -91,12 +106,12 @@ export class MessagePage implements OnInit {
       this.haveAvatar = user.isAvatar;
       this.name = user.name;
       this.id = user._id;
-    })
+    });
 
     this.userType = this.storage.types.subscribe((types: any) => {
       console.log(types);
       this.type = types;
-    })
+    });
   }
 
   addPhoto() {
@@ -128,7 +143,7 @@ export class MessagePage implements OnInit {
         console.log(res);
         this.profile = res[0].receiver.avatar;
         this.haveAvatar = res[0].receiver.isAvatar;
-        this.messages = res;
+        this.message$.next(res);
       },
       (err: any) => {
         console.log(err);
@@ -175,9 +190,7 @@ export class MessagePage implements OnInit {
             this.photoService.photos[i].webviewPath
           );
         }
-        this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath).finally(() => {
-          this.getMessages();
-        });
+        this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath);
       }
     }
     console.log(this.isFile);
