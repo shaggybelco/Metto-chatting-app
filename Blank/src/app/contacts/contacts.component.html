@@ -80,7 +80,7 @@
         </ion-avatar>
         <ion-label
           >{{ item.name.display }}
-          <p>{{item.phones?.[0]?.number}}</p>
+          <p *ngFor="let number of item.phones; let islast = last" >{{number}} {{!islast ? ' - ' : ''}}</p>
         </ion-label>
       </ion-item>
     </div>
