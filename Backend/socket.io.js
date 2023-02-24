@@ -16,7 +16,7 @@ module.exports = Socket = (server) => {
   io.on("connection", (sockect) => {
     sockect.on("connected", (userID) => {
       users[userID] = sockect.id;
-      console.log(users);
+      // console.log(users);
     });
 
     sockect.on("typing", (data) => {
@@ -70,6 +70,7 @@ module.exports = Socket = (server) => {
 
                 io.to(msgRead.receiver).emit("mesRec", chat);
                 io.to(msgRead.sender).emit("mesRec", chat);
+                
               });
           }
         );
@@ -80,7 +81,7 @@ module.exports = Socket = (server) => {
 
     sockect.on("send", async (data) => {
       try {
-        console.log(data);
+        console.log(users);
         if (data.recipient_type === "group") {
           const user = await User.findOne({ _id: data.me });
           const otherUser = await Group.findOne({ _id: data.otherId });
@@ -145,7 +146,7 @@ module.exports = Socket = (server) => {
                   };
                 })
               );
-              console.log(otherUser._id + " other");
+              console.log("emitted");
               io.to(users[user._id]).emit("mesRec", messages);
               io.to(users[otherUser._id]).emit("mesRec", messages);
             });

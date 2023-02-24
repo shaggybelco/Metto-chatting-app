@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import { Socket } from 'ngx-socket-io';
 
 
-const socket = io(`http://localhost:3333`);
+const socket = io(`${environment.base}`);
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +17,10 @@ export class ChatService {
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
 
   connect(id: any){
-    this.sock.on('connect', () => {
-      this.sock.emit('connect', id);
-      console.log('connected');
-    })
+    // this.sock.on('connect', () => {
+    //   this.sock.emit('connect', id);
+    //   console.log('connected');
+    // })
     socket.on("connect", () => {
       socket.emit('connected', id);
       console.log(socket.id)
@@ -28,10 +28,10 @@ export class ChatService {
   }
 
   public getNewMessage = () => {
-    this.sock.on('mesRec', (message: any)=>{
-      console.log(message)
-      this.message$.next(message);
-    })
+    // this.sock.on('mesRec', (message: any)=>{
+    //   console.log(message)
+    //   this.message$.next(message);
+    // })
     socket.on('mesRec', (message) =>{
       console.log(message)
       this.message$.next(message);

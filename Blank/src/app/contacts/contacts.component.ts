@@ -16,7 +16,8 @@ export class ContactsComponent implements OnInit {
   constructor(
     private user: UserService,
     private token: TokenService,
-    private platform: Platform  ) {
+    private platform: Platform
+  ) {
     this.contactSubject = new BehaviorSubject<any[]>([]);
     this.contacts$ = this.contactSubject.asObservable();
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
@@ -29,7 +30,7 @@ export class ContactsComponent implements OnInit {
     // this.getUsers();
     this.getContactsFromCache();
   }
-  
+
   clearSessionStorage() {
     if (this.platform.is('android') || this.platform.is('ios')) {
       window.localStorage.clear();
@@ -93,7 +94,8 @@ export class ContactsComponent implements OnInit {
     // this.zone.runOutsideAngular(() => {
     setTimeout(() => {
       // Any calls to load data go here
-      this.contacts =[]
+      this.contacts = [];
+      this.notRegistered = [];
 
       this.getUsers();
 
@@ -112,26 +114,24 @@ export class ContactsComponent implements OnInit {
   notRegistered: any = [];
 
   retrieveListOfContacts = async () => {
-    console.time('retrieveListOfContacts'); // start a timer to measure the function's execution time
-  
     const projection = {
       name: true,
       phones: true,
       postalAddresses: true,
     };
-  
+
     const result = await Contacts.getContacts({
       projection,
     });
-  
+
     this.notRegistered = result.contacts;
-  
+
     const newContacts = []; // create an array to hold the new contacts
     const notRegistered = []; // create an array to hold the not registered contacts
-  
+
     for (const contact of result.contacts) {
       const { name, phones } = contact;
-  
+
       if (phones && phones.length > 0) {
         for (const phone of phones) {
           let number = phone?.number?.replace(/\D/g, '');
@@ -141,11 +141,11 @@ export class ContactsComponent implements OnInit {
           if (phone?.number?.startsWith('0')) {
             number = number?.slice(1);
           }
-  
+
           const filteredContacts = this.contactsDatabase.filter(
             (dbContact: any) => dbContact.cellphone.toString() === number
           );
-  
+
           if (filteredContacts.length > 0) {
             newContacts.push({ db: filteredContacts[0], phone, name });
           } else {
@@ -154,22 +154,22 @@ export class ContactsComponent implements OnInit {
         }
       }
     }
-  
+
     this.contacts.push(...newContacts);
     this.contactSubject.next(this.contacts);
-  
+
     this.notRegistered = notRegistered;
-  
+
     this.contacts.sort(
       (a: { name: { display: string } }, b: { name: { display: any } }) =>
         a.name.display.localeCompare(b.name.display)
     );
-  
+
     this.notRegistered.sort(
       (a: { name: { display: string } }, b: { name: { display: any } }) =>
         a.name.display.localeCompare(b.name.display)
     );
-  
+
     function setLocalStorageItem(key: string, value: any) {
       localStorage.setItem(key, JSON.stringify(value));
       // set the timestamp only once
@@ -177,13 +177,10 @@ export class ContactsComponent implements OnInit {
         localStorage.setItem(`${key}_timestamp`, new Date().toISOString());
       }
     }
-  
+
     setLocalStorageItem('contacts', this.contacts);
     setLocalStorageItem('filtered', this.notRegistered);
-  
-    console.timeEnd('retrieveListOfContacts'); // end the timer and log the execution time to the console
   };
-  
 
   ngOnDestroy() {
     // Unsubscribe from any subscriptions or clear any resources here
