@@ -16,7 +16,7 @@ module.exports = Socket = (server) => {
   io.on("connection", (sockect) => {
     sockect.on("connected", (userID) => {
       users[userID] = sockect.id;
-      // console.log(users);
+      console.log(users);
     });
 
     sockect.on("typing", (data) => {
