@@ -6,6 +6,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { Platform } from '@ionic/angular';
+import { ContactPayload } from '../model/notRegistered';
+import { Contact } from '../model/contacts';
+import { Phone } from '../model/phone';
 
 @Component({
   selector: 'app-contacts',
@@ -111,27 +114,34 @@ export class ContactsComponent implements OnInit {
   private contactSubject!: BehaviorSubject<any[]>;
 
   contacts: any = [];
-  notRegistered: any = [];
+  notRegistered: ContactPayload[] = [];
 
   retrieveListOfContacts = async () => {
     const projection = {
       name: true,
       phones: true,
-      postalAddresses: true,
     };
 
     const result = await Contacts.getContacts({
       projection,
     });
 
-    this.notRegistered = result.contacts;
+    // this.notRegistered = result.contacts
 
-    const newContacts = []; // create an array to hold the new contacts
-    const notRegistered = []; // create an array to hold the not registered contacts
+    let newContacts = []; // create an array to hold the new contacts
+    // let notRegistered: ContactPayload[] = [];
 
+    const contactsMap: Record<string, Contact> = {};
+
+    for (const contact of this.contactsDatabase) {
+      if (contact.cellphone) {
+        const phoneStr = contact.cellphone.toString();
+        contactsMap[phoneStr] = contact;
+      }
+    }
+    
     for (const contact of result.contacts) {
       const { name, phones } = contact;
-
       if (phones && phones.length > 0) {
         for (const phone of phones) {
           let number = phone?.number?.replace(/\D/g, '');
@@ -141,34 +151,32 @@ export class ContactsComponent implements OnInit {
           if (phone?.number?.startsWith('0')) {
             number = number?.slice(1);
           }
-
-          const filteredContacts = this.contactsDatabase.filter(
-            (dbContact: any) => dbContact.cellphone.toString() === number
-          );
-
-          if (filteredContacts.length > 0) {
-            newContacts.push({ db: filteredContacts[0], phone, name });
+    
+          const dbContact = number !== undefined ? contactsMap[number] : undefined;
+          if (dbContact) {
+            newContacts.push({ db: dbContact, phone, name });
           } else {
-            notRegistered.push({ contact, phone, name });
+            // notRegistered.push({ contact, phone, name });
           }
         }
       }
     }
 
+
     this.contacts.push(...newContacts);
     this.contactSubject.next(this.contacts);
 
-    this.notRegistered = notRegistered;
+    // this.notRegistered = notRegistered;
 
     this.contacts.sort(
       (a: { name: { display: string } }, b: { name: { display: any } }) =>
         a.name.display.localeCompare(b.name.display)
     );
 
-    this.notRegistered.sort(
-      (a: { name: { display: string } }, b: { name: { display: any } }) =>
-        a.name.display.localeCompare(b.name.display)
-    );
+    // this.notRegistered.sort(
+    //   (a: ContactPayload, b: ContactPayload) =>
+    //     (a?.name?.display || '').localeCompare(b?.name?.display || '')
+    // );
 
     function setLocalStorageItem(key: string, value: any) {
       localStorage.setItem(key, JSON.stringify(value));
