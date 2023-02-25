@@ -11,9 +11,6 @@ import { RegisterComponent } from './Auth/register/register.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestsService } from './interceptors/http-requests.service';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-
-const config: SocketIoConfig = { url: 'http://localhost:3333', options: {} };
 
 @NgModule({
   declarations: [AppComponent, RegisterComponent, LoginComponent],
@@ -23,8 +20,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3333', options: {} };
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    SocketIoModule.forRoot(config)
+    HttpClientModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

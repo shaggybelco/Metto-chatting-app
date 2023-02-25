@@ -4,8 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PhotoService } from './photo.service';
 import { io } from "socket.io-client";
-import { Socket } from 'ngx-socket-io';
-
 
 const socket = io(`${environment.base}`);
 
@@ -13,14 +11,10 @@ const socket = io(`${environment.base}`);
   providedIn: 'root',
 })
 export class ChatService {
-  constructor(private http: HttpClient, private photoService: PhotoService, private sock: Socket) {}
+  constructor(private http: HttpClient, private photoService: PhotoService) { }
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
 
-  connect(id: any){
-    // this.sock.on('connect', () => {
-    //   this.sock.emit('connect', id);
-    //   console.log('connected');
-    // })
+  connect(id: any) {
     socket.on("connect", () => {
       socket.emit('connected', id);
       console.log(socket.id)
@@ -28,11 +22,7 @@ export class ChatService {
   }
 
   public getNewMessage = () => {
-    // this.sock.on('mesRec', (message: any)=>{
-    //   console.log(message)
-    //   this.message$.next(message);
-    // })
-    socket.on('mesRec', (message) =>{
+    socket.on('mesRec', (message) => {
       console.log(message)
       this.message$.next(message);
     });
@@ -47,19 +37,19 @@ export class ChatService {
     );
   }
 
-  send(data: any): Observable<any> {
-    // socket.emit('send', data);
+  send(data: any) {
+    socket.emit('send', data);
 
-    return this.http.post(
-      `${environment.baseUrl}/messages/${data.me}/${data.otherId}`,
-      data
-    );
+    // return this.http.post(
+    //   `${environment.baseUrl}/messages/${data.me}/${data.otherId}`,
+    //   data
+    // );
   }
 
   public upload$: BehaviorSubject<any> = new BehaviorSubject(false);
   CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
 
-  async uploadImage(data: any,files?: any) {
+  async uploadImage(data: any, files?: any) {
     this.upload$.next(true);
     if (files) {
       const formData = new FormData();
@@ -86,22 +76,7 @@ export class ChatService {
             console.log(After);
             this.upload$.next(true);
 
-             socket.emit('send', data);
-
-
-            // this.send(After).subscribe({
-            //   next: (sent: any) => {
-            //     console.log(sent);
-                
-            //     this.photoService.photos = [];
-            //   },
-            //   error: (err) => {
-            //     console.log(err);
-            //     this.upload$.next(false);
-            //   },
-            // });
-
-            // return After;
+            this.send(After);
           },
           error: (err: any) => {
             console.log(err);
@@ -109,24 +84,8 @@ export class ChatService {
           },
         });
     } else {
-      console.log('no file');
       this.upload$.next(true);
-
-       socket.emit('send', data);
-
-      // this.send(data).subscribe({
-      //   next: (sent: any) => {
-      //     console.log(sent);
-          
-      //     this.photoService.photos = [];
-      //   },
-      //   error: (err) => {
-      //     console.log(err);
-      //     this.upload$.next(false);
-      //   },
-      // });
-
-      // return data;
+      this.send(data);
     }
   }
 }
