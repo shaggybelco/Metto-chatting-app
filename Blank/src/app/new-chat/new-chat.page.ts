@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Contacts } from '@capacitor-community/contacts';
 import { TokenService } from '../services/token.service';
-import { UserService } from '../services/user.service';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Observable } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
 import { StorageService } from '../services/storage.service';
 import { Contact } from '../model/contacts';

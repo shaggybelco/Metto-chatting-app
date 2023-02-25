@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { NewChatPageRoutingModule } from './new-chat-routing.module';
 
 import { NewChatPage } from './new-chat.page';
-import {ContactTabPageModule} from '../contact-tab/contact-tab.module'
+import {ContactTabPageModule} from '../contact-tab/contact-tab.module';
 
 @NgModule({
   imports: [

@@ -27,7 +27,7 @@
           <ion-buttons slot="start">
             <ion-button (click)="cancel()" color="danger">Cancel</ion-button>
           </ion-buttons>
-          <ion-title>New group</ion-title>
+          <ion-title class="text-center">New group</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="confirm()" color="primary" [strong]="true"
               >Create</ion-button
@@ -36,8 +36,8 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-content class="ion-padding">
-        <div class="flex justify-center mb-6">
+      <ion-content>
+        <div class="flex justify-center mb-6 mt-6">
           <ion-avatar class="avatar">
             <img
               *ngIf="!file"
@@ -61,6 +61,7 @@
             type="text"
             placeholder="Group name"
             [(ngModel)]="name"
+            maxLength="30"
           ></ion-input>
         </ion-item>
 
@@ -71,18 +72,19 @@
             type="text"
             placeholder="Group description"
             [(ngModel)]="desc"
+            maxLength="150"
           ></ion-textarea>
         </ion-item>
 
         <!-- <pre>{{selectedContacts | json}}</pre> -->
-        <div class="flex overflow-x-scroll m-3 sticky">
+        <div class="flex overflow-x-scroll sticky">
           <div
-            class="flex-shrink-0 mr-4 w-20"
+            class="flex-shrink-0 m-2 w-20"
             *ngFor="let item of selectedContacts"
           >
             <ion-icon
               name="close-circle"
-              class="relative text-2xl ml-10 bg-base-100 mv"
+              class="relative text-2xl ml-10 bg-base-100 z-10 mv"
               (click)="removeItem(item)"
               color="warning"
             ></ion-icon>
@@ -96,7 +98,7 @@
               />
             </ion-avatar>
 
-            <div class="w-18 overflow-hidden mt-4">
+            <div class="w-18 text-center overflow-hidden mt-4">
               <p class="text-gray-700 text-sm font-medium truncate">
                 {{ item.name.display }}
               </p>
@@ -104,7 +106,59 @@
           </div>
         </div>
 
+        <!-- <div class="flex  overflow-x-scroll sticky-header">
+          <div
+            class="flex-shrink-0 m-2 w-20"
+            *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]"
+          >
+            <ion-icon
+              name="close-circle"
+              class="relative text-2xl ml-10 bg-base-100 z-10 mv"
+              color="danger"
+            ></ion-icon>
+            <ion-avatar slot="start" class="avatar">
+              <img
+                src=
+               'https://ionicframework.com/docs/img/demos/avatar.svg'
+              
+              />
+            </ion-avatar>
+
+            <div class="w-18 text-center overflow-hidden mt-4">
+              <p class="text-gray-700 text-sm font-medium truncate">
+               belco
+              </p>
+            </div>
+          </div>
+        </div> -->
+
         <ion-list>
+       
+            <!-- <ion-item
+              lines="none"
+              detail="false"
+              button
+              *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
+            >
+              
+              <ion-avatar slot="start" class="avatar">
+                <img
+                  src=
+                  'https://ionicframework.com/docs/img/demos/avatar.svg'
+                
+                />
+                <ion-icon
+                name="checkmark-circle-sharp"
+                class="relative text-2xl bg-base-100 z-50 added"
+                color="success"
+              ></ion-icon>
+              </ion-avatar>
+              <ion-label>
+                name
+                <p>0234123412</p>
+              </ion-label>
+            </ion-item> -->
+  
           <!-- <pre>{{contactToChoseOn | json}}</pre> -->
           <div *ngIf="contactToChoseOn.length > 0">
             <ion-text class="px-2 m-3">Contants on Metto</ion-text>
@@ -117,9 +171,9 @@
             >
               <ion-icon
                 name="checkmark-circle-sharp"
-                class="relative text-2xl ml-10 bg-base-100 mv"
-                (click)="removeItem(item)"
+                class="relative text-2xl bg-base-100 z-50 added"
                 color="success"
+                (click)="removeItem(item)"
               ></ion-icon>
               <ion-avatar slot="start" class="avatar">
                 <img
