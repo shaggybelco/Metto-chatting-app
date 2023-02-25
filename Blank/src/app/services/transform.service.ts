@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TransformService {
-  constructor() {}
+  constructor() { }
 
   transform(date: string) {
     // if (!date) {
@@ -42,10 +42,10 @@ export class TransformService {
     } else if (time < 60) {
       return 'a second ago';
     } else if (time < 3600) {
-      return Math.floor(time / 60) + ' minutes';
+      return Math.floor(time / 60) + ':' + String(Math.floor(time % 60)).padStart(2, '0');
     } else if (time < 86400) {
       const dateObject = new Date(Date.parse(date));
-      return dateObject.getHours() + ':' + dateObject.getMinutes();
+      return dateObject.toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric' });
     } else if (time < 126400) {
       return 'yesterday';
     }

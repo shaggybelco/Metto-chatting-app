@@ -77,7 +77,7 @@
         </ion-item>
 
         <!-- <pre>{{selectedContacts | json}}</pre> -->
-        <div class="flex overflow-x-scroll sticky">
+        <div class="flex overflow-x-scroll sticky-header">
           <div
             class="flex-shrink-0 m-2 w-20"
             *ngFor="let item of selectedContacts"
@@ -133,8 +133,7 @@
         </div> -->
 
         <ion-list>
-       
-            <!-- <ion-item
+          <!-- <ion-item
               lines="none"
               detail="false"
               button
@@ -158,10 +157,10 @@
                 <p>0234123412</p>
               </ion-label>
             </ion-item> -->
-  
+
           <!-- <pre>{{contactToChoseOn | json}}</pre> -->
           <div *ngIf="contactToChoseOn.length > 0">
-            <ion-text class="px-2 m-3">Contants on Metto</ion-text>
+            <ion-text class="px-2 m-3">Select contacts</ion-text>
             <ion-item
               lines="none"
               detail="false"
@@ -169,12 +168,6 @@
               *ngFor="let item of contactToChoseOn"
               (click)="addItem(item)"
             >
-              <ion-icon
-                name="checkmark-circle-sharp"
-                class="relative text-2xl bg-base-100 z-50 added"
-                color="success"
-                (click)="removeItem(item)"
-              ></ion-icon>
               <ion-avatar slot="start" class="avatar">
                 <img
                   [src]="
@@ -183,6 +176,7 @@
                       : 'https://ionicframework.com/docs/img/demos/avatar.svg'
                   "
                 />
+               
               </ion-avatar>
               <ion-label>
                 {{ item.name.display }}<span
@@ -191,6 +185,13 @@
                 >
                 <p>{{ item.phone.number }}</p>
               </ion-label>
+              <ion-icon
+              *ngIf="isSelected(item)"
+                name="checkmark-circle-sharp"
+                class="relative text-2xl z-50 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                color="success"
+                slot="end"
+              ></ion-icon>
             </ion-item>
           </div>
         </ion-list>

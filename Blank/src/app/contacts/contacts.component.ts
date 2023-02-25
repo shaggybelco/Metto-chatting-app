@@ -161,7 +161,7 @@ export class ContactsComponent implements OnInit {
     // Remove duplicates
     newContacts = newContacts.filter((contact, index, self) =>
       index === self.findIndex(c => (
-        c.phone.number === contact.phone.number &&
+        c.db['cellphone'] === contact.db['cellphone'] &&
         c?.name?.display === contact?.name?.display
       ))
     );
@@ -202,7 +202,7 @@ export class ContactsComponent implements OnInit {
 
     this.storage.setContacts(otherUserContacts);
     setLocalStorageItem('contacts', this.contacts);
-    // setLocalStorageItem('filtered', this.notRegistered);
+    setLocalStorageItem('choose', otherUserContacts);
   };
 
   ngOnDestroy() {

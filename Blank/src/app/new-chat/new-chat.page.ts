@@ -24,6 +24,14 @@ export class NewChatPage implements OnInit {
     this.contactToChoseOn = this.storage.getContacts();
   }
 
+  ngAfterViewChecked(){
+    this.contactToChoseOn = this.storage.getContacts();
+    const contacts = localStorage.getItem('choose');
+    if(this.contactToChoseOn.length === 0){
+      this.contactToChoseOn = JSON.parse(contacts!);
+    }
+  }
+
   removeItem(item: Contact) {
     const index = this.selectedContacts.indexOf(item);
     if (index > -1) {
@@ -37,6 +45,10 @@ export class NewChatPage implements OnInit {
     }else{
       this.removeItem(contact);
     }
+  }
+
+  isSelected(item: Contact): boolean {
+    return this.selectedContacts.includes(item);
   }
 
   hold: any = this.token.decode();
