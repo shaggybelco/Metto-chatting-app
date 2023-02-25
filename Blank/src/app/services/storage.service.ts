@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Contact } from '../model/contacts';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,17 @@ export class StorageService {
   clear() {
     window.localStorage.clear();
   }
+
+  contacts: Contact[] = [];
+
+  setContacts(contacts: any){
+    this.contacts.unshift(contacts);
+  }
+
+  getContacts(){
+    return this.contacts;
+  }
+
 
   private messageSource = new BehaviorSubject<any[]>([]);
   currentMessage = this.messageSource.asObservable();

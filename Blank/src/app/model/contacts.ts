@@ -1,6 +1,8 @@
+import { NamePayload } from "./namePayload";
 import { Phone } from "./phone";
 
 export interface Contact {
-    name: string;
-    phones?: Phone[];
+    db: any,
+    name: NamePayload;
+    phone: Phone;
   }

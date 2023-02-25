@@ -8,7 +8,6 @@ import { UserService } from '../services/user.service';
 import { Platform } from '@ionic/angular';
 import { ContactPayload } from '../model/notRegistered';
 import { Contact } from '../model/contacts';
-import { Phone } from '../model/phone';
 
 @Component({
   selector: 'app-contacts',
@@ -19,7 +18,8 @@ export class ContactsComponent implements OnInit {
   constructor(
     private user: UserService,
     private token: TokenService,
-    private platform: Platform
+    private platform: Platform,
+    private storage: StorageService
   ) {
     this.contactSubject = new BehaviorSubject<any[]>([]);
     this.contacts$ = this.contactSubject.asObservable();
@@ -94,20 +94,14 @@ export class ContactsComponent implements OnInit {
   }
 
   handleRefresh(event: any) {
-    // this.zone.runOutsideAngular(() => {
     setTimeout(() => {
       // Any calls to load data go here
       this.contacts = [];
       this.notRegistered = [];
 
       this.getUsers();
-
-      // this.zone.run(() => {
-      //   event.target.complete();
-      // });
       event.target.complete();
     }, 2000);
-    // });
   }
 
   contacts$!: Observable<any[]>;
@@ -186,8 +180,9 @@ export class ContactsComponent implements OnInit {
       }
     }
 
+    this.storage.setContacts(this.contacts);
     setLocalStorageItem('contacts', this.contacts);
-    setLocalStorageItem('filtered', this.notRegistered);
+    // setLocalStorageItem('filtered', this.notRegistered);
   };
 
   ngOnDestroy() {

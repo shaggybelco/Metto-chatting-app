@@ -7,6 +7,8 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
+import { StorageService } from '../services/storage.service';
+import { Contact } from '../model/contacts';
 
 @Component({
   selector: 'app-new-chat',
@@ -15,104 +17,33 @@ import { StatusBar } from '@capacitor/status-bar';
 })
 export class NewChatPage implements OnInit {
   constructor(
-    private user: UserService,
-    private token: TokenService,
-    private route: ActivatedRoute
-  ) {
-    this.contactSubject = new BehaviorSubject<any[]>([]);
-    this.contacts$ = this.contactSubject.asObservable();
+    private token: TokenService, private storage: StorageService) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
-  hold: any = this.token.decode();
-  contactsDatabase: any = [];
 
-  ngOnInit() {
-    this.user.getUsers(this.hold.id).subscribe((res: any) => {
-      console.log(res);
-      this.contactsDatabase = res;
-      this.retrieveListOfContacts();
-    });
+  contactToChoseOn: Contact[] = [];
+  selectedContacts: Contact[] = [];
+
+  ngOnInit(): void {
+    this.contactToChoseOn = this.storage.getContacts();
   }
 
-  handleRefresh(event: any) {
-    setTimeout(() => {
-      // Any calls to load data go here
-
-      this.user.getUsers(this.hold.id).subscribe((res: any) => {
-        console.log(res);
-        this.contacts = [];
-        this.contactSubject.next(this.contacts);
-        this.contactsDatabase = res;
-        this.retrieveListOfContacts();
-      });
-      event.target.complete();
-    }, 2000);
-  }
-
-  contacts$!: Observable<any[]>;
-  private contactSubject!: BehaviorSubject<any[]>;
-
-  contacts: any = [];
-  notRegistered: any = [];
-
-  retrieveListOfContacts = async () => {
-    const projection = {
-      // Specify which fields should be retrieved.
-      name: true,
-      phones: true,
-      postalAddresses: true,
-    };
-
-    const result = await Contacts.getContacts({
-      projection,
-    });
-
-    this.notRegistered = result.contacts;
-    // Iterate over the contacts retrieved from the device's database
-    for (const contact of result.contacts) {
-      // Get the name and phone number of the current contact
-      const { name, phones } = contact;
-
-      // Check if the contact has any phone numbers associated with it
-      if (phones && phones.length > 0) {
-        for (const oneOne of phones) {
-          let one = oneOne?.number?.replace(/\D/g, '');
-          if (oneOne?.number?.startsWith('27')) {
-            one = one?.slice(2);
-          }
-          if (oneOne?.number?.startsWith('0')) {
-            one = one?.slice(1);
-          }
-
-          const filteredContacts = this.contactsDatabase.filter(
-            (dbContact: any) => dbContact.cellphone.toString() === one
-          );
-          if (filteredContacts.length > 0) {
-            this.contacts.push({ db: filteredContacts[0], oneOne, name });
-            this.contactSubject.next(this.contacts);
-          }
-        }
-      }
+  removeItem(item: Contact) {
+    const index = this.selectedContacts.indexOf(item);
+    if (index > -1) {
+      this.selectedContacts.splice(index, 1);
     }
+  }
 
-    this.notRegistered = result.contacts.filter((contact) => {
-      return !this.contacts.some(
-        (reg: any) =>
-          reg.oneOne.number?.replace(/\D/g, '') ===
-          contact?.phones?.[0]?.number?.replace(/\D/g, '')
-      );
-    });
+  addItem(contact: Contact) {
+    if (contact && this.selectedContacts.indexOf(contact) < 0) {
+      this.selectedContacts.unshift(contact);
+    }else{
+      this.removeItem(contact);
+    }
+  }
 
-    this.contacts.sort(
-      (a: { name: { display: string } }, b: { name: { display: any } }) =>
-        a.name.display.localeCompare(b.name.display)
-    );
-
-    this.notRegistered.sort(
-      (a: { name: { display: string } }, b: { name: { display: any } }) =>
-        a.name.display.localeCompare(b.name.display)
-    );
-  };
+  hold: any = this.token.decode();
 
   @ViewChild(IonModal)
   modal!: IonModal;
@@ -147,7 +78,7 @@ export class NewChatPage implements OnInit {
     this.input.type = 'file';
     this.input.click();
 
-    this.input.onchange = (e: any) => {
+    this.input.onchange = () => {
       this.file = this.input.files[0];
       console.log(this.file);
 

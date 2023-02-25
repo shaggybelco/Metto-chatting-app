@@ -8,10 +8,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" class="z-10" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
-
   <ion-list>
     <ion-item class="st" lines="none" detail="false" button id="open-modal-11">
       <ion-icon name="people" slot="start" color="primary"></ion-icon>
@@ -33,7 +29,9 @@
           </ion-buttons>
           <ion-title>New group</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" color="primary" [strong]="true">Create</ion-button>
+            <ion-button (click)="confirm()" color="primary" [strong]="true"
+              >Create</ion-button
+            >
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -41,21 +39,106 @@
       <ion-content class="ion-padding">
         <div class="flex justify-center mb-4">
           <ion-avatar class="avatar">
-            <img *ngIf="!file" alt="not" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            <img
+              *ngIf="!file"
+              alt="not"
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+            />
             <img *ngIf="file" [src]="dataUrl" />
-            <ion-icon class="add" (click)="openFileBrowser()" button color="primary" style="font-size: 1.5rem"
-              name="add-circle"></ion-icon>
+            <ion-icon
+              class="add"
+              (click)="openFileBrowser()"
+              button
+              color="primary"
+              style="font-size: 1.5rem"
+              name="add-circle"
+            ></ion-icon>
           </ion-avatar>
         </div>
         <ion-item lines="none">
           <ion-label position="stacked">Name</ion-label>
-          <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
+          <ion-input
+            type="text"
+            placeholder="Group name"
+            [(ngModel)]="name"
+          ></ion-input>
         </ion-item>
 
-        <ion-item>
+        <ion-item lines="none">
           <ion-label position="stacked">Description</ion-label>
-          <ion-textarea [autoGrow]="true" type="text" placeholder="Your name" [(ngModel)]="desc"></ion-textarea>
+          <ion-textarea
+            [autoGrow]="true"
+            type="text"
+            placeholder="Group description"
+            [(ngModel)]="desc"
+          ></ion-textarea>
         </ion-item>
+
+        <div class="flex overflow-x-scroll m-3 sticky">
+          <div
+            class="flex-shrink-0 mr-4 w-20"
+            *ngFor="let item of selectedContacts"
+          >
+          <ion-icon name="close-circle" class="relative text-2xl ml-10 bg-base-100 mv" color="warning"></ion-icon>
+            <ion-avatar>
+              <img
+                src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                alt="no img"
+              />
+            </ion-avatar>
+            
+            <div class="w-18 overflow-hidden mt-4">
+              <p class="text-gray-700 text-sm font-medium truncate">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <ion-list>
+          <div *ngIf="contactToChoseOn.length > 0">
+            <ion-text class="px-2 m-3">Contants on Metto</ion-text>
+            <ion-item
+              lines="none"
+              detail="false"
+              button
+              *ngFor="let item of contactToChoseOn"
+              (click)="addItem(item)"
+            >
+              <ion-avatar slot="start" class="avatar">
+                <img
+                  [src]="
+                    item.db.isAvatar
+                      ? item.db.avatar
+                      : 'https://ionicframework.com/docs/img/demos/avatar.svg'
+                  "
+                />
+              </ion-avatar>
+              <ion-label>
+                {{ item.name.display }}<span
+                  *ngIf="hold.cellphone === item.db.cellphone"
+                  >(me)</span
+                >
+                <p>{{ item.phone.number }}</p>
+              </ion-label>
+              <ion-icon
+                name="trash-outline"
+                slot="end"
+                (click)="removeItem(item)"
+              ></ion-icon>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+          <ion-fab-button
+            color="secondary"
+            [routerLink]="['/new-chat']"
+            routerLinkActive="new-chat"
+          >
+            <ion-icon name="chatbubble-ellipses"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
       </ion-content>
     </ng-template>
   </ion-modal>
