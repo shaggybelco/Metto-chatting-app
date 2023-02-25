@@ -37,7 +37,7 @@
       </ion-header>
 
       <ion-content class="ion-padding">
-        <div class="flex justify-center mb-4">
+        <div class="flex justify-center mb-6">
           <ion-avatar class="avatar">
             <img
               *ngIf="!file"
@@ -46,7 +46,7 @@
             />
             <img *ngIf="file" [src]="dataUrl" />
             <ion-icon
-              class="add"
+              class="add bg-base-100"
               (click)="openFileBrowser()"
               button
               color="primary"
@@ -74,28 +74,38 @@
           ></ion-textarea>
         </ion-item>
 
+        <!-- <pre>{{selectedContacts | json}}</pre> -->
         <div class="flex overflow-x-scroll m-3 sticky">
           <div
             class="flex-shrink-0 mr-4 w-20"
             *ngFor="let item of selectedContacts"
           >
-          <ion-icon name="close-circle" class="relative text-2xl ml-10 bg-base-100 mv" color="warning"></ion-icon>
-            <ion-avatar>
+            <ion-icon
+              name="close-circle"
+              class="relative text-2xl ml-10 bg-base-100 mv"
+              (click)="removeItem(item)"
+              color="warning"
+            ></ion-icon>
+            <ion-avatar slot="start" class="avatar">
               <img
-                src="https://ionicframework.com/docs/img/demos/avatar.svg"
-                alt="no img"
+                [src]="
+                item.db.isAvatar
+                  ? item.db.avatar
+                  : 'https://ionicframework.com/docs/img/demos/avatar.svg'
+              "
               />
             </ion-avatar>
-            
+
             <div class="w-18 overflow-hidden mt-4">
               <p class="text-gray-700 text-sm font-medium truncate">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                {{ item.name.display }}
               </p>
             </div>
           </div>
         </div>
 
         <ion-list>
+          <!-- <pre>{{contactToChoseOn | json}}</pre> -->
           <div *ngIf="contactToChoseOn.length > 0">
             <ion-text class="px-2 m-3">Contants on Metto</ion-text>
             <ion-item
@@ -105,6 +115,12 @@
               *ngFor="let item of contactToChoseOn"
               (click)="addItem(item)"
             >
+              <ion-icon
+                name="checkmark-circle-sharp"
+                class="relative text-2xl ml-10 bg-base-100 mv"
+                (click)="removeItem(item)"
+                color="success"
+              ></ion-icon>
               <ion-avatar slot="start" class="avatar">
                 <img
                   [src]="
@@ -121,16 +137,11 @@
                 >
                 <p>{{ item.phone.number }}</p>
               </ion-label>
-              <ion-icon
-                name="trash-outline"
-                slot="end"
-                (click)="removeItem(item)"
-              ></ion-icon>
             </ion-item>
           </div>
         </ion-list>
 
-        <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="end">
           <ion-fab-button
             color="secondary"
             [routerLink]="['/new-chat']"
@@ -138,7 +149,7 @@
           >
             <ion-icon name="chatbubble-ellipses"></ion-icon>
           </ion-fab-button>
-        </ion-fab>
+        </ion-fab> -->
       </ion-content>
     </ng-template>
   </ion-modal>

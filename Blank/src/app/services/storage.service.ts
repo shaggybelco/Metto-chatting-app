@@ -28,8 +28,8 @@ export class StorageService {
 
   contacts: Contact[] = [];
 
-  setContacts(contacts: any){
-    this.contacts.unshift(contacts);
+  setContacts(contacts: Contact[]){
+    this.contacts = contacts;
   }
 
   getContacts(){

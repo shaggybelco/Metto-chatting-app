@@ -30,8 +30,8 @@ export class ContactsComponent implements OnInit {
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   ngOnInit() {
-    // this.getUsers();
-    this.getContactsFromCache();
+    this.getUsers();
+    // this.getContactsFromCache();
   }
 
   clearSessionStorage() {
@@ -56,6 +56,7 @@ export class ContactsComponent implements OnInit {
         await this.retrieveListOfContacts();
       } else {
         this.notRegistered = JSON.parse(filteredContacts);
+
         // this.contactSubject.next(this.contacts);
       }
     } else {
@@ -71,6 +72,7 @@ export class ContactsComponent implements OnInit {
       } else {
         this.contacts = JSON.parse(contacts);
         this.contactSubject.next(this.contacts);
+        this.storage.setContacts(this.contacts);
       }
     } else {
       await this.getUsers();
@@ -133,7 +135,7 @@ export class ContactsComponent implements OnInit {
         contactsMap[phoneStr] = contact;
       }
     }
-    
+
     for (const contact of result.contacts) {
       const { name, phones } = contact;
       if (phones && phones.length > 0) {
@@ -145,7 +147,7 @@ export class ContactsComponent implements OnInit {
           if (phone?.number?.startsWith('0')) {
             number = number?.slice(1);
           }
-    
+
           const dbContact = number !== undefined ? contactsMap[number] : undefined;
           if (dbContact) {
             newContacts.push({ db: dbContact, phone, name });
@@ -156,6 +158,13 @@ export class ContactsComponent implements OnInit {
       }
     }
 
+    // Remove duplicates
+    newContacts = newContacts.filter((contact, index, self) =>
+      index === self.findIndex(c => (
+        c.phone.number === contact.phone.number &&
+        c?.name?.display === contact?.name?.display
+      ))
+    );
 
     this.contacts.push(...newContacts);
     this.contactSubject.next(this.contacts);
@@ -180,7 +189,18 @@ export class ContactsComponent implements OnInit {
       }
     }
 
-    this.storage.setContacts(this.contacts);
+     // Remove current user from contacts
+    let otherUserContacts: any;
+     const currentUser = this.hold;
+     if (currentUser && currentUser.cellphone) {
+       const currentUserNumber = currentUser.cellphone.toString().replace(/\D/g, '');
+       otherUserContacts = this.contacts.filter((contact:Contact) => {
+         const contactNumber = contact?.db?.cellphone?.toString().replace(/\D/g, '');
+         return contactNumber !== currentUserNumber;
+       });
+     }
+
+    this.storage.setContacts(otherUserContacts);
     setLocalStorageItem('contacts', this.contacts);
     // setLocalStorageItem('filtered', this.notRegistered);
   };
