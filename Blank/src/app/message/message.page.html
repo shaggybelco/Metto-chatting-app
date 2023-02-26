@@ -37,7 +37,7 @@
             <span *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
             <time className="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
           </div>
-          <div [style]="mess.file ? 'padding: 2px;': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-primary'">
+          <div [style]="mess.file ? 'padding: 2px;': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
           <img *ngIf="mess.isFile" lazy style="width: 300px;border-radius: 15px;"  [src]="mess.file"/>
            <span [style]="mess.isFile && mess.message ? 'padding: 10px;': ''"> {{mess.message}}</span>
           </div>

@@ -42,37 +42,31 @@ export class TransformService {
     //   return 'yesterday';
     // }
 
-    if (!date) {
-      return 'a long time ago';
+    const now: any = new Date();
+    const then: any = new Date(date);
+    if (isNaN(then.getTime())) {
+      return 'invalid date';
     }
-    let time = (Date.now() - Date.parse(date)) / 1000;
-    if (time < 10) {
+    const secondsAgo = Math.floor((now - then) / 1000);
+    if (secondsAgo < 10) {
       return 'just now';
-    } else if (time < 60) {
-      return 'a second ago';
-    } else if (time < 3600) {
-      return Math.floor(time / 60) + ' minutes ago';
-    } else if (time < 86400) {
-      const dateObject = new Date(Date.parse(date));
-      return dateObject.toLocaleTimeString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric' });
-    } else if (time < 126400) {
-      return 'yesterday';
-    }
-    const divider = [60, 60, 24, 30, 12];
-    const string = [' second', ' minute', ' hour', ' day', ' month', ' year'];
-    let i;
-    for (i = 0; Math.floor(time / divider[i]) > 0; i++) {
-      time /= divider[i];
-    }
-    const plural = Math.floor(time) > 1 ? 's' : '';
-    if (i === 3) {
-      const dateObject = new Date(Date.parse(date));
-      return dateObject.toLocaleDateString('en-US', {
-        day: 'numeric',
-        month: 'short',
+    } else if (secondsAgo < 60) {
+      return secondsAgo + ' seconds ago';
+    } else if (secondsAgo < 3600) {
+      const minutesAgo = Math.floor(secondsAgo / 60);
+      return minutesAgo + ' minute' + (minutesAgo === 1 ? '' : 's') + ' ago';
+    } else if (secondsAgo < 86400) {
+      const hoursAgo = Math.floor(secondsAgo / 3600);
+      return hoursAgo + ' hour' + (hoursAgo === 1 ? '' : 's') + ' ago';
+    } else if (secondsAgo < 604800) {
+      const daysAgo = Math.floor(secondsAgo / 86400);
+      return daysAgo + ' day' + (daysAgo === 1 ? '' : 's') + ' ago';
+    } else {
+      return then.toLocaleDateString('en-US', {
         year: 'numeric',
+        month: 'short',
+        day: 'numeric',
       });
     }
-    return Math.floor(time) + string[i] + plural + ' ago';
   }
 }

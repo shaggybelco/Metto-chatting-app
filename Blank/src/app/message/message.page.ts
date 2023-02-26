@@ -24,6 +24,12 @@ export class MessagePage implements OnInit {
     private storage: StorageService
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
+     this.chat.getNewMessage().subscribe({
+      next: (val: any) => {
+        // console.log(val);
+        this.message$.next(val);
+      },
+    });
   }
 
   id = this.route.snapshot.params['id'];
@@ -64,18 +70,6 @@ export class MessagePage implements OnInit {
 
   ngOnInit(): void {
     this.chat.connect(this.hold.id);
-
-    this.chat.getNewMessage().subscribe({
-      next: (val: any) => {
-        // console.log(val);
-        this.message$.next(val);
-        // this.message$.subscribe({
-        //   next: (res: any) => {
-        //     // console.log(res);
-        //   },
-        // });
-      },
-    });
 
     if (this.id) {
       this.getMessages();

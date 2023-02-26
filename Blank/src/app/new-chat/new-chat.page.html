@@ -23,13 +23,21 @@
   <ion-modal trigger="open-modal-11" (willDismiss)="onWillDismiss($event)">
     <ng-template>
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar color="secondary">
           <ion-buttons slot="start">
-            <ion-button (click)="cancel()" color="danger">Cancel</ion-button>
+            <ion-button (click)="cancel()" fill="solid" color="danger"
+              >Cancel</ion-button
+            >
           </ion-buttons>
-          <ion-title class="text-center">New group</ion-title>
+          <ion-title class="text-center">New group
+            <p *ngIf="selectedContacts.length > 0">{{selectedContacts.length == 1 ? selectedContacts.length + ' participant' : selectedContacts.length + ' participants'}}</p>
+          </ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" color="primary" [strong]="true"
+            <ion-button
+              (click)="confirm()"
+              fill="solid"
+              color="primary"
+              [strong]="true"
               >Create</ion-button
             >
           </ion-buttons>
@@ -79,7 +87,7 @@
         <!-- <pre>{{selectedContacts | json}}</pre> -->
         <div class="flex overflow-x-scroll sticky-header">
           <div
-            class="flex-shrink-0 m-2 w-20"
+            class="flex-shrink-0 m-2 w-14"
             *ngFor="let item of selectedContacts"
           >
             <ion-icon
@@ -106,57 +114,48 @@
           </div>
         </div>
 
-        <!-- <div class="flex  overflow-x-scroll sticky-header">
+        <!-- <div class="flex overflow-x-scroll sticky-header">
           <div
-            class="flex-shrink-0 m-2 w-20"
-            *ngFor="let item of [1,1,1,1,1,1,1,1,1,1]"
+            class="flex-shrink-0 m-2 w-14"
+            *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1]"
           >
             <ion-icon
               name="close-circle"
               class="relative text-2xl ml-10 bg-base-100 z-10 mv"
-              color="danger"
+              color="warning"
             ></ion-icon>
             <ion-avatar slot="start" class="avatar">
-              <img
-                src=
-               'https://ionicframework.com/docs/img/demos/avatar.svg'
-              
-              />
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             </ion-avatar>
 
             <div class="w-18 text-center overflow-hidden mt-4">
-              <p class="text-gray-700 text-sm font-medium truncate">
-               belco
-              </p>
+              <p class="text-gray-700 text-sm font-medium truncate">name</p>
             </div>
           </div>
         </div> -->
 
         <ion-list>
-          <!-- <ion-item
-              lines="none"
-              detail="false"
-              button
-              *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
-            >
-              
-              <ion-avatar slot="start" class="avatar">
-                <img
-                  src=
-                  'https://ionicframework.com/docs/img/demos/avatar.svg'
-                
-                />
-                <ion-icon
-                name="checkmark-circle-sharp"
-                class="relative text-2xl bg-base-100 z-50 added"
-                color="success"
-              ></ion-icon>
-              </ion-avatar>
-              <ion-label>
-                name
-                <p>0234123412</p>
-              </ion-label>
-            </ion-item> -->
+          <!-- <ion-text class="px-2 m-3">Select contacts</ion-text>
+          <ion-item
+            lines="none"
+            detail="false"
+            button
+            *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"
+          >
+            <ion-avatar slot="start" class="avatar">
+              <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+            </ion-avatar>
+            <ion-label>
+              belco
+              <p>0712345678</p>
+            </ion-label>
+            <ion-icon
+              name="checkmark-circle-sharp"
+              class="relative text-2xl z-50"
+              color="success"
+              slot="end"
+            ></ion-icon>
+          </ion-item> -->
 
           <!-- <pre>{{contactToChoseOn | json}}</pre> -->
           <div *ngIf="contactToChoseOn.length > 0">
@@ -176,7 +175,6 @@
                       : 'https://ionicframework.com/docs/img/demos/avatar.svg'
                   "
                 />
-               
               </ion-avatar>
               <ion-label>
                 {{ item.name.display }}<span
@@ -186,9 +184,9 @@
                 <p>{{ item.phone.number }}</p>
               </ion-label>
               <ion-icon
-              *ngIf="isSelected(item)"
+                *ngIf="isSelected(item)"
                 name="checkmark-circle-sharp"
-                class="relative text-2xl z-50 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
+                class="relative text-2xl z-50"
                 color="success"
                 slot="end"
               ></ion-icon>

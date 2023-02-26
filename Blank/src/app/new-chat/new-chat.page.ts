@@ -41,7 +41,7 @@ export class NewChatPage implements OnInit {
 
   addItem(contact: Contact) {
     if (contact && this.selectedContacts.indexOf(contact) < 0) {
-      this.selectedContacts.unshift(contact);
+      this.selectedContacts.push(contact);
     }else{
       this.removeItem(contact);
     }
