@@ -24,25 +24,14 @@ export class MessagePage implements OnInit {
     private storage: StorageService
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
-     this.chat.getNewMessage().subscribe({
-      next: (val: any) => {
-        // console.log(val);
-        this.message$.next(val);
-      },
-    });
+    //  this.chat.getNewMessage().subscribe({
+    //   next: (val: any) => {
+    //     // console.log(val);
+    //     this.message$.next(val);
+    //   },
+    // });
   }
 
-  direction: string = 'received';
-  messagess: string = 'Hello! This is a message.';
-  time: string = '3:45 PM';
-
-  get isReceived(): boolean {
-    return this.direction === 'received';
-  }
-
-  get imageUrl(): string | null {
-    return this.direction === 'received' ? 'https://ionicframework.com/docs/img/demos/avatar.svg' : null;
-  }
 
   id = this.route.snapshot.params['id'];
   name = this.route.snapshot.params['name'];

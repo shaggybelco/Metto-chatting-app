@@ -33,7 +33,6 @@
 //   }
 // };
 
-
 const db = require("../Models");
 const Message = db.messages;
 const User = db.users;
@@ -41,6 +40,10 @@ const Group = db.groups;
 
 exports.getMessages = async (req, res, next) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = 10; // Number of messages to return per page
+    const skip = (page - 1) * pageSize;
+
     let messages = await Message.find({
       $or: [
         {
@@ -53,8 +56,10 @@ exports.getMessages = async (req, res, next) => {
         },
       ],
     })
-    .sort({ createdAt: 1 });
-    
+      .sort({ createdAt: 1 })
+      .skip(skip)
+      .limit(pageSize);
+
     // Check if receiver is a user or a group
     let receiver = await User.findOne({ _id: req.params.receiver });
     if (!receiver) {
@@ -65,11 +70,14 @@ exports.getMessages = async (req, res, next) => {
       }
       messages = await Message.find({
         receiver: req.params.receiver,
-      }).populate({
-        path: 'receiver',
-        model: 'user' | 'group',
       })
-      .sort({ createdAt: 1 });
+        .populate({
+          path: "receiver",
+          model: "user" | "group",
+        })
+        .sort({ createdAt: 1 })
+        .skip(skip)
+        .limit(pageSize);
     }
 
     messages = await Promise.all(
@@ -82,7 +90,7 @@ exports.getMessages = async (req, res, next) => {
         };
       })
     );
-    res.status(200).json( messages );
+    res.status(200).json(messages);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }

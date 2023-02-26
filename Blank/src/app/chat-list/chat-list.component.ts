@@ -42,7 +42,7 @@ export class ChatListComponent implements OnInit {
       this.userList[i].receiver,
       this.userList[i].lastMessage.recipient_type
     );
-    this.route.navigate(['/message']);
+    this.route.navigate(['/message', id, name, type]);
   }
 
   ngOnChanges(changes: SimpleChanges) {

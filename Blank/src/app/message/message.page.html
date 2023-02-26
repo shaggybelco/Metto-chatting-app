@@ -42,6 +42,7 @@
         </div>
 
       </div> -->
+      
       <div *ngFor="let mess of message$ | async">
         <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
           <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
