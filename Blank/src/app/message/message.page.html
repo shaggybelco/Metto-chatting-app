@@ -10,17 +10,17 @@
         <img lazy *ngIf="haveAvatar" alt="Silhouette of a person's head" [src]="profile" />
       </ion-avatar>
       <ion-label slot="start">{{name}}
-        <p *ngIf="type === 'group'" >users</p>
+        <p *ngIf="type === 'group'">users</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button color="secondary">
-          <ion-icon style="font-size: 1.3rem;" name="call"></ion-icon>
+          <ion-icon style="font-size: 1.3rem" name="call"></ion-icon>
         </ion-button>
         <ion-button color="secondary">
-          <ion-icon style="font-size: 1.5rem;" name="videocam"></ion-icon>
+          <ion-icon style="font-size: 1.5rem" name="videocam"></ion-icon>
         </ion-button>
         <ion-button color="secondary">
-          <ion-icon style="font-size: 1.5rem;" name="information-circle"></ion-icon>
+          <ion-icon style="font-size: 1.5rem" name="information-circle"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
@@ -30,20 +30,54 @@
 <ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald">
   <div class="ion-padding h">
     <section id="message-container" style="overflow-y: scroll">
-      <div *ngFor="let mess of message$ | async">
-        <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+      <!-- <div class="chat chat-start">
+        <div class="chat-bubble">
+          <div class="chat-header space-x-2 flex justify-start">
+            <time class="text-xs opacity-50">belco gee</time>
+          </div>
+          It's over Anakin, <br />I have the high ground.
+          <div class="chat-header space-x-2 flex justify-end">
+            <time class="text-xs opacity-50">11:45</time>
+          </div>
+        </div>
 
-          <div class="chat-header space-x-2">
-            <span *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
-            <time className="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
+      </div> -->
+      <div *ngFor="let mess of message$ | async">
+      <div  [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+        <div  [style]="mess.file ? 'padding: 0.5rem;': ''"
+        [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
+          <div
+            [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
+            <time class="text-xs opacity-60 font-bold mb-2" *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</time>
+            <time class="text-xs opacity-60 font-bold mb-2 flex-end" *ngIf="mess.recipient_type === 'group'">{{mess.sender.cellphone}}</time>
           </div>
-          <div [style]="mess.file ? 'padding: 2px;': ''" [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
-          <img *ngIf="mess.isFile" lazy style="width: 300px;border-radius: 15px;"  [src]="mess.file"/>
-           <span [style]="mess.isFile && mess.message ? 'padding: 10px;': ''"> {{mess.message}}</span>
+          <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2" style="width: 300px; border-radius: 16px"
+          [src]="mess.file" />
+            {{mess.message}}
+          <div class="chat-header space-x-2 flex justify-end">
+            <time class="text-xs opacity-60 px-2"  [style]="mess.file ? 'margin-bottom: 1rem;': ''">{{trans.transform(mess.createdAt)}}</time>
           </div>
-          <!-- <div className="chat-footer opacity-50">Delivered</div> -->
         </div>
       </div>
+      </div>
+
+
+      <!-- <div *ngFor="let mess of message$ | async">
+        <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+
+          <div [style]="mess.file ? 'padding: 2px;': ''"
+            [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
+            <div class="chat-header space-x-2 flex justify-between" *ngIf="!mess.isFile">
+              <span class="text-xs opacity-50" *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
+              <time class="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
+            </div>
+            <img *ngIf="mess.isFile" lazy style="width: 300px; border-radius: 15px" [src]="mess.file" />
+            <span class="w-full" [style]="mess.isFile && mess.message ? 'padding: 10px;': ''">
+              {{mess.message}}
+            </span>
+          </div>
+        </div>
+      </div> -->
     </section>
   </div>
 </ion-content>
@@ -57,7 +91,6 @@
     </div>
   </div>
   <ion-toolbar>
-
     <ion-item lines="none">
       <ion-buttons slot="start">
         <ion-button color="secondary" (click)="addPhoto()">

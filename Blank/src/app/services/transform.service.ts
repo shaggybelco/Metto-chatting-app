@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class TransformService {
-  constructor() {}
+  constructor() { }
 
   transform(date: string) {
     // if (!date) {
@@ -44,10 +44,14 @@ export class TransformService {
 
     const now: any = new Date();
     const then: any = new Date(date);
+    
     if (isNaN(then.getTime())) {
-      return 'invalid date';
+      return 'Long time ago';
     }
+    
     const secondsAgo = Math.floor((now - then) / 1000);
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    
     if (secondsAgo < 10) {
       return 'just now';
     } else if (secondsAgo < 60) {
@@ -55,12 +59,19 @@ export class TransformService {
     } else if (secondsAgo < 3600) {
       const minutesAgo = Math.floor(secondsAgo / 60);
       return minutesAgo + ' minute' + (minutesAgo === 1 ? '' : 's') + ' ago';
-    } else if (secondsAgo < 86400) {
-      const hoursAgo = Math.floor(secondsAgo / 3600);
-      return hoursAgo + ' hour' + (hoursAgo === 1 ? '' : 's') + ' ago';
-    } else if (secondsAgo < 604800) {
-      const daysAgo = Math.floor(secondsAgo / 86400);
-      return daysAgo + ' day' + (daysAgo === 1 ? '' : 's') + ' ago';
+    } else if (hoursAgo < 24) {
+      return 'yesterday';
+    } else if (hoursAgo < 168) {
+      const daysAgo = Math.floor(hoursAgo / 24);
+      if (daysAgo === 1) {
+        return 'yesterday';
+      } else {
+        return then.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        });
+      }
     } else {
       return then.toLocaleDateString('en-US', {
         year: 'numeric',
@@ -68,5 +79,6 @@ export class TransformService {
         day: 'numeric',
       });
     }
+    
   }
 }

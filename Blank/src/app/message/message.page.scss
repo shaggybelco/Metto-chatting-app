@@ -16,3 +16,17 @@
     margin: 0;
     margin-right: 10px;
   }
+
+
+  .arrow-sent {
+    border-top: 10px solid transparent;
+    border-left: 10px solid #ccc;
+    border-bottom: 10px solid transparent;
+  }
+  
+  .arrow-received {
+    border-top: 10px solid transparent;
+    border-right: 10px solid white;
+    border-bottom: 10px solid transparent;
+  }
+  
