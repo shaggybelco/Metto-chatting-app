@@ -42,6 +42,9 @@
         </div>
 
       </div> -->
+      <ion-infinite-scroll position="top"  (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Loading more messages..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
       
       <div *ngFor="let mess of message$ | async">
         <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">

@@ -30,9 +30,9 @@ export class ChatService {
     return this.message$.asObservable();
   };
 
-  getMessages(data: any): Observable<any> {
+  getMessages(data: any, page: number): Observable<any> {
     return this.http.get(
-      `${environment.baseUrl}/messages/${data.me}/${data.receiver}`,
+      `${environment.baseUrl}/messages/${data.me}/${data.receiver}?page=${page}`,
       data
     );
   }

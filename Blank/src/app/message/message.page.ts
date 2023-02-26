@@ -1,7 +1,7 @@
 import { StorageService } from './../services/storage.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonContent } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonContent } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
@@ -125,6 +125,16 @@ export class MessagePage implements OnInit {
       this.image$.next('');
     }
   }
+
+  page = 1;
+
+  onIonInfinite(ev: any) {
+   this.getMessages();
+    setTimeout(() => {
+      (ev as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
+
   getMessages() {
     const Data = {
       me: this.hold.id,
@@ -133,7 +143,8 @@ export class MessagePage implements OnInit {
 
     console.log(Data);
 
-    this.chat.getMessages(Data).subscribe(
+
+    this.chat.getMessages(Data, this.page).subscribe(
       (res: any) => {
         console.log(res);
         this.profile = res[0].receiver.avatar;
