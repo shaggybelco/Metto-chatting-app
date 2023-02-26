@@ -41,7 +41,7 @@ export class MessagePage implements OnInit {
 
   hold: any = this.token.decode();
   message: string = '';
-  messages: any;
+  messages: any = [];
   isFile: boolean = false;
   @ViewChild(IonContent) content!: IonContent;
   public image$: BehaviorSubject<any> = new BehaviorSubject('');
@@ -61,7 +61,7 @@ export class MessagePage implements OnInit {
 
   ngAfterViewChecked() {
     // this.chat.viewMessage();
-    this.scrollToBottom();
+    // this.scrollToBottom();
   }
 
   subscription: Subscription = new Subscription();
@@ -129,6 +129,7 @@ export class MessagePage implements OnInit {
   page = 1;
 
   onIonInfinite(ev: any) {
+    this.page++;
    this.getMessages();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
@@ -149,7 +150,8 @@ export class MessagePage implements OnInit {
         console.log(res);
         this.profile = res[0].receiver.avatar;
         this.haveAvatar = res[0].receiver.isAvatar;
-        this.message$.next(res);
+        // this.message$.next(res);
+        this.messages = [...this.messages, ...res]
       },
       (err: any) => {
         console.log(err);

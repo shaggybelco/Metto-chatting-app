@@ -41,7 +41,7 @@ const Group = db.groups;
 exports.getMessages = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = 15; // Number of messages to return per page
+    const pageSize = 10; // Number of messages to return per page
     const skip = (page - 1) * pageSize;
 
     let messages = await Message.find({
@@ -56,7 +56,7 @@ exports.getMessages = async (req, res, next) => {
         },
       ],
     })
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize);
 
@@ -75,7 +75,7 @@ exports.getMessages = async (req, res, next) => {
           path: "receiver",
           model: "user" | "group",
         })
-        .sort({ createdAt: 1 })
+        .sort({ createdAt: -1 })
         .skip(skip)
         .limit(pageSize);
     }
