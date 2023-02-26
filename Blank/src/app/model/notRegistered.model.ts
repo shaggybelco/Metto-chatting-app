@@ -1,5 +1,5 @@
-import { NamePayload } from './namePayload';
-import { Phone } from './phone';
+import { NamePayload } from './namePayload.model';
+import { Phone } from './phone.model';
 
 export interface ContactPayload {
   contactId?: string;

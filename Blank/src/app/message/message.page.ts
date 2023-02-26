@@ -1,5 +1,5 @@
 import { StorageService } from './../services/storage.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InfiniteScrollCustomEvent, IonContent } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
@@ -8,6 +8,7 @@ import { TransformService } from '../services/transform.service';
 import { PhotoService } from '../services/photo.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
+import { Message } from '../model/messages.model';
 
 @Component({
   selector: 'app-message',
@@ -15,13 +16,15 @@ import { StatusBar } from '@capacitor/status-bar';
   styleUrls: ['./message.page.scss'],
 })
 export class MessagePage implements OnInit {
+  isLoading: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
     private chat: ChatService,
     public trans: TransformService,
     public photoService: PhotoService,
-    private storage: StorageService
+    private storage: StorageService,
+    private renderer: Renderer2
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     //  this.chat.getNewMessage().subscribe({
@@ -41,17 +44,12 @@ export class MessagePage implements OnInit {
 
   hold: any = this.token.decode();
   message: string = '';
-  messages: any = [];
+  messages: Message[] = [];
   isFile: boolean = false;
-  @ViewChild(IonContent) content!: IonContent;
-  public image$: BehaviorSubject<any> = new BehaviorSubject('');
+  @ViewChild('messagesContainer', { static: false }) messagesContainer!: ElementRef;
 
-  scrollToBottom() {
-    // Passing a duration to the method makes it so the scroll slowly
-    // goes to the bottom instead of instantly
-    this.content.scrollToBottom(500);
-    // this.markAsRead();
-  }
+  @ViewChild(IonContent, { static: true }) content!: IonContent;
+  public image$: BehaviorSubject<any> = new BehaviorSubject('');
 
   scrollToTop() {
     // Passing a duration to the method makes it so the scroll slowly
@@ -59,9 +57,19 @@ export class MessagePage implements OnInit {
     this.content.scrollToTop(500);
   }
 
+  isScrolledToBottom = false;
+
+
   ngAfterViewChecked() {
-    // this.chat.viewMessage();
-    // this.scrollToBottom();
+    if (this.isScrolledToBottom) {
+      return;
+    }
+    this.scrollToBottom()
+  }
+
+  scrollToBottom() {
+    this.content.scrollToBottom(0);
+    this.isScrolledToBottom = true;
   }
 
   subscription: Subscription = new Subscription();
@@ -71,42 +79,7 @@ export class MessagePage implements OnInit {
 
   ngOnInit(): void {
     this.chat.connect(this.hold.id);
-
-    if (this.id) {
-      this.getMessages();
-    } else {
-      this.getMessagesUsingInput();
-    }
-  }
-
-  getMessagesUsingInput() {
-    this.subscription = this.storage.currentMessage.subscribe((message: any) =>
-      this.message$.next(
-        message.sort(
-          (
-            a: { createdAt: string | number | Date },
-            b: { createdAt: string | number | Date }
-          ) => {
-            return (
-              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-            );
-          }
-        )
-      )
-    );
-
-    this.userSub = this.storage.user.subscribe((user: any) => {
-      console.log(user);
-      this.profile = user.avatar;
-      this.haveAvatar = user.isAvatar;
-      this.name = user.name;
-      this.id = user._id;
-    });
-
-    this.userType = this.storage.types.subscribe((types: any) => {
-      console.log(types);
-      this.type = types;
-    });
+    this.getMessages();
   }
 
   addPhoto() {
@@ -130,34 +103,45 @@ export class MessagePage implements OnInit {
 
   onIonInfinite(ev: any) {
     this.page++;
-   this.getMessages();
+    this.getMessages();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
   }
 
   getMessages() {
-    const Data = {
+    this.isLoading = true;
+    const messageQueryParams = {
       me: this.hold.id,
       receiver: this.id,
     };
 
-    console.log(Data);
+    console.log(messageQueryParams);
 
+    this.chat.getMessages(messageQueryParams, this.page).subscribe(
+      {
+        next: (res: any) => {
 
-    this.chat.getMessages(Data, this.page).subscribe(
-      (res: any) => {
-        console.log(res);
-        this.profile = res[0].receiver.avatar;
-        this.haveAvatar = res[0].receiver.isAvatar;
-        // this.message$.next(res);
-        this.messages = [...this.messages, ...res]
-      },
-      (err: any) => {
-        console.log(err);
+          this.profile = res[0].receiver.avatar;
+          this.haveAvatar = res[0].receiver.isAvatar;
+
+          for (const message of res) {
+            this.messages.unshift(message);
+          }
+          
+          this.message$.next(this.messages);
+          console.log(this.message$);
+          this.isLoading = false;
+        }, error:
+          (err: any) => {
+            console.error('Error fetching messages:', err);
+            this.isLoading = true;
+            // Handle the error properly, e.g. show a message to the user
+          }
       }
     );
   }
+
 
   input: any;
   files!: File;

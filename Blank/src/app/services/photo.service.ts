@@ -9,7 +9,7 @@ import {
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { BehaviorSubject } from 'rxjs';
-import { UserPhoto } from '../model/userPhoto';
+import { UserPhoto } from '../model/userPhoto.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({

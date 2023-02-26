@@ -21,6 +21,8 @@ export class ChatService {
     });
   }
 
+  public  isScrolledToBottom = false;
+
   public getNewMessage = () => {
     socket.on('mesRec', (message) => {
       console.log(message)

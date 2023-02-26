@@ -4,7 +4,7 @@ import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { StatusBar } from '@capacitor/status-bar';
 import { StorageService } from '../services/storage.service';
-import { Contact } from '../model/contacts';
+import { Contact } from '../model/contacts.model';
 
 @Component({
   selector: 'app-new-chat',

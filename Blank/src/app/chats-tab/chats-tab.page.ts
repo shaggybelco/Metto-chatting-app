@@ -28,6 +28,11 @@ export class ChatsTabPage implements OnInit {
   users: any = [];
   us: any;
 
+  ngAfterViewChecked() {
+    this.chat.isScrolledToBottom = false;
+    console.log(this.chat.isScrolledToBottom)
+  }
+
   private userSource = new BehaviorSubject<any[]>([]);
   users$ = this.userSource.asObservable();
   ngOnInit() {

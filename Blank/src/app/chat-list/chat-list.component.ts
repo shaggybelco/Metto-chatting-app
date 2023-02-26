@@ -30,10 +30,6 @@ export class ChatListComponent implements OnInit {
     // console.log(this.userList);
   }
 
-  trackItems(index: number, itemObject: any) {
-    return itemObject.id;
-  }
-
   goToMessage(id: string, name: string, type: string, i: number) {
     console.log(id, name, type);
     console.log(this.userList[i]?.filteredMessages?.reverse());

@@ -29,25 +29,15 @@
 
 <ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald">
   <div class="ion-padding h">
-    <section id="message-container" style="overflow-y: scroll">
-      <!-- <div class="chat chat-start">
-        <div class="chat-bubble">
-          <div class="chat-header space-x-2 flex justify-start">
-            <time class="text-xs opacity-50">belco gee</time>
-          </div>
-          It's over Anakin, <br />I have the high ground.
-          <div class="chat-header space-x-2 flex justify-end">
-            <time class="text-xs opacity-50">11:45</time>
-          </div>
-        </div>
+    <section class="message-container" #messagesContainer  style="overflow-y: scroll" >
 
-      </div> -->
       <ion-infinite-scroll position="top"  (ionInfinite)="onIonInfinite($event)">
         <ion-infinite-scroll-content loadingText="Loading more messages..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
       </ion-infinite-scroll>
-      
-      <div *ngFor="let mess of messages">
-        <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+     
+      <div *ngIf="!isLoading">
+      <div *ngFor="let mess of message$ | async">
+        <div  [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
           <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
             [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
             [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
@@ -67,6 +57,7 @@
             </div>
           </div>
         </div>
+      </div>
       </div>
 
 
