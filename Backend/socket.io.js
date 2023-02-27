@@ -103,7 +103,7 @@ module.exports = Socket = (server) => {
               file: data.file,
             });
 
-            let pageSize = 10;
+            let pageSize = 11;
             let skip = (data.page - 1) * pageSize;
             message.save(message).then(async (response) => {
               console.log(response);

@@ -41,7 +41,7 @@ const Group = db.groups;
 exports.getMessages = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = 10; // Number of messages to return per page
+    const pageSize = 11; // Number of messages to return per page
     const skip = (page - 1) * pageSize;
 
     let messages = await Message.find({
