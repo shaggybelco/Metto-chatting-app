@@ -104,7 +104,8 @@ module.exports = Socket = (server) => {
             });
 
             let pageSize = 11;
-            let skip = (data.page - 1) * pageSize;
+            let page = 1;
+            let skip = (page - 1) * pageSize;
             message.save(message).then(async (response) => {
               console.log(response);
               let messages = await Message.find({
@@ -120,8 +121,8 @@ module.exports = Socket = (server) => {
                 ],
               })
                 .sort({ createdAt: -1 })
-                // .skip(skip)
-                // .limit(pageSize);
+                .skip(skip)
+                .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -140,8 +141,8 @@ module.exports = Socket = (server) => {
                     model: "user" | "group",
                   })
                   .sort({ createdAt: -1 })
-                  // .skip(skip)
-                  // .limit(pageSize);
+                  .skip(skip)
+                  .limit(pageSize);
               }
 
               messages = await Promise.all(
@@ -178,6 +179,11 @@ module.exports = Socket = (server) => {
               isFile: data.isFile,
               file: data.file,
             });
+
+            let pageSize = 11;
+            let page = 1;
+            let skip = (page - 1) * pageSize;
+
             message.save(message).then(async (response) => {
               let messages = await Message.find({
                 $or: [
@@ -192,8 +198,8 @@ module.exports = Socket = (server) => {
                 ],
               })
                 .sort({ createdAt: -1 })
-                // .skip(skip)
-                // .limit(pageSize);
+                .skip(skip)
+                .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -212,8 +218,8 @@ module.exports = Socket = (server) => {
                     model: "user" | "group",
                   })
                   .sort({ createdAt: -1 })
-                  // .skip(skip)
-                  // .limit(pageSize);
+                  .skip(skip)
+                  .limit(pageSize);
               }
 
               messages = await Promise.all(
