@@ -120,7 +120,7 @@ module.exports = Socket = (server) => {
                   },
                 ],
               })
-                .sort({ createdAt: -1 })
+                .sort({ createdAt: 1 })
                 .skip(skip)
                 .limit(pageSize);
 
@@ -140,7 +140,7 @@ module.exports = Socket = (server) => {
                     path: "receiver",
                     model: "user" | "group",
                   })
-                  .sort({ createdAt: -1 })
+                  .sort({ createdAt: 1 })
                   .skip(skip)
                   .limit(pageSize);
               }
@@ -198,7 +198,7 @@ module.exports = Socket = (server) => {
                   },
                 ],
               })
-                .sort({ createdAt: -1 })
+                .sort({ createdAt: 1 })
                 .skip(skip)
                 .limit(pageSize);
 
@@ -218,7 +218,7 @@ module.exports = Socket = (server) => {
                     path: "receiver",
                     model: "user" | "group",
                   })
-                  .sort({ createdAt: -1 })
+                  .sort({ createdAt: 1 })
                   .skip(skip)
                   .limit(pageSize);
               }
