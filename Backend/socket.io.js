@@ -185,6 +185,7 @@ module.exports = Socket = (server) => {
             let skip = (page - 1) * pageSize;
 
             message.save(message).then(async (response) => {
+              console.log(response);
               let messages = await Message.find({
                 $or: [
                   {
@@ -232,7 +233,7 @@ module.exports = Socket = (server) => {
                   };
                 })
               );
-              console.log(otherUser._id + " other");
+              console.log(response);
               io.to(users[user._id]).emit("mesRec", messages);
               io.to(users[otherUser._id]).emit("mesRec", messages);
             });
