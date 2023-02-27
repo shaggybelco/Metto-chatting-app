@@ -30,12 +30,6 @@ export class MessagePage implements OnInit {
     private popoverController: PopoverController
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
-    //  this.chat.getNewMessage().subscribe({
-    //   next: (val: any) => {
-    //     // console.log(val);
-    //     this.message$.next(val);
-    //   },
-    // });
   }
 
   id = this.route.snapshot.params['id'];
@@ -100,6 +94,12 @@ export class MessagePage implements OnInit {
   ngOnInit(): void {
     this.chat.connect(this.hold.id);
     this.getMessages();
+     this.chat.getNewMessage().subscribe({
+      next: (val: any) => {
+        // console.log(val);
+        this.message$.next(val);
+      },
+    });
   }
 
   addPhoto() {
@@ -215,21 +215,8 @@ export class MessagePage implements OnInit {
       this.message = '';
     }
 
-    // console.log();
-    // if (this.message !== '') {
-    //   this.chat.send(Data).subscribe(
-    //     (res: any) => {
-    //       console.log(res);
-    //     },
-    //     (err: any) => {
-    //       console.log(err);
-    //     }
-    //   );
-    // } else {
-    //   return;
-    // }
-
     this.message = '';
+    // this.scrollToBottom();
   }
 
   ngOnDestroy() {

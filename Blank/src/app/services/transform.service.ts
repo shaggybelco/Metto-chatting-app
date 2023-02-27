@@ -59,19 +59,8 @@ export class TransformService {
     } else if (secondsAgo < 3600) {
       const minutesAgo = Math.floor(secondsAgo / 60);
       return minutesAgo + ' minute' + (minutesAgo === 1 ? '' : 's') + ' ago';
-    } else if (hoursAgo < 24) {
-      return 'yesterday';
-    } else if (hoursAgo < 168) {
-      const daysAgo = Math.floor(hoursAgo / 24);
-      if (daysAgo === 1) {
+    } else if (secondsAgo < 126400) {
         return 'yesterday';
-      } else {
-        return then.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        });
-      }
     } else {
       return then.toLocaleDateString('en-US', {
         year: 'numeric',

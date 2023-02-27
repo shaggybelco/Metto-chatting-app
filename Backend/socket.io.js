@@ -70,7 +70,6 @@ module.exports = Socket = (server) => {
 
                 io.to(msgRead.receiver).emit("mesRec", chat);
                 io.to(msgRead.sender).emit("mesRec", chat);
-                
               });
           }
         );
@@ -182,7 +181,10 @@ module.exports = Socket = (server) => {
                     receiver: user._id,
                   },
                 ],
-              }).sort({ createdAt: 1 });
+              })
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -200,7 +202,9 @@ module.exports = Socket = (server) => {
                     path: "receiver",
                     model: "user" | "group",
                   })
-                  .sort({ createdAt: 1 });
+                  .sort({ createdAt: -1 })
+                  .skip(skip)
+                  .limit(pageSize);
               }
 
               messages = await Promise.all(
