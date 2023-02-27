@@ -5,11 +5,7 @@ const Group = db.groups;
 const GroupMember = db.groupmembers;
 
 module.exports = Socket = (server) => {
-  const io = require("socket.io")(server, {
-    cors: {
-      origin: "*",
-    },
-  });
+  const io = require("socket.io")(server);
 
   let users = [];
 

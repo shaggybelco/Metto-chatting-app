@@ -7,10 +7,12 @@ app.use(express.json());
 
 const server = require("http").createServer(app);
 
-require('./App/Configs/dotenv');
-require('./socket.io')(server);
+require("./App/Configs/dotenv");
+require("./socket.io")(server, cors({
+  origin: "*"
+}));
 
-app.use(cors({origin: '*'}));
+app.use(cors({ origin: "*" }));
 
 const db = require("./App/Models");
 
@@ -27,8 +29,6 @@ db.mongoose
     process.exit();
   });
 
-
-
 app.get("/", (req, res) => {
   console.log("here we are");
   res.send("we are here");
@@ -37,9 +37,9 @@ app.get("/", (req, res) => {
 //routes
 const reg = require("./App/Routes/register.routes");
 const log = require("./App/Routes/login.routes");
-const users = require('./App/Routes/getUsers.routes');
+const users = require("./App/Routes/getUsers.routes");
 const message = require("./App/Routes/getMessage.routes");
-const send = require('./App/Routes/sendMessage.routes');
+const send = require("./App/Routes/sendMessage.routes");
 
 app.use("/api", reg);
 app.use("/api", log);
