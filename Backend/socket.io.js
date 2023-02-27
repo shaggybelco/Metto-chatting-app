@@ -120,8 +120,8 @@ module.exports = Socket = (server) => {
                 ],
               })
                 .sort({ createdAt: -1 })
-                .skip(skip)
-                .limit(pageSize);
+                // .skip(skip)
+                // .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -140,8 +140,8 @@ module.exports = Socket = (server) => {
                     model: "user" | "group",
                   })
                   .sort({ createdAt: -1 })
-                  .skip(skip)
-                  .limit(pageSize);
+                  // .skip(skip)
+                  // .limit(pageSize);
               }
 
               messages = await Promise.all(
@@ -192,8 +192,8 @@ module.exports = Socket = (server) => {
                 ],
               })
                 .sort({ createdAt: -1 })
-                .skip(skip)
-                .limit(pageSize);
+                // .skip(skip)
+                // .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -212,8 +212,8 @@ module.exports = Socket = (server) => {
                     model: "user" | "group",
                   })
                   .sort({ createdAt: -1 })
-                  .skip(skip)
-                  .limit(pageSize);
+                  // .skip(skip)
+                  // .limit(pageSize);
               }
 
               messages = await Promise.all(
