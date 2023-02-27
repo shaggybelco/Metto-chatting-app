@@ -5,7 +5,11 @@ const Group = db.groups;
 const GroupMember = db.groupmembers;
 
 module.exports = Socket = (server) => {
-  const io = require("socket.io")(server);
+  const io = require("socket.io")(server, {
+    cors: {
+      origin: "*",
+    },
+  });
 
   let users = [];
 
@@ -110,7 +114,10 @@ module.exports = Socket = (server) => {
                     receiver: user._id,
                   },
                 ],
-              }).sort({ createdAt: 1 });
+              })
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -128,7 +135,9 @@ module.exports = Socket = (server) => {
                     path: "receiver",
                     model: "user" | "group",
                   })
-                  .sort({ createdAt: 1 });
+                  .sort({ createdAt: -1 })
+                  .skip(skip)
+                  .limit(pageSize);
               }
 
               messages = await Promise.all(
