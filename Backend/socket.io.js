@@ -23,7 +23,7 @@ module.exports = Socket = (server) => {
     sockect.on("typing", (data) => {
       // console.log(data);
       if (users[data.receiver]) {
-        io.to(users[data.receiver]).emit("typing", "typing");
+        io.to(users[data.receiver]).emit(data.id, "typing");
         // console.log('type')
       }
     });
