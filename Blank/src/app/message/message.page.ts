@@ -180,6 +180,7 @@ export class MessagePage implements OnInit {
       recipient_type: this.type,
       message: this.message,
       isFile: this.isFile,
+      page: this.page
     };
 
     if (this.message !== '' || this.isFile === true) {

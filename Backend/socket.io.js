@@ -102,6 +102,9 @@ module.exports = Socket = (server) => {
               isFile: data.isFile,
               file: data.file,
             });
+
+            let pageSize = 10;
+            let skip = (data.page - 1) * pageSize;
             message.save(message).then(async (response) => {
               console.log(response);
               let messages = await Message.find({
