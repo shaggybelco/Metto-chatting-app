@@ -1,11 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { InfiniteScrollCustomEvent, IonContent, ScrollDetail } from '@ionic/angular';
+import {
+  InfiniteScrollCustomEvent,
+  IonContent,
+  ScrollDetail,
+} from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
@@ -21,15 +20,20 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['./message.page.scss'],
 })
 export class MessagePage implements OnInit {
+  typing: boolean = false;
+  vals: any;
+
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
     private chat: ChatService,
     public trans: TransformService,
-    public photoService: PhotoService,
-    private popoverController: PopoverController
-  ) {
+    public photoService: PhotoService  ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
+    this.chat.listenToTyping().subscribe((val: any) => {
+      // console.log(val)
+      this.vals = val;
+    });
   }
 
   id = this.route.snapshot.params['id'];
@@ -70,10 +74,10 @@ export class MessagePage implements OnInit {
   handleScroll(ev: CustomEvent<ScrollDetail>) {
     // console.log('scroll', ev.detail);
     // console.log(ev);
-    if(ev.detail.currentY  === 0){
-      this.showScrollDownButton = true
-    }else{
-      this.showScrollDownButton = false
+    if (ev.detail.currentY === 0) {
+      this.showScrollDownButton = true;
+    } else {
+      this.showScrollDownButton = false;
     }
   }
 
@@ -94,12 +98,23 @@ export class MessagePage implements OnInit {
   ngOnInit(): void {
     this.chat.connect(this.hold.id);
     this.getMessages();
-     this.chat.getNewMessage().subscribe({
-      next: (val: any) => {
-        // console.log(val);
-        this.message$.next(val);
+    this.chat.getNewMessage().subscribe({
+      next: (val: Message[]) => {
+        console.log(val);
+        this.message$.next(
+          val.sort((a: Message, b: Message) => {
+            return (
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            );
+          })
+        );
       },
     });
+  }
+
+  startTyping() {
+    this.chat.startTyping({ receiver: this.id, message: this.message });
+    this.typing = true;
   }
 
   addPhoto() {
@@ -180,7 +195,7 @@ export class MessagePage implements OnInit {
       recipient_type: this.type,
       message: this.message,
       isFile: this.isFile,
-      page: this.page
+      page: this.page,
     };
 
     if (this.message !== '' || this.isFile === true) {

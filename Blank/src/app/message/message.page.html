@@ -11,6 +11,7 @@
       </ion-avatar>
       <ion-label slot="start">{{name}}
         <p *ngIf="type === 'group'">users</p>
+        <p *ngIf="vals">typing</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button color="secondary">
@@ -123,7 +124,7 @@
           <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keyup.enter)="send()">
+      <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keypress)="startTyping()" (keyup.enter)="send()">
       </ion-textarea>
       <ion-buttons>
         <ion-button color="secondary" shape="round" (click)="send()">

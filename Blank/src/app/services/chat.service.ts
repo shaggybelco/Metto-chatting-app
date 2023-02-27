@@ -13,6 +13,7 @@ const socket = io(`${environment.base}`);
 export class ChatService {
   constructor(private http: HttpClient, private photoService: PhotoService) { }
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
+  public typying$: BehaviorSubject<any> = new BehaviorSubject(false);
 
   connect(id: any) {
     socket.on("connect", () => {
@@ -32,11 +33,27 @@ export class ChatService {
     return this.message$.asObservable();
   };
 
+  listenToTyping(): Observable<any> {
+    socket.on('typing', (username: string) => {
+      console.log(username + ' is typing...');
+      this.typying$.next(true);
+      setTimeout(() => {
+        this.typying$.next(false);
+      }, 5000);
+    });
+
+    return this.typying$.asObservable();
+  }
+
   getMessages(data: any, page: number): Observable<any> {
     return this.http.get(
       `${environment.baseUrl}/messages/${data.me}/${data.receiver}?page=${page}`,
       data
     );
+  }
+
+  startTyping(data: any){
+    socket.emit('typing', data);
   }
 
   send(data: any) {

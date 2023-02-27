@@ -4,6 +4,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { last } from 'rxjs';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -12,13 +13,20 @@ import { last } from 'rxjs';
 })
 export class ChatListComponent implements OnInit {
   hold: any;
+  vals: any;
 
   constructor(
     public trans: TransformService,
     private token: TokenService,
     private route: Router,
-    private storage: StorageService
-  ) {}
+    private storage: StorageService,
+    private chat: ChatService
+  ) {
+    this.chat.listenToTyping().subscribe((val: any) => {
+      // console.log(val)
+      this.vals = val;
+    });
+  }
 
   @Input() userList!: any;
 
