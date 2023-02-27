@@ -27,37 +27,57 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald">
+<ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald" [scrollEvents]="true"
+  (ionScroll)="handleScroll($any($event))">
   <div class="ion-padding h">
-    <section class="message-container" #messagesContainer  style="overflow-y: scroll" >
+    <!-- <ion-infinite-scroll position="top" (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content loadingText="Loading more messages..." loadingSpinner="bubbles">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
 
-      <ion-infinite-scroll position="top"  (ionInfinite)="onIonInfinite($event)">
-        <ion-infinite-scroll-content loadingText="Loading more messages..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-     
+    <section class="message-container" #messagesContainer style="overflow-y: scroll">
+      <ion-refresher slot="fixed" [pullFactor]="0.1" [pullMin]="1" [pullMax]="2" (ionRefresh)="onIonInfinite($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
       <div *ngIf="!isLoading">
-      <div *ngFor="let mess of message$ | async">
-        <div  [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
-          <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
-            [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
-            [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
-            [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-secondary'">
-            <div
-              [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
-              <time class="text-xs opacity-60 font-bold mb-2"
-                *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</time>
-              <time class="text-xs opacity-60 font-bold mb-2 flex-end"
-                *ngIf="mess.recipient_type === 'group'">0{{mess.sender.cellphone}}</time>
-            </div>
-            <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2" style="width: 300px; border-radius: 16px"
-              [src]="mess.file" />
-            {{mess.message}}
-            <div class="chat-header space-x-2 flex justify-end relative">
-              <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>
+        <div *ngFor="let mess of message$ | async">
+          <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+            <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
+              [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
+              [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
+              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-secondary'">
+              <div
+                [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
+                <time class="text-xs opacity-60 font-bold mb-2"
+                  *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</time>
+                <time class="text-xs opacity-60 font-bold mb-2 flex-end"
+                  *ngIf="mess.recipient_type === 'group'">0{{mess.sender.cellphone}}</time>
+              </div>
+              <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2" style="width: 300px; border-radius: 16px"
+                [src]="mess.file" />
+              {{mess.message}}
+              <div class="chat-header space-x-2 flex justify-end relative">
+                <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
+      <div *ngIf="isLoading">
+        <ion-list *ngFor="let item of [1,1,1,1,1,1]">
+          <div class='chat chat-start'>
+            <ion-skeleton-text [animated]="true" style="width: 250px; height: 50px;border-radius: 15px 15px 15px 0;">
+            </ion-skeleton-text>
+          </div>
+          <div class='chat chat-end'>
+            <ion-skeleton-text [animated]="true" style="width: 250px; height: 50px;border-radius: 15px 15px 0 15px;">
+            </ion-skeleton-text>
+          </div>
+
+        </ion-list>
       </div>
 
 
@@ -79,6 +99,13 @@
       </div> -->
     </section>
   </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="showScrollDownButton" (click)="scrollToBottom()">
+    <ion-fab-button color="secondary">
+      <ion-icon name="chevron-down-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
 
 <ion-footer [translucent]="false">

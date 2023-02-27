@@ -9,4 +9,5 @@ export interface Message {
     receiver: UserFully;
     sender: UserFully;
     recipient_type: string;
+    showDeleteButton?: boolean;
 }

@@ -30,7 +30,7 @@ export class ChatsTabPage implements OnInit {
 
   ngAfterViewChecked() {
     this.chat.isScrolledToBottom = false;
-    console.log(this.chat.isScrolledToBottom)
+    // console.log(this.chat.isScrolledToBottom)
   }
 
   private userSource = new BehaviorSubject<any[]>([]);

@@ -1,7 +1,11 @@
-import { StorageService } from './../services/storage.service';
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { InfiniteScrollCustomEvent, IonContent } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonContent, ScrollDetail } from '@ionic/angular';
 import { ChatService } from '../services/chat.service';
 import { TokenService } from '../services/token.service';
 import { TransformService } from '../services/transform.service';
@@ -9,6 +13,7 @@ import { PhotoService } from '../services/photo.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
 import { Message } from '../model/messages.model';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-message',
@@ -16,15 +21,13 @@ import { Message } from '../model/messages.model';
   styleUrls: ['./message.page.scss'],
 })
 export class MessagePage implements OnInit {
-  isLoading: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private token: TokenService,
     private chat: ChatService,
     public trans: TransformService,
     public photoService: PhotoService,
-    private storage: StorageService,
-    private renderer: Renderer2
+    private popoverController: PopoverController
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     //  this.chat.getNewMessage().subscribe({
@@ -34,7 +37,6 @@ export class MessagePage implements OnInit {
     //   },
     // });
   }
-
 
   id = this.route.snapshot.params['id'];
   name = this.route.snapshot.params['name'];
@@ -46,7 +48,8 @@ export class MessagePage implements OnInit {
   message: string = '';
   messages: Message[] = [];
   isFile: boolean = false;
-  @ViewChild('messagesContainer', { static: false }) messagesContainer!: ElementRef;
+  @ViewChild('messagesContainer', { static: false })
+  messagesContainer!: ElementRef;
 
   @ViewChild(IonContent, { static: true }) content!: IonContent;
   public image$: BehaviorSubject<any> = new BehaviorSubject('');
@@ -57,14 +60,31 @@ export class MessagePage implements OnInit {
     this.content.scrollToTop(500);
   }
 
-  isScrolledToBottom = false;
-
+  isScrolledToBottom: boolean = false;
+  isLoading: boolean = false;
+  showScrollDownButton: boolean = false;
 
   ngAfterViewChecked() {
-    if (this.isScrolledToBottom) {
-      return;
+    if (!this.isLoading) {
+      if (this.isScrolledToBottom) {
+        return;
+      }
+      this.scrollToBottom();
     }
-    this.scrollToBottom()
+  }
+
+  handleScroll(ev: CustomEvent<ScrollDetail>) {
+    // console.log('scroll', ev.detail);
+    // console.log(ev);
+    if(ev.detail.currentY  === 0){
+      this.showScrollDownButton = true
+    }else{
+      this.showScrollDownButton = false
+    }
+  }
+
+  slowScrollToBottom() {
+    this.content.scrollToBottom(300);
   }
 
   scrollToBottom() {
@@ -116,32 +136,28 @@ export class MessagePage implements OnInit {
       receiver: this.id,
     };
 
-    console.log(messageQueryParams);
+    // console.log(messageQueryParams);
 
-    this.chat.getMessages(messageQueryParams, this.page).subscribe(
-      {
-        next: (res: any) => {
+    this.chat.getMessages(messageQueryParams, this.page).subscribe({
+      next: (res: any) => {
+        console.log(res);
 
-          this.profile = res[0].receiver.avatar;
-          this.haveAvatar = res[0].receiver.isAvatar;
+        for (const message of res) {
+          this.messages.unshift(message);
+        }
 
-          for (const message of res) {
-            this.messages.unshift(message);
-          }
-          
-          this.message$.next(this.messages);
-          console.log(this.message$);
-          this.isLoading = false;
-        }, error:
-          (err: any) => {
-            console.error('Error fetching messages:', err);
-            this.isLoading = true;
-            // Handle the error properly, e.g. show a message to the user
-          }
-      }
-    );
+        this.message$.next(this.messages);
+        this.profile = this.messages[0].receiver.avatar;
+        this.haveAvatar = this.messages[0].receiver.isAvatar;
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.isLoading = true;
+        // Handle the error properly, e.g. show a message to the user
+      },
+    });
   }
-
 
   input: any;
   files!: File;
@@ -214,5 +230,9 @@ export class MessagePage implements OnInit {
     // }
 
     this.message = '';
+  }
+
+  ngOnDestroy() {
+    this.isScrolledToBottom = false;
   }
 }
