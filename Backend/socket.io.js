@@ -8,6 +8,7 @@ module.exports = Socket = (server) => {
   const io = require("socket.io")(server, {
     cors: {
       origin: "*",
+      methods: ["GET", "POST"],
     },
   });
 
