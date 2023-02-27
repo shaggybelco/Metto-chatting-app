@@ -14,6 +14,7 @@ export class ChatService {
   constructor(private http: HttpClient, private photoService: PhotoService) { }
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
   public typying$: BehaviorSubject<any> = new BehaviorSubject(false);
+  public otherUserID$: BehaviorSubject<any> = new BehaviorSubject(false);
 
   connect(id: any) {
     socket.on("connect", () => {
@@ -37,6 +38,7 @@ export class ChatService {
     socket.on('typing', (username: string) => {
       console.log(username + ' is typing...');
       this.typying$.next(true);
+      this.otherUserID$.next(username);
       setTimeout(() => {
         this.typying$.next(false);
       }, 5000);

@@ -113,7 +113,7 @@ export class MessagePage implements OnInit {
   }
 
   startTyping() {
-    this.chat.startTyping({ receiver: this.id, message: this.message });
+    this.chat.startTyping({ receiver: this.id, message: this.message, sender: this.hold.id });
     this.typing = true;
   }
 

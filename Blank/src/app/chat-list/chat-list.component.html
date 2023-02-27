@@ -19,7 +19,7 @@
           <ion-icon name="image"></ion-icon>
         </p>
         <p *ngIf="!user.lastMessage.message && !vals">Photo</p>
-        <p *ngIf="vals && user.receiver._id">typing</p>
+        <p *ngIf="vals && user.receiver._id !== otherUserID">typing</p>
       </div>
     </ion-label>
     <div class="time">

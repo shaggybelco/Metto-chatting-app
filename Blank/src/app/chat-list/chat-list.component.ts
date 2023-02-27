@@ -14,18 +14,24 @@ import { ChatService } from '../services/chat.service';
 export class ChatListComponent implements OnInit {
   hold: any;
   vals: any;
+  otherUserID: string = '';
 
   constructor(
     public trans: TransformService,
     private token: TokenService,
     private route: Router,
     private storage: StorageService,
-    private chat: ChatService
+    public chat: ChatService
   ) {
     this.chat.listenToTyping().subscribe((val: any) => {
       // console.log(val)
       this.vals = val;
     });
+
+    this.chat.otherUserID$.subscribe((val: string) => {
+      console.log(val)
+      this.otherUserID =  val;
+    })
   }
 
   @Input() userList!: any;
