@@ -125,7 +125,7 @@
       </div>
 
       <div *ngIf="isLoading">
-        <ion-list *ngFor="let item of [1,1,1,1,1,1]">
+        <div *ngFor="let item of [1,1,1,1,1,1]">
           <div class="chat chat-start">
             <ion-skeleton-text
               [animated]="true"
@@ -148,7 +148,7 @@
             >
             </ion-skeleton-text>
           </div>
-        </ion-list>
+        </div>
       </div>
 
       <!-- <div *ngFor="let mess of message$ | async">
