@@ -84,7 +84,7 @@ export class MessagePage implements OnInit {
   handleScroll(ev: CustomEvent<ScrollDetail>) {
     // console.log('scroll', ev.detail);
     // console.log(ev);
-    if (ev.detail.currentY === 0) {
+    if (ev.detail.currentY <= 150) {
       this.showScrollDownButton = true;
     } else {
       this.showScrollDownButton = false;
