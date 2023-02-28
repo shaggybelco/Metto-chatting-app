@@ -118,6 +118,7 @@ export class MessagePage implements OnInit {
             );
           })
         );
+        this.scrollToBottom();
       },
     });
   }
