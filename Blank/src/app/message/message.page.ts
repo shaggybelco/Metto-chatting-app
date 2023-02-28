@@ -72,6 +72,15 @@ export class MessagePage implements OnInit {
     }
   }
 
+  resizeTextarea(event: any) {
+    event.target.style.height = '20px';
+    event.target.style.height = event.target.scrollHeight + 'px';
+
+    if (event.target.value.length === 0) {
+      event.target.style.height = '24px';
+    }
+  }
+
   handleScroll(ev: CustomEvent<ScrollDetail>) {
     // console.log('scroll', ev.detail);
     // console.log(ev);
