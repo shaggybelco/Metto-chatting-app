@@ -266,22 +266,25 @@ export class MessagePage implements OnInit {
   }
 
   send() {
+
+    let isFile = false;
+    if (this.holdingFiles.length > 0) {
+      isFile = true
+    } else {
+      isFile = false;
+    }
+
     const Data = {
       me: this.hold.id,
       otherId: this.id,
       recipient_type: this.type,
       message: this.message,
-      isFile: this.isFile,
+      isFile: isFile,
       page: this.page,
     };
 
-    let isFile = false;
 
-    if(this.holdingFiles.length > 0){
-      isFile = true
-    }else{
-      isFile = false;
-    }
+
 
     console.log(isFile);
 
@@ -294,6 +297,7 @@ export class MessagePage implements OnInit {
             otherId: this.id,
             message: this.message,
             recipient_type: this.type,
+            page: this.page,
             isFile: isFile,
           };
           this.chat.uploadImage(
@@ -304,13 +308,14 @@ export class MessagePage implements OnInit {
         this.chat.uploadImage(Data, this.holdingFiles[i].img);
       }
     }
-   
+
     if (this.message !== '' && isFile === false) {
       const newData = {
         me: this.hold.id,
         otherId: this.id,
         message: this.message,
         recipient_type: this.type,
+        page: this.page,
         isFile: isFile,
       };
       console.log(newData);
