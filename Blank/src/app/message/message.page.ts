@@ -149,12 +149,15 @@ export class MessagePage implements OnInit {
   }
 
   page = 1;
+  isInfiniteScroll = false;
 
   onIonInfinite(ev: any) {
+    this.isInfiniteScroll = true;
     this.page++;
     this.getMessages();
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
+      this.isInfiniteScroll = false;
     }, 500);
   }
 
