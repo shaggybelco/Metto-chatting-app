@@ -103,7 +103,7 @@ module.exports = Socket = (server) => {
               file: data.file,
             });
 
-            let pageSize = 11;
+            let pageSize = 15;
             let page = 1;
             let skip = (page - 1) * pageSize;
             message.save(message).then(async (response) => {
@@ -180,7 +180,7 @@ module.exports = Socket = (server) => {
               file: data.file,
             });
 
-            let pageSize = 11;
+            let pageSize = 15;
             let page = 1;
             let skip = (page - 1) * pageSize;
 
