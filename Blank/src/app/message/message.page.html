@@ -115,13 +115,13 @@
   <ion-popover trigger="click-trigger" triggerAction="click">
     <ng-template>
       <ion-content class="ion-padding">
-        <ion-button expand="block">
+        <ion-button fill="outline" expand="block" size="large">
           <ion-icon slot="start" name="camera"></ion-icon>
-          Camera
+          camera
         </ion-button>
-        <ion-button expand="block">
+        <ion-button fill="outline" expand="block" class="flex justify-start" size="large">
           <ion-icon slot="start" name="images"></ion-icon>
-          File explorer
+          File
         </ion-button>
       </ion-content>
     </ng-template>
@@ -144,50 +144,51 @@
   </div>
 
   <ion-toolbar>
-  <!-- <ion-item lines="none"> -->
-  <!-- <ion-buttons slot="start">
+    <!-- <ion-item lines="none"> -->
+    <!-- <ion-buttons slot="start">
         <ion-button color="secondary" id="click-trigger">
           <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
         </ion-button>
       </ion-buttons> -->
-  <!-- <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keypress)="startTyping()"
+    <!-- <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keypress)="startTyping()"
         (keyup.enter)="send()" class="bg-base-200 rounded-2xl"
         >
       </ion-textarea> -->
-  <form class="stretch mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6">
-    <div class="relative flex h-full flex-1 md:flex-col">
-      <div
-        class="flex flex-col w-[90%] py-2  md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
-        <button id="click-trigger" class="absolute p-1 rounded-md text-gray-500 -bottom-1 left-1 md:bottom-2.5 md:right-2">
-          <ion-icon style="font-size: 1.5rem" name="add"></ion-icon>
-        </button>
-        <textarea (input)="resizeTextarea($event)"
-          class="m-0 w-full resize-none border-0 bg-transparent pr-9 pl-9 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
-          style="
+    <form class="stretch mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6">
+      <div class="relative flex h-full flex-1 md:flex-col">
+        <div
+          class="flex flex-col w-[90%] py-2  md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
+          <button id="click-trigger"
+            class="absolute p-1 rounded-md text-gray-500 -bottom-1 left-1 md:bottom-2.5 md:right-2">
+            <ion-icon style="font-size: 1.5rem" name="add"></ion-icon>
+          </button>
+          <textarea (input)="resizeTextarea($event)"
+            class="m-0 w-full resize-none border-0 bg-transparent pr-9 pl-9 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
+            style="
             height: 24px;
             min-height: 12px;
-            max-height: 130px;
+            max-height: 100px;
             overflow-y: auto;
           "></textarea>
-        <button class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2">
-          <ion-icon style="font-size: 1.5rem" name="attach"></ion-icon>
-        </button>
+          <button class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2">
+            <ion-icon style="font-size: 1.5rem" name="attach"></ion-icon>
+          </button>
+        </div>
+
+        <div class="flex ml-1 mt-1.5 md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 justify-center">
+          <button class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2">
+            <ion-icon style="font-size: 1.5rem" name="send"></ion-icon>
+          </button>
+        </div>
+
       </div>
+    </form>
 
-      <div class="flex ml-1 mt-1.5 md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 justify-center">
-        <button class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2">
-          <ion-icon style="font-size: 1.5rem" name="send"></ion-icon>
-        </button>
-      </div>
-
-    </div>
-  </form>
-
-  <!-- <ion-buttons>
+    <!-- <ion-buttons>
         <ion-button color="secondary" shape="round" (click)="send()">
           <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="send"></ion-icon>
         </ion-button>
       </ion-buttons> -->
-  <!-- </ion-item> -->
-</ion-toolbar>
+    <!-- </ion-item> -->
+  </ion-toolbar>
 </ion-footer>
