@@ -31,15 +31,18 @@
 <ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald" [scrollEvents]="true"
   (ionScroll)="handleScroll($any($event))">
   <div class="ion-padding h">
-    <!-- <ion-infinite-scroll position="top" (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content loadingText="Loading more messages..." loadingSpinner="bubbles">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll> -->
-
     <section class="message-container" #messagesContainer style="overflow-y: scroll">
       <ion-refresher slot="fixed" [pullFactor]="0.1" [pullMin]="1" [pullMax]="2" (ionRefresh)="onIonInfinite($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
+
+      <h6 class="text-center opacity-50 italic mb-1" *ngIf="showScrollDownButton">Scroll to load messages</h6>
+
+      <!-- <ion-infinite-scroll threshold="25%" position="top" (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content loadingText="Loading more messages..." loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+
 
       <div *ngIf="!isLoading">
         <div *ngFor="let mess of message$ | async">
@@ -169,7 +172,7 @@
             class="absolute p-1 rounded-md text-gray-500 -bottom-1 left-1 md:bottom-2.5 md:right-2">
             <ion-icon style="font-size: 1.5rem" name="add"></ion-icon>
           </button>
-          <textarea (input)="resizeTextarea($event)"
+          <textarea (input)="resizeTextarea($event)" [(ngModel)]="message" (keypress)="startTyping()"
             class="m-0 w-full resize-none border-0 bg-transparent pr-9 pl-9 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
             style="
             height: 24px;
