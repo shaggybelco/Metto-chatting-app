@@ -2,28 +2,14 @@
   <ion-toolbar>
     <ion-item lines="none">
       <ion-buttons slot="start">
-        <ion-back-button
-          text=""
-          defaultHref="/tab/list"
-          routerLink="/tab/list"
-        ></ion-back-button>
+        <ion-back-button text="" defaultHref="/tab/list" routerLink="/tab/list"></ion-back-button>
       </ion-buttons>
       <ion-avatar class="avatar" slot="start">
-        <img
-          lazy
-          *ngIf="!haveAvatar"
-          alt="Silhouette of a person's head"
-          src="https://ionicframework.com/docs/img/demos/avatar.svg"
-        />
-        <img
-          lazy
-          *ngIf="haveAvatar"
-          alt="Silhouette of a person's head"
-          [src]="profile"
-        />
+        <img lazy *ngIf="!haveAvatar" alt="Silhouette of a person's head"
+          src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <img lazy *ngIf="haveAvatar" alt="Silhouette of a person's head" [src]="profile" />
       </ion-avatar>
-      <ion-label slot="start"
-        >{{name}}
+      <ion-label slot="start">{{name}}
         <p *ngIf="type === 'group'">users</p>
         <p *ngIf="vals">typing</p>
       </ion-label>
@@ -35,43 +21,22 @@
           <ion-icon style="font-size: 1.5rem" name="videocam"></ion-icon>
         </ion-button>
         <ion-button color="secondary">
-          <ion-icon
-            style="font-size: 1.5rem"
-            name="information-circle"
-          ></ion-icon>
+          <ion-icon style="font-size: 1.5rem" name="information-circle"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  [scrollY]="true"
-  [fullscreen]="true"
-  data-theme="emerald"
-  [scrollEvents]="true"
-  (ionScroll)="handleScroll($any($event))"
->
+<ion-content [scrollY]="true" [fullscreen]="true" data-theme="emerald" [scrollEvents]="true"
+  (ionScroll)="handleScroll($any($event))">
   <div class="ion-padding h">
-    <section
-      class="message-container"
-      #messagesContainer
-      style="overflow-y: scroll"
-    >
-      <ion-refresher
-        slot="fixed"
-        [pullFactor]="0.1"
-        [pullMin]="1"
-        [pullMax]="2"
-        (ionRefresh)="onIonInfinite($event)"
-      >
+    <section class="message-container" #messagesContainer style="overflow-y: scroll">
+      <ion-refresher slot="fixed" [pullFactor]="0.1" [pullMin]="1" [pullMax]="2" (ionRefresh)="onIonInfinite($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-      <h6
-        class="text-center opacity-50 italic mb-1"
-        *ngIf="showScrollDownButton"
-      >
+      <h6 class="text-center opacity-50 italic mb-1" *ngIf="showScrollDownButton">
         Scroll to load messages
       </h6>
 
@@ -82,42 +47,23 @@
 
       <div *ngIf="!isLoading">
         <div *ngFor="let mess of message$ | async">
-          <div
-            [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'"
-          >
-            <div
-              [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
+          <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+            <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
               [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
               [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
-              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-secondary'"
-            >
+              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-secondary'">
               <div
-                [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'"
-              >
-                <time
-                  class="text-xs opacity-60 font-bold mb-2"
-                  *ngIf="mess.recipient_type === 'group'"
-                  >{{mess.sender.name}}</time
-                >
-                <time
-                  class="text-xs opacity-60 font-bold mb-2 flex-end"
-                  *ngIf="mess.recipient_type === 'group'"
-                  >0{{mess.sender.cellphone}}</time
-                >
+                [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
+                <time class="text-xs opacity-60 font-bold mb-2"
+                  *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</time>
+                <time class="text-xs opacity-60 font-bold mb-2 flex-end"
+                  *ngIf="mess.recipient_type === 'group'">0{{mess.sender.cellphone}}</time>
               </div>
-              <img
-                *ngIf="mess.isFile"
-                lazy
-                lazy
-                class="w-full mb-2"
-                style="width: 300px; border-radius: 16px"
-                [src]="mess.file"
-              />
+              <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2" style="width: 300px; border-radius: 16px"
+                [src]="mess.file" />
               {{mess.message}}
               <div class="chat-header space-x-2 flex justify-end relative">
-                <time class="text-xs opacity-60 px-2"
-                  >{{trans.transform(mess.createdAt)}}</time
-                >
+                <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>
               </div>
             </div>
           </div>
@@ -127,25 +73,19 @@
       <div *ngIf="isLoading">
         <div *ngFor="let item of [1,1,1,1,1,1]">
           <div class="chat chat-start">
-            <ion-skeleton-text
-              [animated]="true"
-              style="
+            <ion-skeleton-text [animated]="true" style="
                 width: 250px;
                 height: 50px;
                 border-radius: 15px 15px 15px 0;
-              "
-            >
+              ">
             </ion-skeleton-text>
           </div>
           <div class="chat chat-end">
-            <ion-skeleton-text
-              [animated]="true"
-              style="
+            <ion-skeleton-text [animated]="true" style="
                 width: 250px;
                 height: 50px;
                 border-radius: 15px 15px 0 15px;
-              "
-            >
+              ">
             </ion-skeleton-text>
           </div>
         </div>
@@ -170,13 +110,7 @@
     </section>
   </div>
 
-  <ion-fab
-    slot="fixed"
-    vertical="bottom"
-    horizontal="end"
-    *ngIf="showScrollDownButton"
-    (click)="scrollToBottom()"
-  >
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="showScrollDownButton" (click)="scrollToBottom()">
     <ion-fab-button color="secondary">
       <ion-icon name="chevron-down-circle"></ion-icon>
     </ion-fab-button>
@@ -186,12 +120,12 @@
     <ng-template>
       <ion-content class="ion-padding">
         <ion-list>
-          <ion-item button lines="none" detail="false">
+          <ion-item button lines="none" detail="false" (click)="addPhoto()">
             <ion-icon name="Camera" slot="start"></ion-icon>
             <ion-label> Camera </ion-label>
           </ion-item>
 
-          <ion-item button lines="none" detail="false">
+          <ion-item button lines="none" detail="false" (click)="openFileBrowser()">
             <ion-icon name="images" slot="start"></ion-icon>
             <ion-label> Files </ion-label>
           </ion-item>
@@ -202,18 +136,10 @@
 </ion-content>
 
 <ion-footer [translucent]="true">
-  <div
-    *ngIf="holdingFiles.length > 0"
-    class="flex justify-start flex-row w-full overflow-x-scroll bg-base-100"
-  >
+  <div *ngIf="holdingFiles.length > 0" class="flex justify-start flex-row w-full overflow-x-scroll bg-base-100">
     <div *ngFor="let item of holdingFiles">
       <div class="flex justify-center">
-        <ion-button
-          color="danger"
-          fill="clear"
-          size="small"
-          (click)="removeItem(item)"
-        >
+        <ion-button color="danger" fill="clear" size="small" (click)="removeItem(item)">
           <ion-icon name="trash"></ion-icon>
         </ion-button>
       </div>
@@ -235,46 +161,31 @@
         (keyup.enter)="send()" class="bg-base-200 rounded-2xl"
         >
       </ion-textarea> -->
-    <div
-      class="stretch mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6"
-    >
+    <div class="stretch mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6">
       <div class="relative flex h-full flex-1 md:flex-col">
         <div
-          class="flex flex-col w-[90%] py-2 md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]"
-        >
-          <button
-            id="click-trigger"
-            class="absolute p-1 rounded-md text-gray-500 -bottom-1 left-1 md:bottom-2.5 md:right-2"
-          >
-            <ion-icon style="font-size: 1.5rem" name="add"></ion-icon>
+          class="flex flex-col w-[90%] py-2 md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gray-500/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]">
+          <button id="click-trigger"
+            class="absolute p-1 rounded-md text-gray-500 -bottom-1 left-1 md:bottom-2.5 md:right-2">
+            <ion-icon color="secondary" style="font-size: 1.5rem" name="add"></ion-icon>
           </button>
-          <textarea
-            (input)="resizeTextarea($event)"
-            (keypress)="startTyping()"
+          <textarea (input)="resizeTextarea($event)" (keypress)="startTyping()"
             class="m-0 w-full resize-none border-0 bg-transparent pr-9 pl-9 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
             style="
               height: 24px;
               min-height: 12px;
               max-height: 100px;
               overflow-y: auto;
-            "
-            [(ngModel)]="message"
-          ></textarea>
-          <button
-            class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2"
-          >
-            <ion-icon style="font-size: 1.5rem" name="attach"></ion-icon>
+            " [(ngModel)]="message"></textarea>
+          <button class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2">
+            <ion-icon color="secondary" style="font-size: 1.5rem" name="attach"></ion-icon>
           </button>
         </div>
 
-        <div
-          class="flex ml-1 mt-1.5 md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 justify-center"
-        >
-          <button
-            (click)="send()"
-            class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2"
-          >
-            <ion-icon style="font-size: 1.5rem" name="send"></ion-icon>
+        <div class="flex ml-1 mt-1.5 md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 justify-center">
+          <button (click)="send()"
+            class="absolute p-1 rounded-md text-gray-500 -bottom-1 right-1 md:bottom-2.5 md:right-2">
+            <ion-icon color="secondary" style="font-size: 1.5rem" name="send"></ion-icon>
           </button>
         </div>
       </div>

@@ -81,7 +81,7 @@ module.exports = Socket = (server) => {
 
     sockect.on("send", async (data) => {
       try {
-        console.log(users);
+        console.log(data);
         if (data.recipient_type === "group") {
           const user = await User.findOne({ _id: data.me });
           const otherUser = await Group.findOne({ _id: data.otherId });

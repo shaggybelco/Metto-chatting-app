@@ -51,8 +51,8 @@ export class PhotoService {
     // Use webPath to display the new image instead of base64 since it's
     // already loaded into memory
     return {
-      filepath: fileName,
-      webviewPath: base64Data,
+      name: fileName,
+      img: base64Data,
     };
   }
 

@@ -141,6 +141,15 @@ export class MessagePage implements OnInit {
     if (this.photoService.photos && this.photoService.photos.length > 0) {
       this.isFile = true;
       this.image$.next(this.photoService.photos);
+      for (let index = 0; index < this.photoService.photos.length; index++) {
+
+        const indexP = this.holdingFiles.indexOf(this.photoService.photos[index]);
+        console.log(indexP);
+        if (indexP > -1) {
+          return;
+        }
+        this.holdingFiles.push(this.photoService.photos[index]);
+      }
       // this.dataUrl = this.photoService.photos[this.photoService.photos.length -1].webviewPath;
     } else {
       this.isFile = false;
@@ -203,34 +212,43 @@ export class MessagePage implements OnInit {
   input: any;
   files!: File[];
   holdingFiles: any = [];
+  flag = false;
   async openFileBrowser() {
     this.input = document.createElement('input');
     this.input.type = 'file';
     this.input.multiple = true;
+    this.input.accept = 'image/*';
     this.input.click();
 
     let currentIndex = 0;
 
-    
-    
     this.input.onchange = (e: any) => {
       this.files = this.input.files;
       console.log(this.files);
 
-      if(this.files.length > 0){
+      if (this.files.length > 0) {
         this.isFile = true;
       }
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        
+
         const file = this.files![currentIndex];
         const dataUrl = reader.result as string;
-        
+        const fileName = file.name;
+        console.log(fileName)
+        const fileExtension = fileName && fileName.length > 0 ? fileName?.split('.')?.pop()?.toLowerCase() : '';
+        const isImage = ['jpg', 'jpeg', 'gif', 'png', 'webp'].includes(fileExtension!);
+        if (!isImage) {
+          alert('Invalid file type. Please select an image file.');
+          return;
+        }
+
+
         currentIndex++;
 
         // console.log(dataUrl);
-        this.holdingFiles.push({img: dataUrl, name: file.name});
+        this.holdingFiles.push({ img: dataUrl, name: file.name });
         console.log(this.holdingFiles);
 
         if (currentIndex < this.files!.length) {
@@ -244,6 +262,7 @@ export class MessagePage implements OnInit {
 
       reader.readAsDataURL(this.files[0]);
     };
+
   }
 
   send() {
@@ -256,33 +275,43 @@ export class MessagePage implements OnInit {
       page: this.page,
     };
 
-    if (this.message !== '' || this.isFile === true) {
-      const lng = this.photoService.photos.length;
-      for (let i = 0; i < this.photoService.photos.length; i++) {
-        if (this.photoService.photos.length === lng - 1) {
+    let isFile = false;
+
+    if(this.holdingFiles.length > 0){
+      isFile = true
+    }else{
+      isFile = false;
+    }
+
+    console.log(isFile);
+
+    if (this.message !== '' || isFile === true) {
+      const lng = this.holdingFiles.length;
+      for (let i = 0; i < this.holdingFiles.length; i++) {
+        if (this.holdingFiles.length === lng - 1) {
           const newData = {
             me: this.hold.id,
             otherId: this.id,
             message: this.message,
             recipient_type: this.type,
-            isFile: this.isFile,
+            isFile: isFile,
           };
           this.chat.uploadImage(
             newData,
-            this.photoService.photos[i].webviewPath
+            this.holdingFiles[i].img
           );
         }
-        this.chat.uploadImage(Data, this.photoService.photos[i].webviewPath);
+        this.chat.uploadImage(Data, this.holdingFiles[i].img);
       }
     }
-    console.log(this.isFile);
-    if (this.message !== '' && this.isFile === false) {
+   
+    if (this.message !== '' && isFile === false) {
       const newData = {
         me: this.hold.id,
         otherId: this.id,
         message: this.message,
         recipient_type: this.type,
-        isFile: this.isFile,
+        isFile: isFile,
       };
       console.log(newData);
       this.chat.uploadImage(newData);
