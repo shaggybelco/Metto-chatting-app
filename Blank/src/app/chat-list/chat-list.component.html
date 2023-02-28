@@ -20,7 +20,7 @@
           <span>photo</span>
         </p>
         <!-- <p *ngIf="!user.lastMessage.message && !vals && user.receiver._id !== otherUserID">Photo</p> -->
-        <p *ngIf="vals && user.receiver._id === otherUserID">typing</p>
+        <p *ngIf="vals && user.receiver._id === otherUserID" class="text-blue-400 font-bold">typing</p>
       </div>
     </ion-label>
     <div class="time">

@@ -41,7 +41,7 @@ export class ChatService {
       this.otherUserID$.next(username);
       setTimeout(() => {
         this.typying$.next(false);
-      }, 5000);
+      }, 10000);
     });
 
     return this.typying$.asObservable();

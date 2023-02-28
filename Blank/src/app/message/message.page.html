@@ -107,24 +107,42 @@
     </ion-fab-button>
   </ion-fab>
 
+  <ion-popover trigger="click-trigger" triggerAction="click">
+    <ng-template>
+      <ion-content class="ion-padding">
+
+        <ion-button expand="block">Camera</ion-button>
+        <ion-button expand="block">File explorer</ion-button>
+
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+
 </ion-content>
 
 <ion-footer [translucent]="false">
-  <div *ngIf="isFile" class="flex justify-start flex-row w-full">
-    <div *ngFor="let item of image$ | async">
+  <div *ngIf="holdingFiles.length > 0" class="flex justify-start flex-row w-full overflow-x-scroll bg-base-100">
+    <div *ngFor="let item of holdingFiles">
+      <div class="flex justify-center">
+        <ion-button color="danger" fill="clear" size="small" (click)="removeItem(item)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </div>
+
       <ion-thumbnail>
-        <ion-img [src]="item.webviewPath"></ion-img>
+        <ion-img [src]="item.img"></ion-img>
       </ion-thumbnail>
     </div>
   </div>
   <ion-toolbar>
     <ion-item lines="none">
       <ion-buttons slot="start">
-        <ion-button color="secondary" (click)="addPhoto()">
+        <ion-button color="secondary" id="click-trigger">
           <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keypress)="startTyping()" (keyup.enter)="send()">
+      <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keypress)="startTyping()"
+        (keyup.enter)="send()">
       </ion-textarea>
       <ion-buttons>
         <ion-button color="secondary" shape="round" (click)="send()">

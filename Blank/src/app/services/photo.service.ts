@@ -24,14 +24,13 @@ export class PhotoService {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
-      source: CameraSource.Prompt,
-      quality: 100,
+      quality: 80,
       saveToGallery: true,
     });
 
     // Save the picture and add it to photo collection
     const savedImageFile = await this.savePicture(capturedPhoto);
-    this.photos.unshift(savedImageFile);
+    this.photos.push(savedImageFile);
   }
 
   private async savePicture(photo: Photo) {

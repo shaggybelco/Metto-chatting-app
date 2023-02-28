@@ -28,7 +28,8 @@ export class MessagePage implements OnInit {
     private token: TokenService,
     private chat: ChatService,
     public trans: TransformService,
-    public photoService: PhotoService  ) {
+    public photoService: PhotoService
+  ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     this.chat.listenToTyping().subscribe((val: any) => {
       // console.log(val)
@@ -113,7 +114,11 @@ export class MessagePage implements OnInit {
   }
 
   startTyping() {
-    this.chat.startTyping({ receiver: this.id, message: this.message, sender: this.hold.id });
+    this.chat.startTyping({
+      receiver: this.id,
+      message: this.message,
+      sender: this.hold.id,
+    });
     this.typing = true;
   }
 
@@ -142,6 +147,18 @@ export class MessagePage implements OnInit {
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
+  }
+
+  removeItem(item: string) {
+    const index = this.holdingFiles.indexOf(item);
+    console.log(index);
+    if (index > -1) {
+      this.holdingFiles.splice(index, 1);
+    }
+  }
+
+  isSelected(item: string): boolean {
+    return this.holdingFiles.includes(item);
   }
 
   getMessages() {
@@ -175,16 +192,48 @@ export class MessagePage implements OnInit {
   }
 
   input: any;
-  files!: File;
+  files!: File[];
+  holdingFiles: any = [];
   async openFileBrowser() {
     this.input = document.createElement('input');
     this.input.type = 'file';
-    this.input.multiple = false;
+    this.input.multiple = true;
     this.input.click();
 
+    let currentIndex = 0;
+
+    
+    
     this.input.onchange = (e: any) => {
       this.files = this.input.files;
       console.log(this.files);
+
+      if(this.files.length > 0){
+        this.isFile = true;
+      }
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        
+        const file = this.files![currentIndex];
+        const dataUrl = reader.result as string;
+        
+        currentIndex++;
+
+        // console.log(dataUrl);
+        this.holdingFiles.push({img: dataUrl, name: file.name});
+        console.log(this.holdingFiles);
+
+        if (currentIndex < this.files!.length) {
+          reader.readAsDataURL(this.files![currentIndex]);
+        }
+
+        this.image$.next(this.holdingFiles);
+        console.log(this.image$.getValue());
+      };
+
+
+      reader.readAsDataURL(this.files[0]);
     };
   }
 
