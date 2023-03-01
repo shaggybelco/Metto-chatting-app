@@ -30,7 +30,7 @@
             >
           </ion-buttons>
           <ion-title class="text-center">New group
-            <p *ngIf="selectedContacts.length > 0">{{selectedContacts.length == 1 ? selectedContacts.length + ' participant' : selectedContacts.length + ' participants'}}</p>
+            <p class="text-xs" *ngIf="selectedContacts.length > 0">{{selectedContacts.length == 1 ? selectedContacts.length + ' participant' : selectedContacts.length + ' participants'}}</p>
           </ion-title>
           <ion-buttons slot="end">
             <ion-button
