@@ -11,9 +11,10 @@ import { RegisterComponent } from './Auth/register/register.component';
 import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestsService } from './interceptors/http-requests.service';
+import { OtherProfileComponent } from './other-profile/other-profile.component';
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, LoginComponent],
+  declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

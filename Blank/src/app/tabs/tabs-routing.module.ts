@@ -27,6 +27,7 @@ const routes: Routes = [
             (m) => m.ProfileTabPageModule
           ),
       },
+
       {
         path: 'contacts',
         loadChildren: () =>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './Auth/login/login.component';
 import { RegisterComponent } from './Auth/register/register.component';
+import { OtherProfileComponent } from './other-profile/other-profile.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,9 @@ const routes: Routes = [
   {
     path: 'new-chat',
     loadChildren: () => import('./new-chat/new-chat.module').then( m => m.NewChatPageModule)
+  },{
+    path: 'profile/:otherId',
+    component: OtherProfileComponent
   }
 
 

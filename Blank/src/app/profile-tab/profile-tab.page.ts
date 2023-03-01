@@ -4,6 +4,7 @@ import { TokenService } from '../services/token.service';
 import { UserService } from '../services/user.service';
 import { StatusBar } from '@capacitor/status-bar';
 import { Platform } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-tab',
@@ -15,7 +16,7 @@ export class ProfileTabPage implements OnInit {
     public prof: UserService,
     private actionSheetCtrl: ActionSheetController,
     private token: TokenService,
-    private platform: Platform
+    private route: ActivatedRoute
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
@@ -24,22 +25,24 @@ export class ProfileTabPage implements OnInit {
   decode: any = this.token.decode();
   me: any;
   username: string = '';
+  otherId = this.route.snapshot.paramMap.get('otherId');
 
   ngOnInit() {
     this.getMe();
+    console.log(this.otherId);
   }
 
   getMe() {
-    this.prof.getMe(this.decode.id).subscribe(
-      (res: any) => {
+    this.prof.getMe(this.decode.id).subscribe({
+      next: (res: any) => {
         console.log(res[0]);
         this.me = res[0];
         this.username = this.me.name;
       },
-      (err: any) => {
+      error: (err: any) => {
         console.log(err);
-      }
-    );
+      },
+    });
   }
 
   file: any;
@@ -67,10 +70,10 @@ export class ProfileTabPage implements OnInit {
   }
 
   update() {
-    if(this.file){
-      this.isAvatar = true
-    }else{
-      this.isAvatar = false
+    if (this.file) {
+      this.isAvatar = true;
+    } else {
+      this.isAvatar = false;
     }
     const data = {
       id: this.decode.id,
@@ -98,7 +101,7 @@ export class ProfileTabPage implements OnInit {
         {
           text: 'No',
           role: 'destructive',
-          icon: 'ban', 
+          icon: 'ban',
         },
       ],
     });

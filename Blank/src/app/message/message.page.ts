@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   InfiniteScrollCustomEvent,
   IonContent,
@@ -12,7 +12,6 @@ import { PhotoService } from '../services/photo.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
 import { Message } from '../model/messages.model';
-import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-message',
@@ -28,7 +27,8 @@ export class MessagePage implements OnInit {
     private token: TokenService,
     private chat: ChatService,
     public trans: TransformService,
-    public photoService: PhotoService
+    public photoService: PhotoService,
+    private router: Router
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     this.chat.listenToTyping().subscribe((val: any) => {
@@ -63,13 +63,19 @@ export class MessagePage implements OnInit {
   isLoading: boolean = false;
   showScrollDownButton: boolean = false;
 
+  gotoProf(){
+    console.log(this.id)
+    this.router.navigate(['/profile', this.id]);
+  }
+
   ngAfterViewChecked() {
     if (!this.isLoading) {
-      if (this.isScrolledToBottom === true) {
-        console.log('scrolled to bottom');
-        return;
-      }
-      this.scrollToBottom();
+      setTimeout(() => {
+        if (this.isScrolledToBottom === true) {
+          return;
+        }
+        this.scrollToBottom();
+      }, 1000);
     }
   }
 
@@ -86,10 +92,10 @@ export class MessagePage implements OnInit {
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
     // console.log('scroll', ev.detail);
-    console.log((0.5 * ev.detail.currentY));
-    console.log((ev.detail.currentY));
+    // console.log((0.5 * ev.detail.currentY));
+    // console.log((ev.detail.currentY));
 
-    if (ev.detail.currentY <= (0.7 * this.originalY) ) {
+    if (ev.detail.currentY <= 0.7 * this.originalY) {
       this.showScrollDownButton = true;
     } else {
       this.showScrollDownButton = false;
@@ -125,7 +131,7 @@ export class MessagePage implements OnInit {
             );
           })
         );
-        this.scrollToBottom();
+        this.slowScrollToBottom();
       },
     });
   }
@@ -150,8 +156,9 @@ export class MessagePage implements OnInit {
       this.isFile = true;
       this.image$.next(this.photoService.photos);
       for (let index = 0; index < this.photoService.photos.length; index++) {
-
-        const indexP = this.holdingFiles.indexOf(this.photoService.photos[index]);
+        const indexP = this.holdingFiles.indexOf(
+          this.photoService.photos[index]
+        );
         console.log(indexP);
         if (indexP > -1) {
           return;
@@ -240,18 +247,21 @@ export class MessagePage implements OnInit {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-
         const file = this.files![currentIndex];
         const dataUrl = reader.result as string;
         const fileName = file.name;
-        console.log(fileName)
-        const fileExtension = fileName && fileName.length > 0 ? fileName?.split('.')?.pop()?.toLowerCase() : '';
-        const isImage = ['jpg', 'jpeg', 'gif', 'png', 'webp'].includes(fileExtension!);
+        console.log(fileName);
+        const fileExtension =
+          fileName && fileName.length > 0
+            ? fileName?.split('.')?.pop()?.toLowerCase()
+            : '';
+        const isImage = ['jpg', 'jpeg', 'gif', 'png', 'webp'].includes(
+          fileExtension!
+        );
         if (!isImage) {
           alert('Invalid file type. Please select an image file.');
           return;
         }
-
 
         currentIndex++;
 
@@ -267,17 +277,14 @@ export class MessagePage implements OnInit {
         console.log(this.image$.getValue());
       };
 
-
       reader.readAsDataURL(this.files[0]);
     };
-
   }
 
   send() {
-
     let isFile = false;
     if (this.holdingFiles.length > 0) {
-      isFile = true
+      isFile = true;
     } else {
       isFile = false;
     }
@@ -290,9 +297,6 @@ export class MessagePage implements OnInit {
       isFile: isFile,
       page: this.page,
     };
-
-
-
 
     console.log(isFile);
 
@@ -308,10 +312,7 @@ export class MessagePage implements OnInit {
             page: this.page,
             isFile: isFile,
           };
-          this.chat.uploadImage(
-            newData,
-            this.holdingFiles[i].img
-          );
+          this.chat.uploadImage(newData, this.holdingFiles[i].img);
         }
         this.chat.uploadImage(Data, this.holdingFiles[i].img);
       }
@@ -332,7 +333,7 @@ export class MessagePage implements OnInit {
     }
 
     this.message = '';
-    this.holdingFiles = []
+    this.holdingFiles = [];
     this.scrollToBottom();
   }
 

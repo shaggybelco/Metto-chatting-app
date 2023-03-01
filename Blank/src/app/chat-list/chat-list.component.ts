@@ -29,7 +29,7 @@ export class ChatListComponent implements OnInit {
     });
 
     this.chat.otherUserID$.subscribe((val: string) => {
-      console.log(val)
+      // console.log(val)
       this.otherUserID =  val;
     })
   }
