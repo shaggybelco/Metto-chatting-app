@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="/tab"></ion-back-button>
+    </ion-buttons>
     <ion-title>{{me.name}} </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -42,6 +45,19 @@
       </ion-card-header>
 
     </ion-card>
+    <ion-card-header> 
+      <ion-card-title>Groups</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="https://ionicframework.com/docs/img/demos/avatar.svg"/>
+        </ion-avatar>
+        <ion-label>
+          group name
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
 
     <ion-card>
 
