@@ -34,8 +34,7 @@
             ],
             "styles": [
               "src/theme/variables.scss",
-              "src/global.scss",
-              "./node_modules/intl-tel-input/build/css/intlTelInput.css"
+              "src/global.scss"
             ],
             "scripts": []
           },
