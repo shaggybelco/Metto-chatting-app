@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-item lines="none">
+  <ion-toolbar color="secondary">
+    <ion-item lines="none" color="secondary">
       <ion-buttons slot="start">
         <ion-back-button text="" defaultHref="/tab/list" routerLink="/tab/list"></ion-back-button>
       </ion-buttons>
@@ -14,13 +14,13 @@
         <p *ngIf="vals" class="text-blue-400">typing</p>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button color="secondary">
+        <ion-button>
           <ion-icon style="font-size: 1.3rem" name="call"></ion-icon>
         </ion-button>
-        <ion-button color="secondary">
+        <ion-button>
           <ion-icon style="font-size: 1.5rem" name="videocam"></ion-icon>
         </ion-button>
-        <ion-button color="secondary" button (click)="gotoProf()">
+        <ion-button button (click)="gotoProf()">
           <ion-icon style="font-size: 1.5rem" name="information-circle"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -51,7 +51,7 @@
             <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
               [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
               [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
-              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-secondary'">
+              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
               <div
                 [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
                 <time class="text-xs opacity-60 font-bold mb-2"
