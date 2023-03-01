@@ -11,7 +11,7 @@
       </ion-avatar>
       <ion-label slot="start">{{name}}
         <p *ngIf="type === 'group'">users</p>
-        <p *ngIf="vals">typing</p>
+        <p *ngIf="vals" class="text-blue-400">typing</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button color="secondary">
@@ -169,7 +169,7 @@
             class="absolute p-1 rounded-md text-gray-500 -bottom-1 left-1 md:bottom-2.5 md:right-2">
             <ion-icon color="secondary" style="font-size: 1.5rem" name="add"></ion-icon>
           </button>
-          <textarea (input)="resizeTextarea($event)" (keypress)="startTyping()"
+          <textarea (input)="resizeTextarea($event)" (keydown)="startTyping()"
             class="m-0 w-full resize-none border-0 bg-transparent pr-9 pl-9 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0"
             style="
               height: 24px;

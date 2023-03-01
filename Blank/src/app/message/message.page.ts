@@ -65,7 +65,8 @@ export class MessagePage implements OnInit {
 
   ngAfterViewChecked() {
     if (!this.isLoading) {
-      if (this.isScrolledToBottom) {
+      if (this.isScrolledToBottom === true) {
+        console.log('scrolled to bottom');
         return;
       }
       this.scrollToBottom();
@@ -81,14 +82,20 @@ export class MessagePage implements OnInit {
     }
   }
 
+  originalY = 0;
+
   handleScroll(ev: CustomEvent<ScrollDetail>) {
     // console.log('scroll', ev.detail);
-    // console.log(ev);
-    if (ev.detail.currentY <= 150) {
+    console.log((0.5 * ev.detail.currentY));
+    console.log((ev.detail.currentY));
+
+    if (ev.detail.currentY <= (0.7 * this.originalY) ) {
       this.showScrollDownButton = true;
     } else {
       this.showScrollDownButton = false;
     }
+
+    this.originalY = Math.max(this.originalY, ev.detail.currentY);
   }
 
   slowScrollToBottom() {
@@ -326,7 +333,7 @@ export class MessagePage implements OnInit {
 
     this.message = '';
     this.holdingFiles = []
-    // this.scrollToBottom();
+    this.scrollToBottom();
   }
 
   ngOnDestroy() {
