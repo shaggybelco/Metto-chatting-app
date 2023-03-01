@@ -212,8 +212,8 @@ export class MessagePage implements OnInit {
         }
 
         this.message$.next(this.messages);
-        this.profile = this.messages[0].receiver.avatar;
-        this.haveAvatar = this.messages[0].receiver.isAvatar;
+        this.profile = this.messages[0]?.receiver.avatar;
+        this.haveAvatar = this.messages[0]?.receiver.isAvatar;
         this.isLoading = false;
       },
       error: (err: any) => {

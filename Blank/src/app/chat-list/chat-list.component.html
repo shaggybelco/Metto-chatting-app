@@ -13,9 +13,9 @@
       {{user.receiver.name}}
       <span *ngIf="user.receiver._id === hold.id">(You)</span>
       <div class="flex opacity-50 justify-start align-middle text-center space-x-0.5">
-        <ion-icon *ngIf="user.lastMessage.sender._id === hold.id" slot="start" name="checkmark-done"></ion-icon>
-        <p *ngIf="user.lastMessage.message && !vals || user.receiver._id !== otherUserID">{{user.lastMessage.message}}</p>
-        <p *ngIf="!user.lastMessage.message" class="items-end space-x-0.5 text-center mb-0">
+        <ion-icon *ngIf="user.lastMessage?.sender?._id === hold.id" slot="start" name="checkmark-done"></ion-icon>
+        <p *ngIf="user.lastMessage?.message && !vals || user.receiver._id !== otherUserID">{{user.lastMessage?.message}}</p>
+        <p *ngIf="!user.lastMessage?.message" class="items-end space-x-0.5 text-center mb-0">
           <ion-icon slot="start" class="relative" name="image"></ion-icon>
           <span *ngIf="!vals || user.receiver._id !== otherUserID">Photo</span>
         </p>
@@ -25,7 +25,7 @@
     </ion-label>
     <div class="time">
       <p class="flex gap-1">
-        <span class="text-sm">{{trans.transform(user.lastMessage.createdAt)}}</span>
+        <span class="text-sm">{{trans.transform(user.lastMessage?.createdAt)}}</span>
         <ion-badge slot="end" *ngIf="user.unreadCount > 0" color="secondary">{{user.unreadCount}}</ion-badge>
       </p>
     </div>

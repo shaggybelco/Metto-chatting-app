@@ -61,9 +61,9 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
 module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   const id = req.params.id;
   try {
-    const groupID = await GroupMember.findOne({ user: { $eq: id } });
+    const groupID = await GroupMember.find({ user: { $eq: id } });
 
-    // console.log(groupID);
+    console.log(groupID);
     if (groupID === null) {
       // res.status(404).send({ error: "Not Found" });
       console.log("No group");
@@ -73,7 +73,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       $or: [
         { sender: req.params.id },
         { receiver: req.params.id },
-        { receiver: groupID?.group },
+        { receiver: { $in: groupID?.group } },
       ],
     })
       .populate({
@@ -83,7 +83,6 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       .populate({ path: "sender", model: "user" })
       .sort({ createdAt: -1 });
 
-    // console.log(groupID.group);
     const userIds = messages
       .filter((m) => m.sender._id.toString() !== req.params.id)
       .map((m) => m.sender._id)
@@ -96,19 +95,19 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     const groupIds = messages
       .filter((m) => m.recipient_type === "group")
-      .map((m) => m.receiver._id)
-      .concat(groupID.group);
+      .map((m) => m.receiver._id);
 
+    // console.log(groupIds);
     const users = await User.find({
       _id: { $in: userIds },
     });
 
     const groups = await Group.find({
-      _id: { $in: groupIds },
+      _id: { $in: [...groupID.map((g) => g.group), ...groupIds] },
       // created_by: req.params.id,
     });
 
-    // console.log(groups);
+    console.log(groups);
     const lastMessages = [];
     for (const user of users) {
       const filteredMessages = messages.filter(
@@ -139,14 +138,29 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           unreadCount: filteredMessages.filter((m) => !m.isRead).length,
           filteredMessages: filteredMessages,
         });
+      } else {
+        console.log('does not have any messages')
+        lastMessages.push({
+          receiver: group,
+          lastMessage: {
+            sender: {
+              _id: group._id,
+            },
+            recipient_type: "group",
+            createdAt: group.createdAt,
+            message: "New group",
+          },
+          unreadCount: 0,
+          filteredMessages: [],
+        });
       }
     }
 
     res.send({
       lastMessages: lastMessages.sort((a, b) => {
         return (
-          new Date(b.lastMessage.createdAt).getTime() -
-          new Date(a.lastMessage.createdAt).getTime()
+          new Date(b.lastMessage?.createdAt).getTime() -
+          new Date(a.lastMessage?.createdAt).getTime()
         );
       }),
     });
