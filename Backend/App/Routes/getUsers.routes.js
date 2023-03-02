@@ -12,5 +12,6 @@ app.get('/users/:id', controller.getusers);
 app.get('/userm/:id', controller.getUsersAndGroupsWithMessage);
 app.get('/me/:id', controller.getMe);
 app.put('/updatepp/:id', controller.updateProfile);
+app.get('/group/:id', controller.getMembers);
 
 module.exports = app;

@@ -14,6 +14,22 @@ module.exports.getusers = async (req, res) => {
   }
 };
 
+module.exports.getMembers = async (req, res) => {
+  try {
+    const members = await GroupMember.find({ group: req.params.id }).populate({
+      path: "group",
+      model: "group",
+    }).populate({
+      path: "user",
+      model: "user",
+    });
+
+    res.status(200).json(members);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
 module.exports.getUsersWithMessage = async (req, res, next) => {
   try {
     const messages = await Message.find({
@@ -139,7 +155,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           filteredMessages: filteredMessages,
         });
       } else {
-        console.log('does not have any messages')
+        console.log("does not have any messages");
         lastMessages.push({
           receiver: group,
           lastMessage: {
