@@ -7,11 +7,11 @@
       <ion-label slot="start" class="text-2xl font-bold">{{me.name}} </ion-label>
 
       <ion-buttons slot="end">
-        <ion-button *ngIf="created_by === hold.id" >
+        <ion-button *ngIf="created_by === hold.id">
           <ion-icon class="font-extrabold" style="font-size: 1.5rem" name="add"></ion-icon>
         </ion-button>
-        <ion-button *ngIf="created_by === hold.id" >
-          <ion-icon class="font-bold" style="font-size: 1.5rem"   name="create"></ion-icon>
+        <ion-button *ngIf="created_by === hold.id">
+          <ion-icon class="font-bold" style="font-size: 1.5rem" name="create"></ion-icon>
         </ion-button>
       </ion-buttons>
     </ion-item>
@@ -45,7 +45,8 @@
           <p class="text-2xl font-bold">{{me.name}}</p>
         </ion-card-title>
         <ion-card-subtitle>{{me.description}}
-          <p>Admin: {{me.created_by?.name}}</p>
+          <p>Admin - {{me.created_by?._id === hold.id ? 'You' : me.created_by?.name}}</p>
+          <p>Group - {{member.length === 1 ? member.length + ' participant' : member.length + ' participants'}}</p>
         </ion-card-subtitle>
       </ion-card-header>
     </ion-card>
@@ -66,7 +67,7 @@
 
     <ion-card *ngIf="type === 'group'">
       <ion-card-header>
-        <ion-card-title>Users</ion-card-title>
+        <ion-card-title>{{member.length === 1 ? member.length + ' participant' : member.length + ' participants'}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-item lines="none" detail="false" *ngFor="let item of member">
@@ -75,12 +76,21 @@
               [src]="item.user.isAvatar ? item.user.avatar:  'https://ionicframework.com/docs/img/demos/avatar.svg'" />
           </ion-avatar>
           <ion-label>
-            {{item.user.name}} <p>{{item.user._id === created_by ? 'Admin': ''}}</p>
+            {{item.group.created_by === hold.id && item.user._id === hold.id? 'You' : item.user.name}} <p>{{item.user._id === created_by ? 'Admin': ''}}</p>
           </ion-label>
+
+          <ion-buttons slot="end" *ngIf="created_by === hold.id && item.user._id !== hold.id">
+            <ion-button color="warning"><ion-icon name="trash"></ion-icon></ion-button>
+          </ion-buttons>
         </ion-item>
       </ion-card-content>
 
     </ion-card>
 
+    <ion-card *ngIf="type === 'group'">
+      <ion-card-content>
+        <ion-button color="danger" expand="block"><ion-icon name="exit-outline" slot="start"></ion-icon>Leave the group</ion-button>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

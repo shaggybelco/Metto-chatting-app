@@ -12,7 +12,7 @@
       <ion-label slot="start">
         <p class="font-bold text-2xl">{{name}}</p>
         <p *ngIf="type === 'group'">
-          <span class="text-xs opacity-50" *ngFor="let item of members; let isLast = last">{{item.user?.name}}{{!isLast ? ', ' : ''}}</span>
+          <span class="text-xs opacity-50" *ngFor="let item of members; let isLast = last">{{item.user?._id === hold.id ? 'You' :  item.user?.name}}{{!isLast ? ', ' : ''}}</span>
         </p>
         <p *ngIf="vals" class="text-blue-400">typing</p>
       </ion-label>
