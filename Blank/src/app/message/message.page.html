@@ -64,7 +64,7 @@
                   *ngIf="mess.recipient_type === 'group'">0{{mess.sender.cellphone}}</time>
               </div>
               <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2"
-                style="min-width:300px; width: 300px; border-radius: 16px" [src]="mess.file" />
+                style="min-width: 300px; min-height: 200px !important; border-radius: 16px" [src]="mess.file" />
               {{mess.message}}
               <div class="chat-header space-x-2 flex justify-end relative">
                 <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>

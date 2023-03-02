@@ -33,9 +33,18 @@ module.exports = Socket = (server) => {
       const disconnectedUserID = Object.keys(users).find(
         (key) => users[key] === socket.id
       );
+
+      let offlineUsers = {};
+
+      console.log(disconnectedUserID)
+     
       if (disconnectedUserID) {
         delete users[disconnectedUserID];
-        io.emit("status", { userID: disconnectedUserID, status: "offline" });
+        offlineUsers[disconnectedUserID] = "offline";
+
+        console.log(offlineUsers)
+        console.log(users)
+        io.emit("status", { users: Object.keys(users)});
       }
     });
 
@@ -100,7 +109,7 @@ module.exports = Socket = (server) => {
 
     socket.on("send", async (data) => {
       try {
-        console.log(users);
+        // console.log(users);
         if (data.recipient_type === "group") {
           const user = await User.findOne({ _id: data.me });
           const otherUser = await Group.findOne({ _id: data.otherId });
@@ -126,7 +135,7 @@ module.exports = Socket = (server) => {
             let page = 1;
             let skip = (page - 1) * pageSize;
             message.save(message).then(async (response) => {
-              console.log(response);
+              // console.log(response);
               let messages = await Message.find({
                 $or: [
                   {
