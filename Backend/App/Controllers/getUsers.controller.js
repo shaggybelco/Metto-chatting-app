@@ -16,15 +16,39 @@ module.exports.getusers = async (req, res) => {
 
 module.exports.getMembers = async (req, res) => {
   try {
-    const members = await GroupMember.find({ group: req.params.id }).populate({
-      path: "group",
-      model: "group",
-    }).populate({
-      path: "user",
-      model: "user",
-    });
+    const members = await GroupMember.find({ group: req.params.id })
+      .populate({
+        path: "group",
+        model: "group",
+      })
+      .populate({
+        path: "user",
+        model: "user",
+      });
 
     res.status(200).json(members);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+module.exports.getGroup = async (req, res) => {
+  try {
+    const group = await Group.findOne({ _id: req.params.id }).populate({
+      path: "created_by",
+      model: "user",
+    });
+    const members = await GroupMember.find({ group: req.params.id })
+      .populate({
+        path: "group",
+        model: "group",
+      })
+      .populate({
+        path: "user",
+        model: "user",
+      });
+
+    res.status(200).json({ group, members });
   } catch (error) {
     res.status(500).json(error.message);
   }

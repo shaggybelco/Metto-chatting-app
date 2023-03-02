@@ -28,6 +28,14 @@ export class UserService {
     return this.http.put(`${environment.baseUrl}/updatepp/${data.id}`, data);
   }
 
+  getMembers(userId: any): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/groupmembers/${userId}`);
+  }
+
+  getGroup(userId: any): Observable<any> {
+    return this.http.get(`${environment.baseUrl}/group/${userId}`);
+  }
+
   async uploadImage(file: File, data: any) {
     this.upload$.next(true);
     if (file) {

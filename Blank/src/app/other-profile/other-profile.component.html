@@ -1,9 +1,20 @@
 <ion-header>
   <ion-toolbar color="secondary">
-    <ion-buttons slot="start">
-      <ion-back-button text="" defaultHref="/tab"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{me.name}} </ion-title>
+    <ion-item color="secondary" lines="none">
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="/tab"></ion-back-button>
+      </ion-buttons>
+      <ion-label slot="start" class="text-2xl font-bold">{{me.name}} </ion-label>
+
+      <ion-buttons slot="end">
+        <ion-button *ngIf="created_by === hold.id" >
+          <ion-icon class="font-extrabold" style="font-size: 1.5rem" name="add"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="created_by === hold.id" >
+          <ion-icon class="font-bold" style="font-size: 1.5rem"   name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -25,8 +36,21 @@
   </ion-card>
 
   <!-- info card -->
-  <div *ngIf="me">
-    <ion-card class="mt-6">
+  <div>
+    <ion-card class="mt-6" *ngIf="type === 'group'">
+      <img *ngIf="!me.isAvatar" lazy src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      <img lazy alt="Silhouette of a person's head" *ngIf="me.isAvatar" [src]="me.avatar" />
+      <ion-card-header>
+        <ion-card-title>
+          <p class="text-2xl font-bold">{{me.name}}</p>
+        </ion-card-title>
+        <ion-card-subtitle>{{me.description}}
+          <p>Admin: {{me.created_by?.name}}</p>
+        </ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card class="mt-6" *ngIf="type === 'user'">
       <img *ngIf="!me.isAvatar" lazy src="https://ionicframework.com/docs/img/demos/avatar.svg" />
       <img lazy alt="Silhouette of a person's head" *ngIf="me.isAvatar" [src]="me.avatar" />
       <ion-card-header>
@@ -40,17 +64,18 @@
 
     </ion-card>
 
-    <ion-card>
+    <ion-card *ngIf="type === 'group'">
       <ion-card-header>
-        <ion-card-title>Groups</ion-card-title>
+        <ion-card-title>Users</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-item lines="none" detail="false">
-          <ion-avatar slot="start">
-            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <ion-item lines="none" detail="false" *ngFor="let item of member">
+          <ion-avatar slot="start" class="avatar">
+            <img
+              [src]="item.user.isAvatar ? item.user.avatar:  'https://ionicframework.com/docs/img/demos/avatar.svg'" />
           </ion-avatar>
           <ion-label>
-            group name
+            {{item.user.name}} <p>{{item.user._id === created_by ? 'Admin': ''}}</p>
           </ion-label>
         </ion-item>
       </ion-card-content>

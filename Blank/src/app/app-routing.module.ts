@@ -50,7 +50,7 @@ const routes: Routes = [
     path: 'new-chat',
     loadChildren: () => import('./new-chat/new-chat.module').then( m => m.NewChatPageModule)
   },{
-    path: 'profile/:otherId',
+    path: 'profile/:otherId/:type',
     component: OtherProfileComponent
   }
 

@@ -9,8 +9,11 @@
           src="https://ionicframework.com/docs/img/demos/avatar.svg" />
         <img lazy *ngIf="haveAvatar" alt="Silhouette of a person's head" [src]="profile" />
       </ion-avatar>
-      <ion-label slot="start">{{name}}
-        <p *ngIf="type === 'group'">users</p>
+      <ion-label slot="start">
+        <p class="font-bold text-2xl">{{name}}</p>
+        <p *ngIf="type === 'group'">
+          <span class="text-xs opacity-50" *ngFor="let item of members; let isLast = last">{{item.user?.name}}{{!isLast ? ', ' : ''}}</span>
+        </p>
         <p *ngIf="vals" class="text-blue-400">typing</p>
       </ion-label>
       <ion-buttons slot="end">
@@ -59,8 +62,8 @@
                 <time class="text-xs opacity-60 font-bold mb-2 flex-end"
                   *ngIf="mess.recipient_type === 'group'">0{{mess.sender.cellphone}}</time>
               </div>
-              <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2" style="min-width:300px; width: 300px; border-radius: 16px"
-                [src]="mess.file" />
+              <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2"
+                style="min-width:300px; width: 300px; border-radius: 16px" [src]="mess.file" />
               {{mess.message}}
               <div class="chat-header space-x-2 flex justify-end relative">
                 <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>

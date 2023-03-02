@@ -12,6 +12,7 @@ import { PhotoService } from '../services/photo.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
 import { Message } from '../model/messages.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-message',
@@ -28,7 +29,8 @@ export class MessagePage implements OnInit {
     private chat: ChatService,
     public trans: TransformService,
     public photoService: PhotoService,
-    private router: Router
+    private router: Router,
+    private user: UserService
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     this.chat.listenToTyping().subscribe((val: any) => {
@@ -49,6 +51,7 @@ export class MessagePage implements OnInit {
   isFile: boolean = false;
   @ViewChild('messagesContainer', { static: false })
   messagesContainer!: ElementRef;
+  members: any = [];
 
   @ViewChild(IonContent, { static: true }) content!: IonContent;
   public image$: BehaviorSubject<any> = new BehaviorSubject('');
@@ -63,9 +66,9 @@ export class MessagePage implements OnInit {
   isLoading: boolean = false;
   showScrollDownButton: boolean = false;
 
-  gotoProf(){
+  gotoProf() {
     // console.log(this.id)
-    this.router.navigate(['/profile', this.id]);
+    this.router.navigate(['/profile', this.id,this.type]);
   }
 
   ngAfterViewChecked() {
@@ -134,6 +137,8 @@ export class MessagePage implements OnInit {
         this.slowScrollToBottom();
       },
     });
+
+    this.getMembers();
   }
 
   startTyping() {
@@ -194,6 +199,19 @@ export class MessagePage implements OnInit {
     return this.holdingFiles.includes(item);
   }
 
+  getMembers() {
+    this.user.getMembers(this.id).subscribe({
+      next: (val: any) => {
+        console.log(val)
+        this.members = val;
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      complete: () => {},
+    });
+  }
+
   getMessages() {
     this.isLoading = true;
     const messageQueryParams = {
@@ -214,12 +232,13 @@ export class MessagePage implements OnInit {
         this.message$.next(this.messages);
         this.profile = this.messages[0]?.receiver.avatar;
         this.haveAvatar = this.messages[0]?.receiver.isAvatar;
-        this.isLoading = false;
       },
       error: (err: any) => {
         console.error(err);
-        this.isLoading = true;
         // Handle the error properly, e.g. show a message to the user
+      },
+      complete: () => {
+        this.isLoading = false;
       },
     });
   }
