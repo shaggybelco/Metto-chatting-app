@@ -11,7 +11,15 @@ const socket = io(`${environment.base}`);
   providedIn: 'root',
 })
 export class ChatService {
-  constructor(private http: HttpClient, private photoService: PhotoService) { }
+
+  private statusSubject = new BehaviorSubject<any>({});
+
+  constructor(private http: HttpClient, private photoService: PhotoService) {
+    socket.on('status', (data) => {
+      this.statusSubject.next(data);
+      console.log(data)
+    });
+  }
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
   public typying$: BehaviorSubject<any> = new BehaviorSubject(false);
   public otherUserID$: BehaviorSubject<any> = new BehaviorSubject(false);
@@ -23,7 +31,11 @@ export class ChatService {
     });
   }
 
-  public  isScrolledToBottom = false;
+  getStatus() {
+    return this.statusSubject.asObservable();
+  }
+
+  public isScrolledToBottom = false;
 
   public getNewMessage = () => {
     socket.on('mesRec', (message) => {
@@ -54,7 +66,7 @@ export class ChatService {
     );
   }
 
-  startTyping(data: any){
+  startTyping(data: any) {
     socket.emit('typing', data);
   }
 

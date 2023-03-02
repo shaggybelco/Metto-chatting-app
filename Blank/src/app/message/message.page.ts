@@ -22,6 +22,7 @@ import { UserService } from '../services/user.service';
 export class MessagePage implements OnInit {
   typing: boolean = false;
   vals: any;
+  status: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +38,11 @@ export class MessagePage implements OnInit {
       // console.log(val)
       this.vals = val;
     });
+
+    chat.getStatus().subscribe((status: any) => {
+      this.status = status.users;
+      console.log(this.status)
+    })
   }
 
   id = this.route.snapshot.params['id'];
@@ -60,6 +66,10 @@ export class MessagePage implements OnInit {
     // Passing a duration to the method makes it so the scroll slowly
     // goes to the top instead of instantly
     this.content.scrollToTop(500);
+  }
+
+  isUserOnline(userID: string): boolean {
+    return this.status?.indexOf(userID) !== -1;
   }
 
   isScrolledToBottom: boolean = false;

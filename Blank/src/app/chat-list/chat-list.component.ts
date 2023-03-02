@@ -3,7 +3,6 @@ import { TransformService } from './../services/transform.service';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
-import { last } from 'rxjs';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -15,6 +14,7 @@ export class ChatListComponent implements OnInit {
   hold: any;
   vals: any;
   otherUserID: string = '';
+  status: any = [];
 
   constructor(
     public trans: TransformService,
@@ -30,11 +30,18 @@ export class ChatListComponent implements OnInit {
 
     this.chat.otherUserID$.subscribe((val: string) => {
       // console.log(val)
-      this.otherUserID =  val;
+      this.otherUserID = val;
     })
+
+    chat.getStatus().subscribe((status: any) => {
+      this.status = status.users;
+      console.log(this.status)
+    })
+
   }
 
   @Input() userList!: any;
+
 
   ngOnInit(): void {
     this.hold = this.token.decode();
@@ -42,6 +49,10 @@ export class ChatListComponent implements OnInit {
 
   ngDoCheck() {
     // console.log(this.userList);
+  }
+
+  isUserOnline(userID: string): boolean {
+    return this.status?.indexOf(userID) !== -1;
   }
 
   goToMessage(id: string, name: string, type: string, i: number) {
@@ -56,7 +67,7 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    // console.log(changes);
     this.storage.set('users', this.userList);
   }
 }

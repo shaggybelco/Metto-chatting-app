@@ -1,9 +1,10 @@
 export const environment = {
   production: false,
   baseUrla: 'https://metto-chatting-app-backend-production.up.railway.app/api',
-  base: 'https://metto-chatting-app-backend-production.up.railway.app',
+  basex: 'https://metto-chatting-app-backend-production.up.railway.app',
   baseUrlr: 'https://metto-chatting.onrender.com/api',
   baseUrl: 'http://localhost:3333/api',
+  base: 'http://localhost:3333',
   cloud_name: 'dqgb5h17l',
   api_key: '281331871495664',
   api_secret: '_nNPAd9aIwMzX2kREA0NEb_Utsg',

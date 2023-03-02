@@ -103,7 +103,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   try {
     const groupID = await GroupMember.find({ user: { $eq: id } });
 
-    console.log(groupID);
+    // console.log(groupID);
     if (groupID === null) {
       // res.status(404).send({ error: "Not Found" });
       console.log("No group");
@@ -147,7 +147,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       // created_by: req.params.id,
     });
 
-    console.log(groups);
+    // console.log(groups);
     const lastMessages = [];
     for (const user of users) {
       const filteredMessages = messages.filter(
@@ -179,7 +179,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
           filteredMessages: filteredMessages,
         });
       } else {
-        console.log("does not have any messages");
+        // console.log("does not have any messages");
         lastMessages.push({
           receiver: group,
           lastMessage: {

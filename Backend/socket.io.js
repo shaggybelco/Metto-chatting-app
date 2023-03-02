@@ -8,19 +8,38 @@ module.exports = Socket = (server) => {
   const io = require("socket.io")(server, {
     cors: {
       origin: "*",
-      methods: ["GET", "POST"],
     },
   });
 
-  let users = [];
+  let users = {};
+  let onlineUsers = {};
 
-  io.on("connection", (sockect) => {
-    sockect.on("connected", (userID) => {
-      users[userID] = sockect.id;
+  io.on("connection", (socket) => {
+    socket.on("connected", (userID) => {
+      users[userID] = socket.id;
+      onlineUsers[userID] = "online";
       console.log(users);
+
+      io.emit("status", { users:  Object.keys(onlineUsers)});
     });
 
-    sockect.on("typing", (data) => {
+    // setInterval(() => {
+    //   Object.keys(users).forEach((userID) => {
+    //     io.to(users[userID]).emit("status", { userID, status: "online" });
+    //   });
+    // }, 60000);
+
+    socket.on("disconnect", () => {
+      const disconnectedUserID = Object.keys(users).find(
+        (key) => users[key] === socket.id
+      );
+      if (disconnectedUserID) {
+        delete users[disconnectedUserID];
+        io.emit("status", { userID: disconnectedUserID, status: "offline" });
+      }
+    });
+
+    socket.on("typing", (data) => {
       // console.log(data);
       if (users[data.receiver]) {
         io.to(users[data.receiver]).emit("typing", data.sender);
@@ -28,7 +47,7 @@ module.exports = Socket = (server) => {
       }
     });
 
-    sockect.on("read", (msgRead) => {
+    socket.on("read", (msgRead) => {
       console.log(msgRead);
       try {
         Chat.updateMany(
@@ -79,7 +98,7 @@ module.exports = Socket = (server) => {
       }
     });
 
-    sockect.on("send", async (data) => {
+    socket.on("send", async (data) => {
       try {
         console.log(users);
         if (data.recipient_type === "group") {
