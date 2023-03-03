@@ -4,15 +4,15 @@
   <ion-tabs>
 
     <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="list" (click)="setActiveTab('list')">
+      <ion-tab-button tab="list" (click)="tab = 'list'">
         <ion-icon [name]="tab === 'list' ? 'chatbubbles' : 'chatbubbles-outline'"></ion-icon>
         Chats
       </ion-tab-button>
-      <ion-tab-button tab="profile" (click)="setActiveTab('profile')">
+      <ion-tab-button tab="profile"  (click)="tab = 'profile'">
         <ion-icon [name]="tab === 'profile' ? 'person' : 'person-outline'"></ion-icon>
         Profile
       </ion-tab-button>
-      <ion-tab-button tab="contacts" (click)="setActiveTab('contacts')">
+      <ion-tab-button tab="contacts" (click)="tab = 'contacts'">
         <ion-icon [name]="tab === 'contacts' ? 'file-tray-full' : 'file-tray-full-outline'"></ion-icon>
         Contacts
       </ion-tab-button>
