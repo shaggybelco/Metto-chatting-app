@@ -69,7 +69,14 @@ export class MessagePage implements OnInit {
   }
 
   isUserOnline(userID: string): boolean {
-    return this.status?.indexOf(userID) !== -1;
+    if(this.status){
+      console.log(this.status?.indexOf(userID) !== -1)
+      return this.status?.indexOf(userID) !== -1;
+    }else{
+      console.log(this.status?.indexOf(userID) === -1)
+      return  this.status?.indexOf(userID) === -1;;
+    }
+   
   }
 
   isScrolledToBottom: boolean = false;
