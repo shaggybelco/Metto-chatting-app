@@ -23,6 +23,7 @@ export class ChatService {
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
   public typying$: BehaviorSubject<any> = new BehaviorSubject(false);
   public otherUserID$: BehaviorSubject<any> = new BehaviorSubject(false);
+  public countUnread$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   connect(id: any) {
     socket.on("connect", () => {
@@ -33,11 +34,12 @@ export class ChatService {
 
   unreadCount = 0;
   setUnreadCount(unread: number){
+    this.countUnread$.next(unread);
     this.unreadCount = unread;
   }
 
   getUnreadCount(){
-    return this.unreadCount;
+    return this.unreadCount
   }
 
   getStatus() {

@@ -18,13 +18,17 @@ export class TabsPage implements OnInit {
     this.tab = selectedTab;
   }
 
-  ngOnInit(): void {
-
+  ngOnInit() {
+    this.myData = this.chat.getUnreadCount();
+    console.log(this.chat.getUnreadCount())
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     // console.log(this.chat.getUnreadCount())
-    this.myData = this.chat.getUnreadCount();
+    setTimeout(() => {
+      this.myData = this.chat.getUnreadCount();
+    }, 0);
+   
   }
 
 }
