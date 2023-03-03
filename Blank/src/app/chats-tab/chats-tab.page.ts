@@ -50,6 +50,8 @@ export class ChatsTabPage implements OnInit {
       this.user.getUsersWithLastMessage(this.hold.id).subscribe({
         next: (users: any) => {
           this.users = users.lastMessages;
+          // console.log(users.lastMessages)
+          this.countUnread(users.lastMessages)
         },
         error: (error: any) => {
           console.log(error);
@@ -57,6 +59,17 @@ export class ChatsTabPage implements OnInit {
         complete: () => {},
       });
     });
+  }
+
+  countUnread(usersList: any){
+    let count = 0;
+    usersList.forEach((element: any) => {
+      // console.log(element.unreadCount)
+       count = element.unreadCount + count;
+      //  console.log(count)
+    });
+
+    this.chat.setUnreadCount(count);
   }
 
   getUsersWithLastMessage() {

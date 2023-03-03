@@ -35,6 +35,7 @@
           <ion-buttons slot="end">
             <ion-button
               (click)="confirm()"
+              *ngIf="selectedContacts.length > 0"
               fill="solid"
               color="primary"
               [strong]="true"

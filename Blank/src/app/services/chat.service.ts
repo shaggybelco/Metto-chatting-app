@@ -31,6 +31,15 @@ export class ChatService {
     });
   }
 
+  unreadCount = 0;
+  setUnreadCount(unread: number){
+    this.unreadCount = unread;
+  }
+
+  getUnreadCount(){
+    return this.unreadCount;
+  }
+
   getStatus() {
     return this.statusSubject.asObservable();
   }

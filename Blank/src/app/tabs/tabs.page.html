@@ -6,6 +6,7 @@
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="list" (click)="tab = 'list'">
         <ion-icon [name]="tab === 'list' ? 'chatbubbles' : 'chatbubbles-outline'"></ion-icon>
+        <ion-badge class="absolute -mt-2 font-bold text-xs" color="danger">{{myData}}</ion-badge>
         Chats
       </ion-tab-button>
       <ion-tab-button tab="profile"  (click)="tab = 'profile'">

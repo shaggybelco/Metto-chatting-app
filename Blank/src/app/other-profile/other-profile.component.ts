@@ -31,10 +31,10 @@ export class OtherProfileComponent implements OnInit {
   }
 
   getMe() {
-    if (this.otherId === this.hold.id) { 
-      this.router.navigate(['/tab/profile'])
-    }
-    else
+    // if (this.otherId === this.hold.id) { 
+    //   this.router.navigate(['/tab/profile'])
+    // }
+    // else
       if (this.type === 'user') {
         this.prof.getMe(this.otherId).subscribe({
           next: (res: any) => {
