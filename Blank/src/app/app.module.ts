@@ -12,21 +12,27 @@ import { LoginComponent } from './Auth/login/login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestsService } from './interceptors/http-requests.service';
 import { OtherProfileComponent } from './other-profile/other-profile.component';
+import { PhoneInputComponent } from './phone-input/phone-input.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent],
+  declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent, PhoneInputComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    InputMaskModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestsService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestsService, multi: true }
   ],
   bootstrap: [AppComponent],
+  exports: [PhoneInputComponent]
 })
 export class AppModule {}
