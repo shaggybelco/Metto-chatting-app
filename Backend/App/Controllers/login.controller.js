@@ -51,7 +51,7 @@ exports.getUser = async (req, res) => {
     const user = await User.findOne({ cellphone: cellphone });
 
     if (!user) {
-      return res.status(400).json({ error: "user does not exists" });
+      return res.status(200).json(user);
     }
 
     res.status(200).json(user);

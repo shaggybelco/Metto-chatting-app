@@ -23,7 +23,7 @@ export class PhoneInputComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.cellphone);
+    console.log(this.cellphone.replace(/\D/g, ''));
     // this.user.signup(this.userForm.value).subscribe({
     //   next: (res: any) => {
     //     console.log(res);
@@ -37,7 +37,7 @@ export class PhoneInputComponent implements OnInit {
     //     this.load$.next(false);
     //   },
     // });
-    this.auth.login({ cellphone: this.cellphone }).subscribe({
+    this.auth.login({ cellphone: this.cellphone.replace(/\D/g, '') }).subscribe({
       next: (res: any) => {
         console.log(res);
       },
