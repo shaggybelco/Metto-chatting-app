@@ -1,32 +1,34 @@
-<ion-card>
-  <ion-card-header>
-    <ion-list [inset]="true">
-      <ion-item [button]="true" [detail]="false" id="select-country">
-        <ion-label>Select your country</ion-label>
-        <div slot="end" class="text-blue-300/100" id="selected-country">
-          {{ selectedCountry.name }}
-        </div>
-      </ion-item>
-    </ion-list>
-  </ion-card-header>
-</ion-card>
+<div class="center">
+  <ion-card>
+    <ion-card-header>
+      <ion-list [inset]="true">
+        <ion-item [button]="true" [detail]="false" id="select-country">
+          <ion-label>Select your country</ion-label>
+          <div slot="end" class="text-blue-300/100" id="selected-country">
+            {{ selectedCountry.name }}
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-card-header>
+  </ion-card>
 
-<ion-card>
-  <ion-card-header>
-    <div class="grid p-fluid">
-      <div class="col-12 md:col-6 lg:col-4">
-        <span>Cellphone number</span>
-        <p-inputMask
-          [mask]="selectedCountry.mask"
-          [placeholder]="selectedCountry.mask"
-          [(ngModel)]="cellphone"
-          (onInput)="cellphoneChange()"
-        >
-        </p-inputMask>
+  <ion-card>
+    <ion-card-header>
+      <div class="grid p-fluid">
+        <div class="col-12 md:col-6 lg:col-4">
+          <span>Cellphone number</span>
+          <p-inputMask
+            [mask]="selectedCountry.mask"
+            [placeholder]="selectedCountry.mask"
+            [(ngModel)]="cellphone"
+            (onInput)="cellphoneChange()"
+          >
+          </p-inputMask>
+        </div>
       </div>
-    </div>
-  </ion-card-header>
-</ion-card>
+    </ion-card-header>
+  </ion-card>
+</div>
 
 <ion-modal trigger="select-country" #modal>
   <ng-template>
@@ -41,9 +43,122 @@
   </ng-template>
 </ion-modal>
 
-
 <ion-fab slot="fixed" vertical="bottom" horizontal="end">
   <ion-fab-button (click)="onSubmit()">
     <ion-icon name="caret-forward-outline"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Register</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="grid p-fluid">
+        <div class="col-12 md:col-6 lg:col-4">
+          <span>Cellphone number</span>
+          <p-inputMask
+            [mask]="selectedCountry.mask"
+            [placeholder]="selectedCountry.mask"
+            [(ngModel)]="cellphone"
+            (onInput)="cellphoneChange()"
+          >
+          </p-inputMask>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4 mt-4">
+          <span>Name</span>
+          <input
+            type="text"
+            pInputText
+            [(ngModel)]="name"
+            placeholder="e.g John"
+          />
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4 mt-4">
+          <span>Password</span>
+          <p-password [(ngModel)]="password" placeholder="*********">
+            <ng-template pTemplate="header">
+              <h6>Pick a password</h6>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <p-divider></p-divider>
+              <p class="mt-2">Suggestions</p>
+              <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+      </div>
+
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button (click)="Register(); setOpen(false)">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<ion-modal [isOpen]="isUser">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Login</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setIsUser(false)">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="grid p-fluid">
+        <div class="col-12 md:col-6 lg:col-4">
+          <span>Cellphone number</span>
+          <p-inputMask
+            [mask]="selectedCountry.mask"
+            [placeholder]="selectedCountry.mask"
+            [(ngModel)]="cellphone"
+            (onInput)="cellphoneChange()"
+          >
+          </p-inputMask>
+        </div>
+
+        <div class="col-12 md:col-6 lg:col-4 mt-4">
+          <span>Password</span>
+          <p-password [(ngModel)]="password" placeholder="*********">
+            <ng-template pTemplate="header">
+              <h6>Pick a password</h6>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <p-divider></p-divider>
+              <p class="mt-2">Suggestions</p>
+              <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+      </div>
+
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button (click)="signin(); setIsUser(false)">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+  </ng-template>
+</ion-modal>

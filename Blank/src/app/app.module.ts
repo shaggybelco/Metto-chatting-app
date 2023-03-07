@@ -16,6 +16,9 @@ import { PhoneInputComponent } from './phone-input/phone-input.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {InputMaskModule} from 'primeng/inputmask';
 import { TypeaheadComponent } from './typeahead/typeahead.component';
+import {PasswordModule} from 'primeng/password';
+import { DividerModule } from "primeng/divider";
+import {InputTextModule} from 'primeng/inputtext';
 
 @NgModule({
   declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent, PhoneInputComponent,TypeaheadComponent],
@@ -27,7 +30,10 @@ import { TypeaheadComponent } from './typeahead/typeahead.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    InputMaskModule
+    InputMaskModule,
+    PasswordModule,
+    DividerModule,
+    InputTextModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

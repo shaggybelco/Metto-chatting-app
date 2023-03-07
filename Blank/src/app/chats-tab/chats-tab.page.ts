@@ -23,6 +23,14 @@ export class ChatsTabPage implements OnInit {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
 
+
+  isUser = false;
+  isModalOpen = false;
+
+  setIsUser(isUser: boolean) {
+    this.isUser = isUser;
+  }
+  
   public load$: BehaviorSubject<any> = new BehaviorSubject(false);
   hold: any;
   users: any = [];
