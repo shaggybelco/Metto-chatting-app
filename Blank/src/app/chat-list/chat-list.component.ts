@@ -23,6 +23,7 @@ export class ChatListComponent implements OnInit {
     private storage: StorageService,
     public chat: ChatService
   ) {
+    this.hold = this.token.decode();
     this.chat.listenToTyping().subscribe((val: any) => {
       // console.log(val)
       this.vals = val;
@@ -47,6 +48,7 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit(): void {
     this.hold = this.token.decode();
+    this.chat.connect(this.hold.id);
   }
 
   ngDoCheck() {
