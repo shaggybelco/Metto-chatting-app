@@ -131,7 +131,7 @@ export class ContactsComponent implements OnInit {
 
     for (const contact of this.contactsDatabase) {
       if (contact.cellphone) {
-        const phoneStr = contact.cellphone.toString();
+        const phoneStr = contact.cellphone.replace(/\D/g, '').toString();
         contactsMap[phoneStr] = contact;
       }
     }

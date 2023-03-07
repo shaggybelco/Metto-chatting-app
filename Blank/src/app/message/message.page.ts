@@ -43,6 +43,8 @@ export class MessagePage implements OnInit {
       this.status = status.users;
       console.log(this.status)
     })
+
+    this.chat.connect(this.hold.id);
   }
 
   id = this.route.snapshot.params['id'];

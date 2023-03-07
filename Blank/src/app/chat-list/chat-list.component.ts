@@ -28,6 +28,8 @@ export class ChatListComponent implements OnInit {
       this.vals = val;
     });
 
+    this.chat.connect(this.hold.id);
+
     this.chat.otherUserID$.subscribe((val: string) => {
       // console.log(val)
       this.otherUserID = val;
