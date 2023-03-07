@@ -4,7 +4,7 @@ module.exports = (mongoose) => {
       mongoose.Schema(
         {
           name: String,
-          cellphone: { type: Number, unique: true, required: true },
+          cellphone: { type: String, unique: true, required: true },
           password: { type: String, required: true },
           isAvatar: {
             type: Boolean,

@@ -15,9 +15,10 @@ import { OtherProfileComponent } from './other-profile/other-profile.component';
 import { PhoneInputComponent } from './phone-input/phone-input.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {InputMaskModule} from 'primeng/inputmask';
+import { TypeaheadComponent } from './typeahead/typeahead.component';
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent, PhoneInputComponent],
+  declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent, PhoneInputComponent,TypeaheadComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

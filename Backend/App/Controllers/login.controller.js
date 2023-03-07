@@ -43,3 +43,19 @@ exports.login = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.getUser = async (req, res) => {
+  const { cellphone } = req.body;
+
+  try {
+    const user = await User.findOne({ cellphone: cellphone });
+
+    if (!user) {
+      return res.status(400).json({ error: "user does not exists" });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};

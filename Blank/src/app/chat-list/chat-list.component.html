@@ -4,7 +4,7 @@
   <ion-item detail="false" button *ngFor="let user of userList; let i = index"
    (click)="goToMessage(user.receiver._id, user.receiver.name, user.lastMessage.recipient_type, i)"
     >
-    <ion-avatar *ngIf="user.lastMessage.recipient_type === 'user'" [class]="isUserOnline(user.receiver._id) && user.lastMessage.recipient_type !== 'group' ? 'avatar online' : 'avatar offline'" slot="start">
+    <ion-avatar *ngIf="user.lastMessage.recipient_type === 'user'" [class]="isUserOnline(user.receiver._id) && user.lastMessage.recipient_type !== 'group' && status?.length !== 0 ? 'avatar online' : 'avatar offline'" slot="start">
       <img alt="Silhouette of a person's head"
         [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
       <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->

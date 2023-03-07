@@ -19,5 +19,8 @@ export class AuthService {
     return this.http.post(`${environment.baseUrl}/log`, data)
   }
 
+  login(data: any): Observable<any>{
+    return this.http.post(`${environment.baseUrl}/logs`, data)
+  }
 
 }

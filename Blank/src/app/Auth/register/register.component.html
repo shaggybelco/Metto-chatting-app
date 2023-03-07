@@ -7,15 +7,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Signup</ion-title>
     </ion-toolbar>
   </ion-header>
   <div class="center">
-    <ion-card class="ion-padding">
-      <!-- <ion-card-title> Signup </ion-card-title> -->
+    <!-- <ion-card class="ion-padding">
 
       <ion-card-content>
         <ion-progress-bar *ngIf="load$ |async"  type="indeterminate"></ion-progress-bar>
@@ -26,7 +25,6 @@
             <li [ngClass]="step === 3? 'step step-info': 'step'"></li>
           </ul>
           <ng-container *ngIf="step === 1">
-            <!-- form step 1 content -->
             <div *ngIf="f['cellphone'].touched && f['cellphone'].invalid" class="alert alert-danger mb-1 mt-2">
               <div *ngIf="f['cellphone'].errors && f['cellphone'].errors['required']">Cellphone is required.</div>
               <div *ngIf="f['cellphone'].dirty && f['cellphone']errors">Phone number must be 10 numbers. </div>
@@ -41,7 +39,6 @@
           </ng-container>
         
           <ng-container *ngIf="step === 2">
-            <!-- form step 2 content -->
 
             <div *ngIf="f['password'].touched && f['password'].invalid" class="alert alert-danger  mb-1 mt-2">
               <div *ngIf="f['password'].errors && f['password'].errors['required']">Password is required.</div>
@@ -58,7 +55,6 @@
           </ng-container>
 
           <ng-container *ngIf="step===3">
-            <!-- form step 3 content -->
             <div
             *ngIf="f['name'].touched && f['name'].invalid"
             class="alert alert-danger mb-1"
@@ -88,6 +84,13 @@
           <a [routerLink]="['/login']">signin</a></ion-text
         >
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
+
+   
+
   </div>
+
+  <app-phone-input ></app-phone-input>
+
+ 
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,6 +18,7 @@ import { Toast } from '@capacitor/toast';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  cellphone: any;
   constructor(
     private fb: FormBuilder,
     private user: AuthService,
@@ -66,20 +67,26 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+
   onSubmit() {
-    this.load$.next(true)
-    console.log(this.userForm.value);
-    this.user.signup(this.userForm.value).subscribe({
+    this.load$.next(true);
+    console.log(this.cellphone);
+    // this.user.signup(this.userForm.value).subscribe({
+    //   next: (res: any) => {
+    //     console.log(res);
+    //     localStorage.setItem('token', res.token);
+    //     this.token.token = res.token;
+    //     this.load$.next(false);
+    //     this.router.navigate(['/tab']);
+    //   },
+    //   error: (err: any) => {
+    //     console.log(err);
+    //     this.load$.next(false);
+    //   },
+    // });
+    this.user.login({ cellphone: this.cellphone }).subscribe({
       next: (res: any) => {
         console.log(res);
-        localStorage.setItem('token', res.token);
-        this.token.token = res.token;
-        this.load$.next(false);
-        this.router.navigate(['/tab']);
-      },
-      error: (err: any) => {
-        console.log(err);
-        this.load$.next(false);
       },
     });
   }

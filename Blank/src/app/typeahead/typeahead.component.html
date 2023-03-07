@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancelChanges()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirmChanges()">Done</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="searchbarInput($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light" class="ion-padding">
+  <ion-list id="modal-list" [inset]="true">
+    <ion-radio-group [allowEmptySelection]="true" [(ngModel)]="workingSelectedValues">
+    <ion-item *ngFor="let item of filteredItems; trackBy: trackItems">
+      <ion-label>{{ item.name }}</ion-label>
+      <ion-radio
+        [value]="item" 
+      ></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+  </ion-list>
+</ion-content>

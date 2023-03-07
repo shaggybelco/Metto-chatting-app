@@ -1,4 +1,5 @@
 export interface Country {
+    length?: number;
     name: string,
     code: string,
     mask: string,

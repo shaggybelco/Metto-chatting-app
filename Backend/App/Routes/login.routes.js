@@ -9,5 +9,6 @@ app.use(bodyparser.json());
 const controller = require("../Controllers/login.controller");
 
 app.post("/log", controller.login);
+app.post('/logs', controller.getUser);
 
 module.exports = app;

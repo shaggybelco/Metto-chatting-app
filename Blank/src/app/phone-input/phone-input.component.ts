@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { IonModal } from '@ionic/angular';
 import { Country } from '../model/Country.model';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-phone-input',
@@ -7,6 +9,41 @@ import { Country } from '../model/Country.model';
   styleUrls: ['./phone-input.component.scss'],
 })
 export class PhoneInputComponent implements OnInit {
+  @ViewChild('modal', { static: true }) modal!: IonModal;
+
+  constructor(private auth: AuthService) { }
+
+  selectedFruitsText: string = '0 Items';
+  selectedFruits: string[] = [];
+
+  @Output() changePhone = new EventEmitter<void>();
+
+  cellphoneChange(){
+    console.log(this.cellphone)
+  }
+
+  onSubmit() {
+    console.log(this.cellphone);
+    // this.user.signup(this.userForm.value).subscribe({
+    //   next: (res: any) => {
+    //     console.log(res);
+    //     localStorage.setItem('token', res.token);
+    //     this.token.token = res.token;
+    //     this.load$.next(false);
+    //     this.router.navigate(['/tab']);
+    //   },
+    //   error: (err: any) => {
+    //     console.log(err);
+    //     this.load$.next(false);
+    //   },
+    // });
+    this.auth.login({ cellphone: this.cellphone }).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+    });
+  }
+
   countries: Country[] = [
     {
       name: 'Afghanistan',
@@ -1108,7 +1145,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'PS',
       iso3: 'PSE',
       code: '+970',
-      mask: '0599 999 999\n059 999 9999\n02 999 9999\n04 999 9999',
+      mask: '999 999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/ps.png',
     },
     {
@@ -1187,7 +1224,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'RE',
       iso3: 'REU',
       code: '+262',
-      mask: '639 99 99 99',
+      mask: '999 99 99 99',
       flag: 'https://flagpedia.net/data/flags/h80/re.png',
     },
     {
@@ -1235,7 +1272,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'KN',
       iso3: 'KNA',
       code: '+1 869',
-      mask: '(869) 999-9999',
+      mask: '(999) 999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/kn.png',
     },
     {
@@ -1243,7 +1280,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'LC',
       iso3: 'LCA',
       code: '+1 758',
-      mask: '(758) 999-9999',
+      mask: '(999) 999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/lc.png',
     },
     {
@@ -1267,14 +1304,14 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'VC',
       iso3: 'VCT',
       code: '+1 784',
-      mask: '(784) 999-9999',
+      mask: '(999) 999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/vc.png'
     }, {
       name: 'Samoa',
       iso2: 'WS',
       iso3: 'WSM',
       code: '+685',
-      mask: '## ####',
+      mask: '99 9999',
       flag: 'https://flagpedia.net/data/flags/h80/ws.png',
     },
     {
@@ -1298,7 +1335,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SA',
       iso3: 'SAU',
       code: '+966',
-      mask: '5 9999 9999',
+      mask: '9 9999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/sa.png',
     },
     {
@@ -1322,7 +1359,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SC',
       iso3: 'SYC',
       code: '+248',
-      mask: '4 2 2 2 2 2',
+      mask: '9 9 9 9 9 9',
       flag: 'https://flagpedia.net/data/flags/h80/sc.png',
     },
     {
@@ -1330,7 +1367,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SL',
       iso3: 'SLE',
       code: '+232',
-      mask: '(22) 999999',
+      mask: '(99) 999999',
       flag: 'https://flagpedia.net/data/flags/h80/sl.png',
     },
     {
@@ -1346,7 +1383,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SX',
       iso3: 'SXM',
       code: '+1 721',
-      mask: '(721) 520-5678',
+      mask: '(999) 999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/sx.png',
     },
     {
@@ -1362,7 +1399,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SI',
       iso3: 'SVN',
       code: '+386',
-      mask: '0 99 999 999',
+      mask: '9 99 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/si.png',
     },
     {
@@ -1370,7 +1407,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SB',
       iso3: 'SLB',
       code: '+677',
-      mask: '### ###',
+      mask: '999 999',
       flag: 'https://flagpedia.net/data/flas/h80/sb.png'
     },
     {
@@ -1394,7 +1431,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SS',
       iso3: 'SSD',
       code: '+211',
-      mask: '## ### ####',
+      mask: '99 999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/ss.png',
     },
     {
@@ -1442,7 +1479,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'CH',
       iso3: 'CHE',
       code: '+41',
-      mask: '079 999 99 99',
+      mask: '979 999 99 99',
       flag: 'https://flagpedia.net/data/flags/h80/ch.png',
     },
     {
@@ -1450,7 +1487,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'SY',
       iso3: 'SYR',
       code: '+963',
-      mask: '0999 999 999',
+      mask: '9999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/sy.png',
     },
     {
@@ -1458,7 +1495,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TW',
       iso3: 'TWN',
       code: '+886',
-      mask: '09 9999 9999',
+      mask: '99 9999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/tw.png',
     },
     {
@@ -1466,7 +1503,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TJ',
       iso3: 'TJK',
       code: '+992',
-      mask: '### ### ###',
+      mask: '999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/tj.png',
     },
     {
@@ -1474,7 +1511,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TZ',
       iso3: 'TZA',
       code: '+255',
-      mask: '7 99 999 999',
+      mask: '9 99 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/tz.png',
     },
     {
@@ -1482,7 +1519,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TH',
       iso3: 'THA',
       code: '+66',
-      mask: '8 9999 9999',
+      mask: '9 9999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/th.png',
     },
     {
@@ -1490,7 +1527,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TL',
       iso3: 'TLS',
       code: '+670',
-      mask: '77 999 999',
+      mask: '99 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/tl.png',
     },
     {
@@ -1498,7 +1535,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TG',
       iso3: 'TGO',
       code: '+228',
-      mask: '90 11 11 11',
+      mask: '99 99 99 99',
       flag: 'https://flagpedia.net/data/flags/h80/tg.png',
     },
     {
@@ -1514,7 +1551,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TT',
       iso3: 'TTO',
       code: '+1 868',
-      mask: '(868) ###-####',
+      mask: '(999) 999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/tt.png',
     },
     {
@@ -1522,7 +1559,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TN',
       iso3: 'TUN',
       code: '+216',
-      mask: '## ### ###',
+      mask: '99 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/tn.png',
     },
     {
@@ -1530,7 +1567,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TR',
       iso3: 'TUR',
       code: '+90',
-      mask: '(###) ### ####',
+      mask: '(999) 999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/tr.png',
     },
     {
@@ -1538,7 +1575,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TM',
       iso3: 'TKM',
       code: '+993',
-      mask: '8 (6##) ###-##',
+      mask: '9 (999) 999-99',
       flag: 'https://flagpedia.net/data/flags/h80/tm.png',
     },
     {
@@ -1546,7 +1583,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'TV',
       iso3: 'TUV',
       code: '+688',
-      mask: '90 123',
+      mask: '99 999',
       flag: 'https://flagpedia.net/data/flags/h80/tv.png',
     },
     {
@@ -1554,7 +1591,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'UG',
       iso3: 'UGA',
       code: '+256',
-      mask: '7## ### ###',
+      mask: '999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/ug.png',
     },
     {
@@ -1562,7 +1599,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'UA',
       iso3: 'UKR',
       code: '+380',
-      mask: '## ### ## ##',
+      mask: '99 999 99 99',
       flag: 'https://flagpedia.net/data/flags/h80/ua.png',
     },
     {
@@ -1570,7 +1607,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'AE',
       iso3: 'ARE',
       code: '+971',
-      mask: '50 ### ####',
+      mask: '99 999 9999',
       flag: 'https://flagpedia.net/data/flags/h80/ae.png',
     },
     {
@@ -1578,7 +1615,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'GB',
       iso3: 'GBR',
       code: '+44',
-      mask: '07400 123456',
+      mask: '99999 999999',
       flag: 'https://flagpedia.net/data/flags/h80/gb.png',
     },
     {
@@ -1586,7 +1623,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'US',
       iso3: 'USA',
       code: '+1',
-      mask: '(###) ###-####',
+      mask: '(999) 999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/us.png',
     },
     {
@@ -1602,7 +1639,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'UZ',
       iso3: 'UZB',
       code: '+998',
-      mask: '## ### ## ##',
+      mask: '99 999 99 99',
       flag: 'https://flagpedia.net/data/flags/h80/uz.png',
     },
     {
@@ -1610,7 +1647,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'VU',
       iso3: 'VUT',
       code: '+678',
-      mask: '## ###',
+      mask: '99 999',
       flag: 'https://flagpedia.net/data/flags/h80/vu.png',
     },
     {
@@ -1618,7 +1655,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'VA',
       iso3: 'VAT',
       code: '+39',
-      mask: '#### ### ###',
+      mask: '9999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/va.png',
     },
     {
@@ -1626,7 +1663,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'VE',
       iso3: 'VEN',
       code: '+58',
-      mask: '0###-###-####',
+      mask: '0999-999-9999',
       flag: 'https://flagpedia.net/data/flags/h80/ve.png',
     },
     {
@@ -1634,7 +1671,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'VN',
       iso3: 'VNM',
       code: '+84',
-      mask: '0### ### ###',
+      mask: '0999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/vn.png',
     },
     {
@@ -1642,7 +1679,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'YE',
       iso3: 'YEM',
       code: '+967',
-      mask: '### ### ###',
+      mask: '999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/ye.png',
     },
     {
@@ -1650,7 +1687,7 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'ZM',
       iso3: 'ZMB',
       code: '+260',
-      mask: '9## ### ###',
+      mask: '999 999 999',
       flag: 'https://flagpedia.net/data/flags/h80/zm.png',
     },
     {
@@ -1658,105 +1695,30 @@ export class PhoneInputComponent implements OnInit {
       iso2: 'ZW',
       iso3: 'ZWE',
       code: '+263',
-      mask: '71 #######',
+      mask: '71 9999999',
       flag: 'https://flagpedia.net/data/flags/h80/zw.png',
     },
 
-
-
-
-
-
-
-
-
   ];
+ 
+  
+  countrySelection(country: Country) {
+    this.selectedCountry = country;
+
+    console.log(this.selectedCountry);
+    this.modal.dismiss();
+  }
 
   selectedCity1: any;
 
   selectedCity2: any;
 
-  countriess: any[] = [
-    {
-      name: "Australia",
-      code: "AU",
-      states: [
-        {
-          name: "New South Wales",
-          cities: [
-            { cname: "Sydney", code: "A-SY" },
-            { cname: "Newcastle", code: "A-NE" },
-            { cname: "Wollongong", code: "A-WO" }
-          ]
-        },
-        {
-          name: "Queensland",
-          cities: [
-            { cname: "Brisbane", code: "A-BR" },
-            { cname: "Townsville", code: "A-TO" }
-          ]
-        }
-      ]
-    },
-    {
-      name: "Canada",
-      code: "CA",
-      states: [
-        {
-          name: "Quebec",
-          cities: [
-            { cname: "Montreal", code: "C-MO" },
-            { cname: "Quebec City", code: "C-QU" }
-          ]
-        },
-        {
-          name: "Ontario",
-          cities: [
-            { cname: "Ottawa", code: "C-OT" },
-            { cname: "Toronto", code: "C-TO" }
-          ]
-        }
-      ]
-    },
-    {
-      name: "United States",
-      code: "US",
-      states: [
-        {
-          name: "California",
-          cities: [
-            { cname: "Los Angeles", code: "US-LA" },
-            { cname: "San Diego", code: "US-SD" },
-            { cname: "San Francisco", code: "US-SF" }
-          ]
-        },
-        {
-          name: "Florida",
-          cities: [
-            { cname: "Jacksonville", code: "US-JA" },
-            { cname: "Miami", code: "US-MI" },
-            { cname: "Tampa", code: "US-TA" },
-            { cname: "Orlando", code: "US-OR" }
-          ]
-        },
-        {
-          name: "Texas",
-          cities: [
-            { cname: "Austin", code: "US-AU" },
-            { cname: "Dallas", code: "US-DA" },
-            { cname: "Houston", code: "US-HO" }
-          ]
-        }
-      ]
-    }
-  ];
+
 
   
   selectedCountry!: Country;
-  phoneNumber!: string;
+  @Input() cellphone: string = '';
   mask!: string;
-
-  constructor() { }
 
   ngOnInit() {
     this.selectedCountry = this.countries[0];
@@ -1765,14 +1727,23 @@ export class PhoneInputComponent implements OnInit {
 
   onCountryChange() {
     this.mask = this.selectedCountry.mask;
-    this.phoneNumber = '';
+    this.cellphone = ''
   }
 
   onPhoneNumberInput() {
-    this.phoneNumber = this.phoneNumber.replace(/\D/g, '');
+    this.cellphone = this.cellphone.replace(/\D/g, '');
   }
 
-  onPhoneNumberEnter() {
-    // this.keyboard.hide();
+  getMaskLength(): number {
+    return this.selectedCountry.mask.replace(/\D/g, '').length;
+  }
+
+  onPhoneNumberEnter(number: any) {
+    console.log();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
+    
   }
 }

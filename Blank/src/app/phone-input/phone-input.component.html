@@ -1,38 +1,49 @@
-<!-- <ion-item class="px-5" lines="none"><ion-searchbar show-clear-button="focus"></ion-searchbar></ion-item>
+<ion-card>
+  <ion-card-header>
+    <ion-list [inset]="true">
+      <ion-item [button]="true" [detail]="false" id="select-country">
+        <ion-label>Select your country</ion-label>
+        <div slot="end" class="text-blue-300/100" id="selected-country">
+          {{ selectedCountry.name }}
+        </div>
+      </ion-item>
+    </ion-list>
+  </ion-card-header>
+</ion-card>
 
-<ion-item>
-  <ion-label>Country</ion-label>
-  <ion-select [(ngModel)]="selectedCountry" (ionChange)="onCountryChange()">
-    <ion-select-option *ngFor="let country of countries" [value]="country">
-      {{country.name}}</ion-select-option>
-  </ion-select>
-</ion-item>
+<ion-card>
+  <ion-card-header>
+    <div class="grid p-fluid">
+      <div class="col-12 md:col-6 lg:col-4">
+        <span>Cellphone number</span>
+        <p-inputMask
+          [mask]="selectedCountry.mask"
+          [placeholder]="selectedCountry.mask"
+          [(ngModel)]="cellphone"
+          (onInput)="cellphoneChange()"
+        >
+        </p-inputMask>
+      </div>
+    </div>
+  </ion-card-header>
+</ion-card>
 
-<ion-item>
-  <ion-label>Phone Number</ion-label>
-  <ion-input [(ngModel)]="phoneNumber" [placeholder]="mask" (input)="onPhoneNumberInput()"
-    (keyup.enter)="onPhoneNumberEnter()"></ion-input>
-</ion-item> -->
-
-<!-- <ion-item>
-  <ion-label>Country</ion-label>
-  <ion-select [(ngModel)]="selectedCountry" (ionChange)="onCountryChange()">
-    <ion-select-option *ngFor="let country of countries" [value]="country">
-      {{country.name}}</ion-select-option>
-  </ion-select>
-</ion-item> -->
-
-<!-- <div class="form-control">
-  <label class="label">
-    <span class="label-text">Your Email</span>
-  </label>
-  <label class="input-group">
-    <span class="p-0 w-40"><select [(ngModel)]="selectedCountry" (onchange)="onCountryChange()" class="select w-full">
-        <option *ngFor="let country of countries" [value]="country">{{country.code}}</option>
-      </select></span>
-    <input type="text" [(ngModel)]="phoneNumber" [placeholder]="mask" (input)="onPhoneNumberInput()" [placeholder]="mask" class="input input-bordered w-full" />
-  </label>
-</div> -->
+<ion-modal trigger="select-country" #modal>
+  <ng-template>
+    <app-typeahead
+      class="ion-page"
+      title="Select your country"
+      [items]="countries"
+      [selectedItems]="selectedCountry"
+      (selectionChange)="countrySelection($event)"
+      (selectionCancel)="modal.dismiss()"
+    ></app-typeahead>
+  </ng-template>
+</ion-modal>
 
 
-  <!-- <p-inputMask mask="(999) 999-9999" [(ngModel)]="phoneNumber" placeholder="(999) 999-9999"></p-inputMask> -->
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button (click)="onSubmit()">
+    <ion-icon name="caret-forward-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
