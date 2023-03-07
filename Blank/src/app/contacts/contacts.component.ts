@@ -141,12 +141,12 @@ export class ContactsComponent implements OnInit {
       if (phones && phones.length > 0) {
         for (const phone of phones) {
           let number = phone?.number?.replace(/\D/g, '');
-          if (phone?.number?.startsWith('27')) {
-            number = number?.slice(2);
-          }
-          if (phone?.number?.startsWith('0')) {
-            number = number?.slice(1);
-          }
+          // if (phone?.number?.startsWith('27')) {
+          //   number = number?.slice(2);
+          // }
+          // if (phone?.number?.startsWith('0')) {
+          //   number = number?.slice(1);
+          // }
 
           const dbContact = number !== undefined ? contactsMap[number] : undefined;
           if (dbContact) {
