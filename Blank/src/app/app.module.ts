@@ -19,6 +19,7 @@ import { TypeaheadComponent } from './typeahead/typeahead.component';
 import {PasswordModule} from 'primeng/password';
 import { DividerModule } from "primeng/divider";
 import {InputTextModule} from 'primeng/inputtext';
+import { PhoneNumberUtil } from 'google-libphonenumber';
 
 @NgModule({
   declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent, PhoneInputComponent,TypeaheadComponent],
@@ -37,7 +38,7 @@ import {InputTextModule} from 'primeng/inputtext';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestsService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestsService, multi: true },PhoneNumberUtil
   ],
   bootstrap: [AppComponent],
   exports: [PhoneInputComponent]

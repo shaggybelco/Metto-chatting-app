@@ -21,7 +21,7 @@
             [mask]="selectedCountry.mask"
             [placeholder]="selectedCountry.mask"
             [(ngModel)]="cellphone"
-            (onInput)="cellphoneChange()"
+            (onInput)="cellphoneChange($event)"
           >
           </p-inputMask>
         </div>
@@ -52,7 +52,7 @@
 <ion-modal [isOpen]="isModalOpen">
   <ng-template>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>Register</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="setOpen(false)">Close</ion-button>
@@ -67,7 +67,7 @@
             [mask]="selectedCountry.mask"
             [placeholder]="selectedCountry.mask"
             [(ngModel)]="cellphone"
-            (onInput)="cellphoneChange()"
+            (onInput)="cellphoneChange($event)"
           >
           </p-inputMask>
         </div>
@@ -114,7 +114,7 @@
 <ion-modal [isOpen]="isUser">
   <ng-template>
     <ion-header>
-      <ion-toolbar>
+      <ion-toolbar color="primary">
         <ion-title>Login</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="setIsUser(false)">Close</ion-button>
@@ -129,7 +129,7 @@
             [mask]="selectedCountry.mask"
             [placeholder]="selectedCountry.mask"
             [(ngModel)]="cellphone"
-            (onInput)="cellphoneChange()"
+            (onInput)="cellphoneChange($event)"
           >
           </p-inputMask>
         </div>
