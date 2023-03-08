@@ -1,7 +1,11 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button color="secondary" text="" defaultHref="/home"></ion-back-button>
+      <ion-back-button
+        color=""
+        text=""
+        defaultHref="/home"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>Get started</ion-title>
   </ion-toolbar>
@@ -9,6 +13,13 @@
 
 <ion-content fullscreen="true">
   <ion-header collapse="condense">
+    <ion-buttons slot="">
+      <ion-back-button
+        color="secondary"
+        text=""
+        defaultHref="/home"
+      ></ion-back-button>
+    </ion-buttons>
     <ion-toolbar>
       <ion-title size="large">Get started</ion-title>
     </ion-toolbar>
@@ -85,12 +96,7 @@
         >
       </ion-card-content>
     </ion-card> -->
-
-   
-
   </div>
 
-  <app-phone-input ></app-phone-input>
-
- 
+  <app-phone-input></app-phone-input>
 </ion-content>

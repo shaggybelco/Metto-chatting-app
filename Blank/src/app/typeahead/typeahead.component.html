@@ -17,6 +17,9 @@
   <ion-list id="modal-list" [inset]="true">
     <ion-radio-group [allowEmptySelection]="true" [(ngModel)]="workingSelectedValues">
     <ion-item *ngFor="let item of filteredItems; trackBy: trackItems">
+      <ion-avatar slot="start" class="avatar">
+        <img src="{{ item.flag}}" alt="{{item.name}}"/>
+      </ion-avatar>
       <ion-label>{{ item.name }}</ion-label>
       <ion-radio
         [value]="item" 
