@@ -39,7 +39,7 @@ export class ChatService {
   }
 
   getUnreadCount(){
-    return this.unreadCount
+    return this.countUnread$.asObservable();
   }
 
   getStatus() {

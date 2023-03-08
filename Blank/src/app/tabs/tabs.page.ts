@@ -25,9 +25,9 @@ export class TabsPage implements OnInit {
 
   ngAfterViewChecked() {
     // console.log(this.chat.getUnreadCount())
-    setTimeout(() => {
-      this.myData = this.chat.getUnreadCount();
-    }, 0);
+    // setTimeout(() => {
+      this.chat.getUnreadCount().subscribe(count => this.myData = count);
+    // }, 0);
    
   }
 

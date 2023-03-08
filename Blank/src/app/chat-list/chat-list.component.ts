@@ -60,7 +60,7 @@ export class ChatListComponent implements OnInit {
   }
 
   goToMessage(id: string, name: string, type: string, i: number) {
-    console.log(id, name, type);
+    // console.log(id, name, type);
     console.log(this.userList[i]?.filteredMessages?.reverse());
     this.storage.changeMessage(
       this.userList[i]?.filteredMessages,
@@ -71,7 +71,7 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    // console.log(changes);
     this.storage.set('users', this.userList);
   }
 }
