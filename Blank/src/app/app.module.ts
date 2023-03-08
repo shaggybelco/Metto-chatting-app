@@ -13,16 +13,23 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpRequestsService } from './interceptors/http-requests.service';
 import { OtherProfileComponent } from './other-profile/other-profile.component';
 import { PhoneInputComponent } from './phone-input/phone-input.component';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {InputMaskModule} from 'primeng/inputmask';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InputMaskModule } from 'primeng/inputmask';
 import { TypeaheadComponent } from './typeahead/typeahead.component';
-import {PasswordModule} from 'primeng/password';
-import { DividerModule } from "primeng/divider";
-import {InputTextModule} from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
+import { InputTextModule } from 'primeng/inputtext';
 import { PhoneNumberUtil } from 'google-libphonenumber';
 
 @NgModule({
-  declarations: [AppComponent, RegisterComponent, LoginComponent, OtherProfileComponent, PhoneInputComponent,TypeaheadComponent],
+  declarations: [
+    AppComponent,
+    RegisterComponent,
+    LoginComponent,
+    OtherProfileComponent,
+    PhoneInputComponent,
+    TypeaheadComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -34,13 +41,14 @@ import { PhoneNumberUtil } from 'google-libphonenumber';
     InputMaskModule,
     PasswordModule,
     DividerModule,
-    InputTextModule
+    InputTextModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestsService, multi: true },PhoneNumberUtil
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestsService, multi: true },
+    PhoneNumberUtil,
   ],
   bootstrap: [AppComponent],
-  exports: [PhoneInputComponent]
+  exports: [PhoneInputComponent],
 })
 export class AppModule {}
