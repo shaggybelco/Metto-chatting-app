@@ -31,4 +31,7 @@ export class TabsPage implements OnInit {
    
   }
 
+  ngDoCheck(){
+    this.chat.getUnreadCount().subscribe(count => this.myData = count);
+  }
 }

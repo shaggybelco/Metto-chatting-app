@@ -36,8 +36,7 @@ export class UserService {
     return this.http.get(`${environment.baseUrl}/group/${userId}`);
   }
 
-  async uploadImage(file: File, data: any) {
-    this.upload$.next(true);
+  async uploadImage(data: any, file?: File) {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
@@ -45,15 +44,15 @@ export class UserService {
       formData.append('api_key', environment.api_key);
       formData.append('api_secret', environment.api_secret);
       formData.append('folder', 'chatpp');
-
+      this.upload$.next(true);
       this.http
         .post(this.CLOUDINARY_URL, formData, {
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
           },
         })
-        .subscribe(
-          (res: any) => {
+        .subscribe({
+          next: (res: any) => {
             console.log(res);
 
             const After = {
@@ -61,24 +60,33 @@ export class UserService {
               image: res.secure_url,
             };
 
-            this.updateProfile(After).subscribe(
-              (updated: any) => {
+            this.updateProfile(After).subscribe({
+              next: (updated: any) => {
                 this.upload$.next(false);
                 console.log(updated);
               },
-              (error: any) => {
+              error: (error: any) => {
                 this.upload$.next(false);
                 console.log(error);
-              }
-            );
+              },
+            });
           },
-          (err: any) => {
+          error: (err: any) => {
             console.log(err);
             this.upload$.next(false);
-          }
-        );
+          },
+        });
     } else {
-      console.log('no file');
+      this.updateProfile(data).subscribe({
+        next: (updated: any) => {
+          this.upload$.next(false);
+          console.log(updated);
+        },
+        error: (error: any) => {
+          this.upload$.next(false);
+          console.log(error);
+        },
+      });
     }
   }
 }

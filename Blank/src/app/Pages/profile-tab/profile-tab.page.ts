@@ -85,8 +85,14 @@ export class ProfileTabPage implements OnInit {
     this.prof.upload$.subscribe((res: any) => {
       console.log(res);
     });
-    this.prof.uploadImage(this.file, data);
-    this.getMe();
+
+    if (this.isAvatar) {
+      this.prof.uploadImage(data, this.file);
+      this.getMe();
+    } else {
+      this.prof.uploadImage(data);
+      this.getMe();
+    }
   }
 
   canDismiss = async () => {
