@@ -5,7 +5,7 @@ const User = db.users;
 
 exports.register = async (req, res) => {
   try {
-    const user = await User.find({ cellphone: req.body.cellphone, country: req.body.country });
+    const user = await User.find({ cellphone: req.body.cellphone});
     // console.log(user);
 
     const SECRET_KEY =
@@ -25,8 +25,6 @@ exports.register = async (req, res) => {
           country: req.body.country,
           password: hash,
         });
-
-        var flag = 1;
 
         user
           .save(user)
