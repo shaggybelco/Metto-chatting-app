@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import { Country } from '../model/Country.model';
+import { Country } from '../../model/Country.model';
 
 @Component({
   selector: 'app-typeahead',

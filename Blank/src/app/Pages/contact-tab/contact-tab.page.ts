@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@capacitor-community/contacts';
 import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { TokenService } from '../services/token.service';
-import { UserService } from '../services/user.service';
+import { TokenService } from '../../services/token.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-contact-tab',

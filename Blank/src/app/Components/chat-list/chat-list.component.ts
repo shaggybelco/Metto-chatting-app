@@ -1,9 +1,9 @@
-import { StorageService } from './../services/storage.service';
-import { TransformService } from './../services/transform.service';
+import { StorageService } from '../../services/storage.service';
+import { TransformService } from '../../services/transform.service';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { TokenService } from '../services/token.service';
+import { TokenService } from '../../services/token.service';
 import { Router } from '@angular/router';
-import { ChatService } from '../services/chat.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat-list',

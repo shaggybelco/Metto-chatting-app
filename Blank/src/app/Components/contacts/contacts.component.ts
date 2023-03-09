@@ -1,13 +1,13 @@
-import { StorageService } from './../services/storage.service';
+import { StorageService } from '../../services/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { Contacts } from '@capacitor-community/contacts';
 import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { TokenService } from '../services/token.service';
-import { UserService } from '../services/user.service';
+import { TokenService } from '../../services/token.service';
+import { UserService } from '../../services/user.service';
 import { Platform } from '@ionic/angular';
-import { ContactPayload } from '../model/notRegistered.model';
-import { Contact } from '../model/contacts.model';
+import { ContactPayload } from '../../model/notRegistered.model';
+import { Contact } from '../../model/contacts.model';
 
 @Component({
   selector: 'app-contacts',

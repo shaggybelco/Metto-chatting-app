@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenService } from '../services/token.service';
-import { UserService } from '../services/user.service';
-import { TransformService } from '../services/transform.service';
+import { TokenService } from '../../services/token.service';
+import { UserService } from '../../services/user.service';
+import { TransformService } from '../../services/transform.service';
 import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject } from 'rxjs';
-import { StorageService } from '../services/storage.service';
-import { ChatService } from '../services/chat.service';
+import { StorageService } from '../../services/storage.service';
+import { ChatService } from '../../services/chat.service';
 
 @Component({
   selector: 'app-chats-tab',

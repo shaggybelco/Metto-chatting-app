@@ -9,10 +9,12 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
-import { Country } from '../model/Country.model';
-import { AuthService } from '../services/auth.service';
-import { TokenService } from '../services/token.service';
+import { Country } from '../../model/Country.model';
+import { AuthService } from '../../services/auth.service';
+import { TokenService } from '../../services/token.service';
 import { PhoneNumberUtil } from 'google-libphonenumber';
+import { BehaviorSubject } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-phone-input',
@@ -30,17 +32,22 @@ export class PhoneInputComponent implements OnInit {
     private phone: PhoneNumberUtil
   ) {}
 
+  public load$: BehaviorSubject<any> = new BehaviorSubject(false);
+
   selectedFruitsText: string = '0 Items';
   selectedFruits: string[] = [];
 
   @Output() changePhone = new EventEmitter<void>();
-  cellphone: string = '';
-  password: string = '';
-  name: string = '';
 
   canDismiss = false;
 
   presentingElement: any;
+  cellphone = new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]);
+  name = new FormControl('', [Validators.required, Validators.minLength(3)]);
+  password = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+  ]);
 
   ngOnInit() {
     this.selectedCountry = this.countries[0];
@@ -61,7 +68,7 @@ export class PhoneInputComponent implements OnInit {
 
   signin() {
     const number = this.phone.parseAndKeepRawInput(
-      this.cellphone,
+      this.cellphone.value!,
       this.selectedCountry.iso2
     );
     console.log(
@@ -73,11 +80,12 @@ export class PhoneInputComponent implements OnInit {
       this.selectedCountry.iso2
     );
     if (this.isCorrect) {
+      this.load$.next(true);
       this.auth
         .signin({
-          cellphone: this.cellphone.replace(/\D/g, ''),
-          password: this.password,
-          country: this.selectedCountry.name
+          cellphone: this.cellphone.value,
+          password: this.password.value,
+          country: this.selectedCountry.name,
         })
         .subscribe({
           next: (res: any) => {
@@ -92,6 +100,9 @@ export class PhoneInputComponent implements OnInit {
           error: (err: any) => {
             console.log(err);
           },
+          complete: () => {
+            this.load$.next(false);
+          },
         });
     }
   }
@@ -99,9 +110,9 @@ export class PhoneInputComponent implements OnInit {
   isCorrect: boolean = false;
 
   onSubmit() {
-    console.log(this.cellphone.replace(/\D/g, ''));
+    console.log(this.cellphone.value)
     const number = this.phone.parseAndKeepRawInput(
-      this.cellphone,
+      this.cellphone.value!,
       this.selectedCountry.iso2
     );
     console.log(
@@ -113,18 +124,25 @@ export class PhoneInputComponent implements OnInit {
       this.selectedCountry.iso2
     );
     if (this.isCorrect) {
+      this.load$.next(true);
       this.auth
-        .login({ cellphone: this.cellphone.replace(/\D/g, ''), country: this.selectedCountry.name })
+        .checkUser({
+          cellphone: this.cellphone.value,
+          country: this.selectedCountry.name,
+        })
         .subscribe({
           next: (res: any) => {
             if (!res) {
               this.setOpen(true);
               this.isUser = false;
+              this.load$.next(false);
             } else {
               console.log(res);
               this.setIsUser(true);
+              this.load$.next(false);
             }
           },
+          
         });
     }
   }
@@ -132,7 +150,7 @@ export class PhoneInputComponent implements OnInit {
   Register() {
     console.log(this.cellphone);
     const number = this.phone.parseAndKeepRawInput(
-      this.cellphone,
+      this.cellphone.value!,
       this.selectedCountry.iso2
     );
     console.log(
@@ -144,12 +162,13 @@ export class PhoneInputComponent implements OnInit {
       this.selectedCountry.iso2
     );
     if (this.isCorrect) {
+      this.load$.next(true);
       this.auth
         .signup({
-          name: this.name,
-          cellphone: this.cellphone.replace(/\D/g, ''),
-          password: this.password,
-          country: this.selectedCountry.name
+          name: this.name.value,
+          cellphone: this.cellphone.value,
+          password: this.password.value,
+          country: this.selectedCountry.name,
         })
         .subscribe({
           next: (res: any) => {
@@ -161,7 +180,8 @@ export class PhoneInputComponent implements OnInit {
           error: (err: any) => {
             console.log(err);
             this.setOpen(false);
-          },
+            this.load$.next(false);
+          }
         });
     }
   }
@@ -194,17 +214,16 @@ export class PhoneInputComponent implements OnInit {
 
   onCountryChange() {
     this.mask = this.selectedCountry.mask;
-    this.cellphone = '';
+    this.cellphone.setValue('');
   }
 
   onPhoneNumberInput() {
-    this.cellphone = this.cellphone.replace(/\D/g, '');
+    this.cellphone.setValue(this.cellphone.value);
   }
 
   getMaskLength(): number {
     return this.selectedCountry.mask.replace(/\D/g, '').length;
   }
-
 
   countries: Country[] = [
     {

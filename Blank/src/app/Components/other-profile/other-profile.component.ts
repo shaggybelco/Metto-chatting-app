@@ -1,8 +1,8 @@
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatusBar } from '@capacitor/status-bar';
-import { TokenService } from '../services/token.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-other-profile',

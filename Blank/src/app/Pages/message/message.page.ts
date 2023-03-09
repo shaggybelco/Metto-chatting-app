@@ -5,14 +5,14 @@ import {
   IonContent,
   ScrollDetail,
 } from '@ionic/angular';
-import { ChatService } from '../services/chat.service';
-import { TokenService } from '../services/token.service';
-import { TransformService } from '../services/transform.service';
-import { PhotoService } from '../services/photo.service';
+import { ChatService } from '../../services/chat.service';
+import { TokenService } from '../../services/token.service';
+import { TransformService } from '../../services/transform.service';
+import { PhotoService } from '../../services/photo.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
-import { Message } from '../model/messages.model';
-import { UserService } from '../services/user.service';
+import { Message } from '../../model/messages.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-message',

@@ -1,6 +1,7 @@
 <div class="center">
   <ion-card>
     <ion-card-header>
+      <ion-progress-bar *ngIf="load$ |async"  type="indeterminate"></ion-progress-bar>
       <ion-list [inset]="true">
         <ion-item [button]="true" [detail]="false" id="select-country">
           <ion-avatar slot="start" class="avatar">
@@ -34,7 +35,7 @@
               type="tel"
               [maxlength]="selectedCountry.mask.length"
               (onInput)="cellphoneChange($event)"
-              [(ngModel)]="cellphone"
+              [formControl]="cellphone"
               [placeholder]="selectedCountry.mask"
             ></ion-input>
           </ion-item>
@@ -75,37 +76,33 @@
     </ion-header>
     <ion-content class="ion-padding">
       <div class="grid p-fluid ion-padding center">
-        <div class="col-12 md:col-6 lg:col-4">
-          <ion-item>
-            <ion-label position="floating">Cellphone</ion-label>
-            <ion-input
-              [placeholder]="selectedCountry.mask"
-              [(ngModel)]="cellphone"
-              (onInput)="cellphoneChange($event)"
-            ></ion-input>
-          </ion-item>
-        </div>
+        <ion-item>
+          <ion-label position="floating">Cellphone</ion-label>
+          <ion-input
+            type="tel"
+            [placeholder]="selectedCountry.mask"
+            [formControl]="cellphone"
+            (onInput)="cellphoneChange($event)"
+          ></ion-input>
+        </ion-item>
 
-        <div class="col-12 md:col-6 lg:col-4 mt-4">
-          <ion-item>
-            <ion-label position="floating">Username</ion-label>
-            <ion-input
-              type="text"
-              pInputText
-              [(ngModel)]="name"
-              placeholder="e.g John"
-            ></ion-input>
-          </ion-item>
-        </div>
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input
+            type="text"
+            [formControl]="name"
+            placeholder="e.g John"
+          ></ion-input>
+        </ion-item>
 
-        <div class="col-12 md:col-6 lg:col-4 mt-4 z-50">
-          <ion-item>
-            <ion-label position="floating"
-              >Password</ion-label
-            >
-            <ion-input type="password" [(ngModel)]="password" placeholder="********"></ion-input>
-          </ion-item>
-        </div>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input
+            type="password"
+            [formControl]="password"
+            placeholder="********"
+          ></ion-input>
+        </ion-item>
       </div>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -131,21 +128,18 @@
       <div class="grid p-fluid ion-padding center">
         <div class="col-12 md:col-6 lg:col-4">
           <ion-item>
-            <ion-label position="floating">Cellphone</ion-label>
-            <ion-input
-              [placeholder]="selectedCountry.mask"
-              [(ngModel)]="cellphone"
-              (onInput)="cellphoneChange($event)"
-            ></ion-input>
+            <ion-label>{{cellphone.value}}</ion-label>
           </ion-item>
         </div>
 
         <div class="col-12 md:col-6 lg:col-4 mt-4 z-50">
           <ion-item>
-            <ion-label position="floating"
-              >Password</ion-label
-            >
-            <ion-input type="password" [(ngModel)]="password" placeholder="********"></ion-input>
+            <ion-label position="floating">Password</ion-label>
+            <ion-input
+              type="password"
+              [formControl]="password"
+              placeholder="********"
+            ></ion-input>
           </ion-item>
         </div>
       </div>

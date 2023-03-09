@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
-import { TokenService } from '../services/token.service';
-import { UserService } from '../services/user.service';
+import { TokenService } from '../../services/token.service';
+import { UserService } from '../../services/user.service';
 import { StatusBar } from '@capacitor/status-bar';
 import { Platform } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
