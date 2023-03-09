@@ -352,7 +352,7 @@ export class MessagePage implements OnInit {
 
     this.message = '';
     this.holdingFiles = [];
-    this.slowScrollToBottom();
+    this.scrollToBottom();
   }
 
   ngOnDestroy() {
