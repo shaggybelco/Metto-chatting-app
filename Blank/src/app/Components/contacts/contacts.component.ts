@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { Platform } from '@ionic/angular';
 import { ContactPayload } from '../../model/notRegistered.model';
 import { Contact } from '../../model/contacts.model';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-contacts',
@@ -19,16 +20,26 @@ export class ContactsComponent implements OnInit {
     private user: UserService,
     private token: TokenService,
     private platform: Platform,
-    private storage: StorageService
+    private storage: StorageService,
+    private chat: ChatService
   ) {
     this.contactSubject = new BehaviorSubject<any[]>([]);
     this.contacts$ = this.contactSubject.asObservable();
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
+    chat.getStatus().subscribe((status: any) => {
+      this.status = status.users;
+      console.log(this.status)
+    })
   }
+  status: any = [];
   hold: any = this.token.decode();
   contactsDatabase: any = [];
   loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  isUserOnline(userID: string): boolean {
+    return this.status?.indexOf(userID) !== -1;
+  }
+  
   ngOnInit() {
     this.getUsers();
     // this.getContactsFromCache();

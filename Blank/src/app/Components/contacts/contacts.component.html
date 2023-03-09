@@ -49,7 +49,7 @@
         *ngFor="let item of contacts"
         [routerLink]="['/message', item.db._id, item.name.display, 'user']"
       >
-        <ion-avatar slot="start" class="avatar">
+        <ion-avatar slot="start" [class]="isUserOnline(item.db._id) && status?.length !== 0 ? 'avatar online' : 'avatar offline'">
           <img
             [src]="
               item.db.isAvatar
