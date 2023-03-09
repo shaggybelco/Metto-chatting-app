@@ -6,6 +6,7 @@ module.exports = (mongoose) => {
           name: String,
           cellphone: { type: String, unique: true, required: true },
           password: { type: String, required: true },
+          country: { type: String, required: true },
           isAvatar: {
             type: Boolean,
             default: false,

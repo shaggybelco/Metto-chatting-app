@@ -77,6 +77,7 @@ export class PhoneInputComponent implements OnInit {
         .signin({
           cellphone: this.cellphone.replace(/\D/g, ''),
           password: this.password,
+          country: this.selectedCountry.name
         })
         .subscribe({
           next: (res: any) => {
@@ -113,7 +114,7 @@ export class PhoneInputComponent implements OnInit {
     );
     if (this.isCorrect) {
       this.auth
-        .login({ cellphone: this.cellphone.replace(/\D/g, '') })
+        .login({ cellphone: this.cellphone.replace(/\D/g, ''), country: this.selectedCountry.name })
         .subscribe({
           next: (res: any) => {
             if (!res) {
@@ -148,6 +149,7 @@ export class PhoneInputComponent implements OnInit {
           name: this.name,
           cellphone: this.cellphone.replace(/\D/g, ''),
           password: this.password,
+          country: this.selectedCountry.name
         })
         .subscribe({
           next: (res: any) => {
@@ -203,13 +205,6 @@ export class PhoneInputComponent implements OnInit {
     return this.selectedCountry.mask.replace(/\D/g, '').length;
   }
 
-  onPhoneNumberEnter(number: any) {
-    console.log();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-  }
 
   countries: Country[] = [
     {

@@ -28,7 +28,7 @@
           >
           </p-inputMask> -->
 
-          <ion-item counter="true">
+          <ion-item>
             <ion-label position="floating">Cellphone</ion-label>
             <ion-input
               type="tel"
@@ -74,48 +74,38 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="grid p-fluid center">
-        <ion-card class="ion-padding">
-          <div class="col-12 md:col-6 lg:col-4">
-            <span>Cellphone number</span>
-            <p-inputMask
-              [mask]="selectedCountry.mask"
+      <div class="grid p-fluid ion-padding center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <ion-item>
+            <ion-label position="floating">Cellphone</ion-label>
+            <ion-input
               [placeholder]="selectedCountry.mask"
               [(ngModel)]="cellphone"
               (onInput)="cellphoneChange($event)"
-            >
-            </p-inputMask>
-          </div>
+            ></ion-input>
+          </ion-item>
+        </div>
 
-          <div class="col-12 md:col-6 lg:col-4 mt-4">
-            <span>Name</span>
-            <input
+        <div class="col-12 md:col-6 lg:col-4 mt-4">
+          <ion-item>
+            <ion-label position="floating">Username</ion-label>
+            <ion-input
               type="text"
               pInputText
               [(ngModel)]="name"
               placeholder="e.g John"
-            />
-          </div>
+            ></ion-input>
+          </ion-item>
+        </div>
 
-          <div class="col-12 md:col-6 lg:col-4 mt-4">
-            <span>Password</span>
-            <p-password [(ngModel)]="password" placeholder="*********">
-              <ng-template pTemplate="header">
-                <h6>Pick a password</h6>
-              </ng-template>
-              <ng-template pTemplate="footer">
-                <p-divider></p-divider>
-                <p class="mt-2">Suggestions</p>
-                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                  <li>At least one lowercase</li>
-                  <li>At least one uppercase</li>
-                  <li>At least one numeric</li>
-                  <li>Minimum 8 characters</li>
-                </ul>
-              </ng-template>
-            </p-password>
-          </div>
-        </ion-card>
+        <div class="col-12 md:col-6 lg:col-4 mt-4 z-50">
+          <ion-item>
+            <ion-label position="floating"
+              >Password</ion-label
+            >
+            <ion-input type="password" [(ngModel)]="password" placeholder="********"></ion-input>
+          </ion-item>
+        </div>
       </div>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
@@ -138,38 +128,26 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <div class="grid p-fluid center">
-        <ion-card class="ion-padding">
-          <div class="col-12 md:col-6 lg:col-4">
-            <span>Cellphone number</span>
-            <p-inputMask
-              [mask]="selectedCountry.mask"
+      <div class="grid p-fluid ion-padding center">
+        <div class="col-12 md:col-6 lg:col-4">
+          <ion-item>
+            <ion-label position="floating">Cellphone</ion-label>
+            <ion-input
               [placeholder]="selectedCountry.mask"
               [(ngModel)]="cellphone"
               (onInput)="cellphoneChange($event)"
-            >
-            </p-inputMask>
-          </div>
+            ></ion-input>
+          </ion-item>
+        </div>
 
-          <div class="col-12 md:col-6 lg:col-4 mt-4">
-            <span>Password</span>
-            <p-password [(ngModel)]="password" placeholder="*********">
-              <ng-template pTemplate="header">
-                <h6>Pick a password</h6>
-              </ng-template>
-              <ng-template pTemplate="footer">
-                <p-divider></p-divider>
-                <p class="mt-2">Suggestions</p>
-                <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-                  <li>At least one lowercase</li>
-                  <li>At least one uppercase</li>
-                  <li>At least one numeric</li>
-                  <li>Minimum 8 characters</li>
-                </ul>
-              </ng-template>
-            </p-password>
-          </div>
-        </ion-card>
+        <div class="col-12 md:col-6 lg:col-4 mt-4 z-50">
+          <ion-item>
+            <ion-label position="floating"
+              >Password</ion-label
+            >
+            <ion-input type="password" [(ngModel)]="password" placeholder="********"></ion-input>
+          </ion-item>
+        </div>
       </div>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button (click)="signin(); setIsUser(false)">
