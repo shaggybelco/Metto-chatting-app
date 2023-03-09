@@ -3,19 +3,21 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PhotoService } from './photo.service';
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-const socket = io(`${environment.base}`);
+// const socket = io(`${environment.base}`);
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+  private socket!: Socket;
 
   private statusSubject = new BehaviorSubject<any>({});
 
   constructor(private http: HttpClient, private photoService: PhotoService) {
-    socket.on('status', (data) => {
+    this.socket = io(`${environment.base}`);
+    this.socket.on('status', (data) => {
       this.statusSubject.next(data);
     });
   }
@@ -25,10 +27,14 @@ export class ChatService {
   public countUnread$: BehaviorSubject<number> = new BehaviorSubject(0);
 
   connect(id: any) {
-    socket.on("connect", () => {
-      socket.emit('connected', id);
-      console.log(socket.id)
+    this.socket.on("connect", () => {
+      this.socket.emit('connected', id);
+      console.log(this.socket.id)
     });
+  }
+
+  getSocket(): Socket {
+    return this.socket;
   }
 
   unreadCount = 0;
@@ -48,7 +54,7 @@ export class ChatService {
   public isScrolledToBottom = false;
 
   public getNewMessage = () => {
-    socket.on('mesRec', (message) => {
+    this.socket.on('mesRec', (message) => {
       this.message$.next(message);
     });
 
@@ -56,7 +62,7 @@ export class ChatService {
   };
 
   listenToTyping(): Observable<any> {
-    socket.on('typing', (username: string) => {
+    this.socket.on('typing', (username: string) => {
       this.typying$.next(true);
       this.otherUserID$.next(username);
       setTimeout(() => {
@@ -75,11 +81,11 @@ export class ChatService {
   }
 
   startTyping(data: any) {
-    socket.emit('typing', data);
+    this.socket.emit('typing', data);
   }
 
   send(data: any) {
-    socket.emit('send', data);
+    this.socket.emit('send', data);
 
     // return this.http.post(
     //   `${environment.baseUrl}/messages/${data.me}/${data.otherId}`,

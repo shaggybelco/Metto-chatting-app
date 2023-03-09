@@ -13,6 +13,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { StatusBar } from '@capacitor/status-bar';
 import { Message } from '../../model/messages.model';
 import { UserService } from '../../services/user.service';
+import { Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-message',
@@ -23,6 +24,7 @@ export class MessagePage implements OnInit {
   typing: boolean = false;
   vals: any;
   status: any;
+  private socket!: Socket;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,8 +40,18 @@ export class MessagePage implements OnInit {
       this.vals = val;
     });
 
+    this.socket = this.chat.getSocket();
+
+
+
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
+    });
+    const ids = this.route.snapshot.params['id'];
+
+    this.socket.on("connect", () => {
+      this.socket.emit('connected', ids);
+      console.log(this.socket.id)
     });
   }
 
