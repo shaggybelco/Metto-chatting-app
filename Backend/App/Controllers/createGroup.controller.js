@@ -4,5 +4,6 @@ const User = db.users;
 const GroupMember = db.groupmembers;
 
 module.exports.createGroup = (req,res) => {
-    
+    console.log(req.body);
+    res.send(req.body);
 }

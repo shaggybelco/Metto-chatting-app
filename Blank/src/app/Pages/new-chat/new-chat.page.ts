@@ -5,6 +5,10 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { StatusBar } from '@capacitor/status-bar';
 import { StorageService } from '../../services/storage.service';
 import { Contact } from '../../model/contacts.model';
+import { UploadService } from 'src/app/services/upload.service';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-new-chat',
@@ -13,7 +17,12 @@ import { Contact } from '../../model/contacts.model';
 })
 export class NewChatPage implements OnInit {
   constructor(
-    private token: TokenService, private storage: StorageService) {
+    private token: TokenService,
+    private storage: StorageService,
+    private upload: UploadService,
+    private http: HttpClient,
+    private chat: ChatService
+  ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
 
@@ -24,10 +33,10 @@ export class NewChatPage implements OnInit {
     this.contactToChoseOn = this.storage.getContacts();
   }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
     this.contactToChoseOn = this.storage.getContacts();
     const contacts = localStorage.getItem('choose');
-    if(this.contactToChoseOn.length === 0){
+    if (this.contactToChoseOn.length === 0) {
       this.contactToChoseOn = JSON.parse(contacts!);
     }
   }
@@ -42,7 +51,7 @@ export class NewChatPage implements OnInit {
   addItem(contact: Contact) {
     if (contact && this.selectedContacts.indexOf(contact) < 0) {
       this.selectedContacts.push(contact);
-    }else{
+    } else {
       this.removeItem(contact);
     }
   }
@@ -97,5 +106,74 @@ export class NewChatPage implements OnInit {
 
       reader.readAsDataURL(this.file);
     };
+  }
+
+  async createGroup() {
+    if (this.file) {
+      this.isAvatar = true;
+    } else {
+      this.isAvatar = false;
+    }
+    const CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
+    let imgUrl = '';
+
+    if (this.isAvatar) {
+      const formData = new FormData();
+      formData.append('file', this.dataUrl);
+      formData.append('upload_preset', environment.cloud_preset);
+      formData.append('api_key', environment.api_key);
+      formData.append('api_secret', environment.api_secret);
+      formData.append('folder', 'chatpp');
+      this.http
+        .post(CLOUDINARY_URL, formData, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+        })
+        .subscribe({
+          next: (res: any) => {
+            console.log(res);
+            imgUrl = res.secure_url;
+
+            const data = {
+              name: this.name,
+              description: this.desc,
+              created_by: this.hold.id,
+              isAvatar: this.isAvatar,
+              avatar: imgUrl,
+              user: this.selectedContacts
+            };
+
+            this.chat.createGroup(data).subscribe({
+              next: (res: any) => {
+                console.log(res);
+              },error: (err: any) => { 
+                console.log(err);
+              }
+            })
+          },
+          error: (err: any) => {
+            console.log(err);
+          },
+        });
+    }else{
+      const data = {
+        name: this.name,
+        description: this.desc,
+        created_by: this.hold.id,
+        isAvatar: this.isAvatar,
+        user: this.selectedContacts
+      };
+
+      this.chat.createGroup(data).subscribe({
+        next: (res: any) => {
+          console.log(res);
+        },error: (err: any) => { 
+          console.log(err);
+        }
+      })
+    }
+
+    
   }
 }

@@ -37,6 +37,10 @@ export class ChatService {
     return this.socket;
   }
 
+  createGroup(group: any) {
+    return this.http.get(`${environment.base}/api/create`, group);
+  }
+
   unreadCount = 0;
   setUnreadCount(unread: number){
     this.countUnread$.next(unread);

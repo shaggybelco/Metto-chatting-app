@@ -38,7 +38,7 @@
           </ion-title>
           <ion-buttons slot="end">
             <ion-button
-              (click)="confirm()"
+              (click)="confirm(); createGroup();"
               *ngIf="selectedContacts.length > 0"
               fill="solid"
               color="primary"

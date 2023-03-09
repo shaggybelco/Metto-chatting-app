@@ -38,12 +38,14 @@ const log = require("./App/Routes/login.routes");
 const users = require("./App/Routes/getUsers.routes");
 const message = require("./App/Routes/getMessage.routes");
 const send = require("./App/Routes/sendMessage.routes");
+const create = require("./App/Routes/createGroup.routes");
 
 app.use("/api", reg);
 app.use("/api", log);
 app.use("/api", users);
 app.use("/api", message);
 app.use("/api", send);
+app.use("/api", create);
 
 server.listen(port, () => {
   console.log(`connect to http://localhost:${port}`);
