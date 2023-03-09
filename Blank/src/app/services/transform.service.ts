@@ -14,9 +14,9 @@ export class TransformService {
     let time = (Date.now() - Date.parse(date)) / 1000;
 
     if (time < 5) {
-      return 'just now';
+      return 'Just now';
     } else if (time < 60) {
-      return time + ' seconds';
+      return 'Seconds ago';
     } else if (time < 3600) {
       return Math.floor(time / 60) + ' minutes';
     } else if (time < 86400) {
@@ -25,7 +25,7 @@ export class TransformService {
       const minutes = dateObject.getMinutes().toString().padStart(2, '0');
       return hours + ':' + minutes;
     } else if (time < 126400) {
-      return 'yesterday';
+      return 'Yesterday';
     } else {
       const dateObject = new Date(Date.parse(date));
       return dateObject.toLocaleDateString('en-ZA', {
