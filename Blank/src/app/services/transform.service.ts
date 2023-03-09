@@ -13,12 +13,17 @@ export class TransformService {
 
     let time = (Date.now() - Date.parse(date)) / 1000;
 
-    if (time < 5) {
+    if (time < 30) {
       return 'Just now';
     } else if (time < 60) {
       return 'Seconds ago';
     } else if (time < 3600) {
-      return Math.floor(time / 60) + ' minutes';
+      const minutes = Math.floor(time / 60);
+      if (minutes === 1) {
+        return '1 minute';
+      } else {
+        return minutes + ' minutes';
+      }
     } else if (time < 86400) {
       const dateObject = new Date(Date.parse(date));
       const hours = dateObject.getHours().toString().padStart(2, '0');
