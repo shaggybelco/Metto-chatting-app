@@ -38,7 +38,6 @@ export class ChatsTabPage implements OnInit {
 
   ngAfterViewChecked() {
     this.chat.isScrolledToBottom = false;
-    // console.log(this.chat.isScrolledToBottom)
   }
 
   private userSource = new BehaviorSubject<any[]>([]);
@@ -53,12 +52,9 @@ export class ChatsTabPage implements OnInit {
     }
 
     this.chat.getNewMessage().subscribe((res: any) => {
-      console.log(res);
-
       this.user.getUsersWithLastMessage(this.hold.id).subscribe({
         next: (users: any) => {
           this.users = users.lastMessages;
-          // console.log(users.lastMessages)
           this.countUnread(users.lastMessages)
         },
         error: (error: any) => {
@@ -72,9 +68,7 @@ export class ChatsTabPage implements OnInit {
   countUnread(usersList: any){
     let count = 0;
     usersList.forEach((element: any) => {
-      // console.log(element.unreadCount)
        count = element.unreadCount + count;
-      //  console.log(count)
     });
 
     this.chat.setUnreadCount(count);
@@ -84,7 +78,6 @@ export class ChatsTabPage implements OnInit {
     this.load$.next(true);
     this.user.getUsersWithLastMessage(this.hold.id).subscribe(
       (res: any) => {
-        console.log(res.lastMessages);
         this.users = res.lastMessages;
         this.storage.set('users', this.users);
         this.load$.next(false);

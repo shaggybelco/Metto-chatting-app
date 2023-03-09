@@ -25,7 +25,6 @@ export class ContactTabPage implements OnInit {
 
   ngOnInit() {
     this.user.getUsers(this.hold.id).subscribe((res: any) => {
-      console.log(res);
       this.contactsDatabase = res;
       this.retrieveListOfContacts();
     });
@@ -36,7 +35,6 @@ export class ContactTabPage implements OnInit {
       // Any calls to load data go here
 
       this.user.getUsers(this.hold.id).subscribe((res: any) => {
-        console.log(res);
         this.contacts = [];
         this.contactSubject.next(this.contacts);
         this.contactsDatabase = res;

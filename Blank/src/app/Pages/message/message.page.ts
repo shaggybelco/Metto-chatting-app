@@ -35,13 +35,11 @@ export class MessagePage implements OnInit {
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     this.chat.listenToTyping().subscribe((val: any) => {
-      // console.log(val)
       this.vals = val;
     });
 
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
-      console.log(this.status + ' online');
     });
   }
 
@@ -77,7 +75,6 @@ export class MessagePage implements OnInit {
   showScrollDownButton: boolean = false;
 
   gotoProf() {
-    // console.log(this.id)
     this.router.navigate(['/profile', this.id, this.type]);
   }
 
@@ -104,9 +101,6 @@ export class MessagePage implements OnInit {
   originalY = 0;
 
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    // console.log('scroll', ev.detail);
-    // console.log((0.5 * ev.detail.currentY));
-    // console.log((ev.detail.currentY));
 
     if (ev.detail.currentY <= 0.7 * this.originalY) {
       this.showScrollDownButton = true;
@@ -136,7 +130,6 @@ export class MessagePage implements OnInit {
     this.getMessages();
     this.chat.getNewMessage().subscribe({
       next: (val: Message[]) => {
-        // console.log(val);
         this.message$.next(
           val.sort((a: Message, b: Message) => {
             return (
@@ -166,7 +159,6 @@ export class MessagePage implements OnInit {
 
   dataUrl: any;
   ngDoCheck() {
-    // console.log(this.photoService.photos);
     if (this.photoService.photos && this.photoService.photos.length > 0) {
       this.isFile = true;
       this.image$.next(this.photoService.photos);
@@ -174,7 +166,6 @@ export class MessagePage implements OnInit {
         const indexP = this.holdingFiles.indexOf(
           this.photoService.photos[index]
         );
-        // console.log(indexP);
         if (indexP > -1) {
           return;
         }
@@ -199,7 +190,6 @@ export class MessagePage implements OnInit {
 
   removeItem(item: string) {
     const index = this.holdingFiles.indexOf(item);
-    // console.log(index);
     if (index > -1) {
       this.holdingFiles.splice(index, 1);
     }
@@ -212,7 +202,6 @@ export class MessagePage implements OnInit {
   getMembers() {
     this.user.getMembers(this.id).subscribe({
       next: (val: any) => {
-        console.log(val);
         this.members = val;
       },
       error: (error: any) => {
@@ -229,12 +218,9 @@ export class MessagePage implements OnInit {
       receiver: this.id,
     };
 
-    // console.log(messageQueryParams);
 
     this.chat.getMessages(messageQueryParams, this.page).subscribe({
       next: (res: any) => {
-        // console.log(res);
-
         for (const message of res) {
           this.messages.unshift(message);
         }
@@ -268,8 +254,6 @@ export class MessagePage implements OnInit {
 
     this.input.onchange = (e: any) => {
       this.files = this.input.files;
-      // console.log(this.files);
-
       if (this.files.length > 0) {
         this.isFile = true;
       }
@@ -279,7 +263,6 @@ export class MessagePage implements OnInit {
         const file = this.files![currentIndex];
         const dataUrl = reader.result as string;
         const fileName = file.name;
-        console.log(fileName);
         const fileExtension =
           fileName && fileName.length > 0
             ? fileName?.split('.')?.pop()?.toLowerCase()
@@ -294,16 +277,13 @@ export class MessagePage implements OnInit {
 
         currentIndex++;
 
-        // console.log(dataUrl);
         this.holdingFiles.push({ img: dataUrl, name: file.name });
-        // console.log(this.holdingFiles);
 
         if (currentIndex < this.files!.length) {
           reader.readAsDataURL(this.files![currentIndex]);
         }
 
         this.image$.next(this.holdingFiles);
-        // console.log(this.image$.getValue());
       };
 
       reader.readAsDataURL(this.files[0]);
@@ -326,8 +306,6 @@ export class MessagePage implements OnInit {
       isFile: isFile,
       page: this.page,
     };
-
-    // console.log(isFile);
 
     if (this.message !== '' || isFile === true) {
       const lng = this.holdingFiles.length;
@@ -356,7 +334,6 @@ export class MessagePage implements OnInit {
         page: this.page,
         isFile: isFile,
       };
-      console.log(newData);
       this.chat.uploadImage(newData);
       this.message = '';
     }

@@ -34,7 +34,6 @@ export class HttpRequestsService implements HttpInterceptor {
         // this.notify.showError(ErrorMessage);
 
         this.showError(ErrorMessage);
-        console.log(ErrorMessage);
         return throwError(error);
       })
     );
@@ -63,7 +62,6 @@ export class HttpRequestsService implements HttpInterceptor {
         return (ErrorMessage = 'Check your Internet connection');
       }
     }
-    console.log(ErrorMessage);
     return ErrorMessage;
   }
 }

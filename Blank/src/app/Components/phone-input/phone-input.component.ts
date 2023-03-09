@@ -56,13 +56,9 @@ export class PhoneInputComponent implements OnInit {
   }
 
   cellphoneChange(ev: any) {
-    console.log(ev.target.value);
     const number = this.phone.parseAndKeepRawInput(
       ev.target.value,
       this.selectedCountry.iso2
-    );
-    console.log(
-      this.phone.isValidNumberForRegion(number, this.selectedCountry.iso2)
     );
   }
 
@@ -70,9 +66,6 @@ export class PhoneInputComponent implements OnInit {
     const number = this.phone.parseAndKeepRawInput(
       this.cellphone.value!,
       this.selectedCountry.iso2
-    );
-    console.log(
-      this.phone.isValidNumberForRegion(number, this.selectedCountry.iso2)
     );
 
     this.isCorrect = this.phone.isValidNumberForRegion(
@@ -91,14 +84,15 @@ export class PhoneInputComponent implements OnInit {
           next: (res: any) => {
             this.isUser = false;
             if (this.isUser === false) {
-              console.log(res);
               localStorage.setItem('token', res.token);
               this.token.token = res.token;
               this.router.navigate(['/tab']);
+              this.load$.next(false);
             }
           },
           error: (err: any) => {
             console.log(err);
+            this.load$.next(false);
           },
           complete: () => {
             this.load$.next(false);
@@ -110,13 +104,9 @@ export class PhoneInputComponent implements OnInit {
   isCorrect: boolean = false;
 
   onSubmit() {
-    console.log(this.cellphone.value)
     const number = this.phone.parseAndKeepRawInput(
       this.cellphone.value!,
       this.selectedCountry.iso2
-    );
-    console.log(
-      this.phone.isValidNumberForRegion(number, this.selectedCountry.iso2)
     );
 
     this.isCorrect = this.phone.isValidNumberForRegion(
@@ -137,7 +127,6 @@ export class PhoneInputComponent implements OnInit {
               this.isUser = false;
               this.load$.next(false);
             } else {
-              console.log(res);
               this.setIsUser(true);
               this.load$.next(false);
             }
@@ -148,13 +137,9 @@ export class PhoneInputComponent implements OnInit {
   }
 
   Register() {
-    console.log(this.cellphone);
     const number = this.phone.parseAndKeepRawInput(
       this.cellphone.value!,
       this.selectedCountry.iso2
-    );
-    console.log(
-      this.phone.isValidNumberForRegion(number, this.selectedCountry.iso2)
     );
 
     this.isCorrect = this.phone.isValidNumberForRegion(
@@ -172,7 +157,6 @@ export class PhoneInputComponent implements OnInit {
         })
         .subscribe({
           next: (res: any) => {
-            console.log(res);
             localStorage.setItem('token', res.token);
             this.token.token = res.token;
             this.router.navigate(['/tab']);
@@ -200,7 +184,6 @@ export class PhoneInputComponent implements OnInit {
   countrySelection(country: Country) {
     this.selectedCountry = country;
 
-    console.log(this.selectedCountry);
     this.modal.dismiss();
   }
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import { Country } from '../../model/Country.model';
+import { Country } from 'src/app/model/Country.model';
 
 @Component({
   selector: 'app-typeahead',
@@ -35,7 +35,6 @@ export class TypeaheadComponent implements OnInit {
   }
 
   searchbarInput(ev: any) {
-    console.log(ev.target.value);
     this.filterList(ev.target.value);
   }
 
@@ -62,8 +61,6 @@ export class TypeaheadComponent implements OnInit {
       this.filteredItems = this.items.filter((item: Country) => {
         return item.name.toLowerCase().includes(normalizedQuery.toLowerCase());
       });
-
-      console.log(this.filteredItems);
     }
   }
 }

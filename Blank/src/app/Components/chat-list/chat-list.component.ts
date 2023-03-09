@@ -25,20 +25,17 @@ export class ChatListComponent implements OnInit {
   ) {
     this.hold = this.token.decode();
     this.chat.listenToTyping().subscribe((val: any) => {
-      // console.log(val)
       this.vals = val;
     });
 
     this.chat.connect(this.hold.id);
 
     this.chat.otherUserID$.subscribe((val: string) => {
-      // console.log(val)
       this.otherUserID = val;
     })
 
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
-      console.log(this.status)
     })
 
   }
@@ -51,17 +48,11 @@ export class ChatListComponent implements OnInit {
     this.chat.connect(this.hold.id);
   }
 
-  ngDoCheck() {
-    // console.log(this.userList);
-  }
-
   isUserOnline(userID: string): boolean {
     return this.status?.indexOf(userID) !== -1;
   }
 
   goToMessage(id: string, name: string, type: string, i: number) {
-    // console.log(id, name, type);
-    console.log(this.userList[i]?.filteredMessages?.reverse());
     this.storage.changeMessage(
       this.userList[i]?.filteredMessages,
       this.userList[i].receiver,
@@ -71,7 +62,6 @@ export class ChatListComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
     this.storage.set('users', this.userList);
   }
 }

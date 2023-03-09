@@ -28,7 +28,6 @@ export class ContactsComponent implements OnInit {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
-      console.log(this.status)
     })
   }
   status: any = [];
@@ -39,7 +38,7 @@ export class ContactsComponent implements OnInit {
   isUserOnline(userID: string): boolean {
     return this.status?.indexOf(userID) !== -1;
   }
-  
+
   ngOnInit() {
     this.getUsers();
     // this.getContactsFromCache();
@@ -96,7 +95,6 @@ export class ContactsComponent implements OnInit {
       .getUsers(this.hold.id)
       .pipe(
         tap((res: any) => {
-          console.log(res);
           this.contactsDatabase = res;
         })
       )

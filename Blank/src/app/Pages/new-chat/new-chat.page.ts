@@ -88,7 +88,6 @@ export class NewChatPage implements OnInit {
 
     this.input.onchange = () => {
       this.file = this.input.files[0];
-      console.log(this.file);
 
       const reader = new FileReader();
 

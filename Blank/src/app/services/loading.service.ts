@@ -9,7 +9,6 @@ export class LoadingService {
   // isLoading: boolean = false;
 
   loading(load?: boolean):Boolean{
-    console.log(load);
     return load!;
   }
 }

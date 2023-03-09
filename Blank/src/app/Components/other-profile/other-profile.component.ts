@@ -27,7 +27,6 @@ export class OtherProfileComponent implements OnInit {
 
   ngOnInit() {
     this.getMe();
-    console.log(this.otherId);
   }
 
   getMe() {
@@ -38,7 +37,6 @@ export class OtherProfileComponent implements OnInit {
       if (this.type === 'user') {
         this.prof.getMe(this.otherId).subscribe({
           next: (res: any) => {
-            console.log(res[0]);
             this.me = res[0];
             this.username = this.me.name;
           },
@@ -49,12 +47,10 @@ export class OtherProfileComponent implements OnInit {
       } else if (this.type === 'group') {
         this.prof.getGroup(this.otherId).subscribe({
           next: (res: any) => {
-            console.log(res);
             this.me = res.group;
             this.member = res.members;
             this.username = this.me.name;
             this.created_by = res.group.created_by._id
-            console.log(this.created_by);
           },
           error: (err: any) => {
             console.log(err);

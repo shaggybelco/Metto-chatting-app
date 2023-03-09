@@ -17,7 +17,6 @@ export class ChatService {
   constructor(private http: HttpClient, private photoService: PhotoService) {
     socket.on('status', (data) => {
       this.statusSubject.next(data);
-      console.log(data)
     });
   }
   public message$: BehaviorSubject<any> = new BehaviorSubject({});
@@ -50,7 +49,6 @@ export class ChatService {
 
   public getNewMessage = () => {
     socket.on('mesRec', (message) => {
-      console.log(message)
       this.message$.next(message);
     });
 
@@ -59,7 +57,6 @@ export class ChatService {
 
   listenToTyping(): Observable<any> {
     socket.on('typing', (username: string) => {
-      console.log(username + ' is typing...');
       this.typying$.next(true);
       this.otherUserID$.next(username);
       setTimeout(() => {
@@ -111,13 +108,11 @@ export class ChatService {
         })
         .subscribe({
           next: (res: any) => {
-            console.log(res);
 
             const After = {
               ...data,
               file: res.secure_url,
             };
-            console.log(After);
             this.upload$.next(true);
 
             this.send(After);

@@ -20,7 +20,6 @@ export class TabsPage implements OnInit {
 
   ngOnInit() {
     this.myData = this.chat.getUnreadCount();
-    console.log(this.chat.getUnreadCount())
   }
 
   ngAfterViewChecked() {

@@ -29,13 +29,11 @@ export class ProfileTabPage implements OnInit {
 
   ngOnInit() {
     this.getMe();
-    console.log(this.otherId);
   }
 
   getMe() {
     this.prof.getMe(this.decode.id).subscribe({
       next: (res: any) => {
-        console.log(res[0]);
         this.me = res[0];
         this.username = this.me.name;
       },
@@ -57,7 +55,6 @@ export class ProfileTabPage implements OnInit {
 
     this.input.onchange = (e: any) => {
       this.file = this.input.files[0];
-      console.log(this.file);
 
       const reader = new FileReader();
 
@@ -81,7 +78,6 @@ export class ProfileTabPage implements OnInit {
       isAvatar: this.isAvatar,
     };
 
-    console.log(data);
     this.prof.upload$.subscribe((res: any) => {
       console.log(res);
     });

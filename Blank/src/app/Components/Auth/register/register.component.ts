@@ -70,10 +70,8 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     this.load$.next(true);
-    console.log(this.cellphone);
     this.user.signup(this.userForm.value).subscribe({
       next: (res: any) => {
-        console.log(res);
         localStorage.setItem('token', res.token);
         this.token.token = res.token;
         this.load$.next(false);
