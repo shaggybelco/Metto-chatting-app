@@ -41,8 +41,8 @@ export class MessagePage implements OnInit {
 
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
-      console.log(this.status)
-    })
+      console.log(this.status + ' online');
+    });
   }
 
   id = this.route.snapshot.params['id'];
@@ -69,12 +69,7 @@ export class MessagePage implements OnInit {
   }
 
   isUserOnline(userID: string): boolean {
-    if(this.status){
-      return this.status?.indexOf(userID) !== -1;
-    }else{
-      return  this.status?.indexOf(userID) === -1;;
-    }
-   
+    return this.status?.indexOf(userID) !== -1;
   }
 
   isScrolledToBottom: boolean = false;
@@ -83,7 +78,7 @@ export class MessagePage implements OnInit {
 
   gotoProf() {
     // console.log(this.id)
-    this.router.navigate(['/profile', this.id,this.type]);
+    this.router.navigate(['/profile', this.id, this.type]);
   }
 
   ngAfterViewChecked() {
@@ -217,7 +212,7 @@ export class MessagePage implements OnInit {
   getMembers() {
     this.user.getMembers(this.id).subscribe({
       next: (val: any) => {
-        console.log(val)
+        console.log(val);
         this.members = val;
       },
       error: (error: any) => {
