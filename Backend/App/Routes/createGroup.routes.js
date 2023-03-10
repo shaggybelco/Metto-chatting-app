@@ -8,6 +8,6 @@ app.use(bodyparser.json());
 
 const controller = require("../Controllers/createGroup.controller");
 
-app.get("/create", controller.createGroup);
+app.post("/create", controller.createGroup);
 
 module.exports = app;
