@@ -1,7 +1,7 @@
 <div class="center">
   <ion-card>
     <ion-card-header>
-      <ion-progress-bar *ngIf="load$ |async"  type="indeterminate"></ion-progress-bar>
+      <ion-progress-bar *ngIf="load$ |async" type="indeterminate"></ion-progress-bar>
       <ion-list [inset]="true">
         <ion-item [button]="true" [detail]="false" id="select-country">
           <ion-avatar slot="start" class="avatar">
@@ -31,13 +31,8 @@
 
           <ion-item>
             <ion-label position="floating">Cellphone</ion-label>
-            <ion-input
-              type="tel"
-              [maxlength]="selectedCountry.mask.length"
-              (onInput)="cellphoneChange($event)"
-              [formControl]="cellphone"
-              [placeholder]="selectedCountry.mask"
-            ></ion-input>
+            <ion-input type="tel" [maxlength]="selectedCountry.mask.length" (onInput)="cellphoneChange($event)"
+              [formControl]="cellphone" [placeholder]="selectedCountry.mask"></ion-input>
           </ion-item>
         </div>
       </div>
@@ -47,14 +42,8 @@
 
 <ion-modal trigger="select-country" #modal>
   <ng-template>
-    <app-typeahead
-      class="ion-page"
-      title="Select your country"
-      [items]="countries"
-      [selectedItems]="selectedCountry"
-      (selectionChange)="countrySelection($event)"
-      (selectionCancel)="modal.dismiss()"
-    ></app-typeahead>
+    <app-typeahead class="ion-page" title="Select your country" [items]="countries" [selectedItems]="selectedCountry"
+      (selectionChange)="countrySelection($event)" (selectionCancel)="modal.dismiss()"></app-typeahead>
   </ng-template>
 </ion-modal>
 
@@ -78,30 +67,18 @@
       <div class="grid p-fluid ion-padding center">
         <ion-item>
           <ion-label position="floating">Cellphone</ion-label>
-          <ion-input
-            type="tel"
-            [placeholder]="selectedCountry.mask"
-            [formControl]="cellphone"
-            (onInput)="cellphoneChange($event)"
-          ></ion-input>
+          <ion-input type="tel" [placeholder]="selectedCountry.mask" [formControl]="cellphone"
+            (onInput)="cellphoneChange($event)"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Username</ion-label>
-          <ion-input
-            type="text"
-            [formControl]="name"
-            placeholder="e.g John"
-          ></ion-input>
+          <ion-input type="text" [formControl]="name" placeholder="e.g John"></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Password</ion-label>
-          <ion-input
-            type="password"
-            [formControl]="password"
-            placeholder="********"
-          ></ion-input>
+          <ion-input type="password" [formControl]="password" placeholder="********"></ion-input>
         </ion-item>
       </div>
 
@@ -126,22 +103,16 @@
     </ion-header>
     <ion-content class="ion-padding">
       <div class="grid p-fluid ion-padding center">
-        <div class="col-12 md:col-6 lg:col-4">
-          <ion-item>
-            <ion-label>{{cellphone.value}}</ion-label>
-          </ion-item>
-        </div>
+        <ion-item>
+          <ion-label position="floating">Cellphone</ion-label>
+          <ion-input type="tel" [placeholder]="selectedCountry.mask" [formControl]="cellphone"
+            (onInput)="cellphoneChange($event)"></ion-input>
+        </ion-item>
 
-        <div class="col-12 md:col-6 lg:col-4 mt-4 z-50">
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input
-              type="password"
-              [formControl]="password"
-              placeholder="********"
-            ></ion-input>
-          </ion-item>
-        </div>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [formControl]="password" placeholder="********"></ion-input>
+        </ion-item>
       </div>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
         <ion-fab-button (click)="signin(); setIsUser(false)">
