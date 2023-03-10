@@ -108,7 +108,7 @@ export class NewChatPage implements OnInit {
     };
   }
 
-  async createGroup() {
+  createGroup() {
     if (this.selectedContacts.length > 0) {
 
       if (this.file) {
@@ -164,7 +164,9 @@ export class NewChatPage implements OnInit {
               this.chat.createGroup(data).subscribe({
                 next: (res: any) => {
                   console.log(res);
+                  this.chat.showError('Created')
                 }, error: (err: any) => {
+                  this.chat.showError('Failed')
                   console.log(err);
                 }
               })
@@ -186,7 +188,9 @@ export class NewChatPage implements OnInit {
         this.chat.createGroup(data).subscribe({
           next: (res: any) => {
             console.log(res);
+            this.chat.showError('Created')
           }, error: (err: any) => {
+            this.chat.showError('Failed')
             console.log(err);
           }
         })
