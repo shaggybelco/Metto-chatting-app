@@ -6,30 +6,18 @@
   <ion-list>
     <!-- skeleton loading -->
     <div *ngIf="loading$ |async">
-      <ion-item
-        detail="false"
-        *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4]"
-      >
+      <ion-item detail="false" *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4]">
         <!-- avatar -->
         <ion-avatar class="avatar" slot="start">
           <ion-skeleton-text [animated]="true"></ion-skeleton-text>
         </ion-avatar>
         <ion-label>
-          <ion-skeleton-text
-            [animated]="true"
-            style="width: 30%"
-          ></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 30%"></ion-skeleton-text>
           <div class="flex opacity-50">
             <!-- checkmark -->
-            <ion-skeleton-text
-              [animated]="true"
-              style="width: 5%"
-            ></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 5%"></ion-skeleton-text>
             <!-- message -->
-            <ion-skeleton-text
-              [animated]="true"
-              style="width: 60%"
-            ></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 60%"></ion-skeleton-text>
           </div>
         </ion-label>
       </ion-item>
@@ -42,24 +30,17 @@
       <!-- <pre>{{contacts| json}}</pre> -->
       <ion-text class="px-2 m-3">Contants on Metto</ion-text>
       <!-- <pre>{{contacts$ | async | json}}</pre> -->
-      <ion-item
-        lines="none"
-        detail="false"
-        button
-        *ngFor="let item of contacts"
-        [routerLink]="['/message', item.db._id, item.name.display, 'user']"
-      >
-        <ion-avatar slot="start" [class]="isUserOnline(item.db._id) && status?.length !== 0 ? 'avatar online' : 'avatar offline'">
-          <img
-            [src]="
+      <ion-item lines="none" detail="false" button *ngFor="let item of contacts"
+        [routerLink]="['/message', item.db._id, item.name.display, 'user']">
+        <ion-avatar slot="start"
+          [class]="isUserOnline(item.db._id) && status?.length !== 0 ? 'avatar online' : 'avatar offline'">
+          <img [src]="
               item.db.isAvatar
                 ? item.db.avatar
                 : 'https://ionicframework.com/docs/img/demos/avatar.svg'
-            "
-          />
+            " />
         </ion-avatar>
-        <ion-label
-          >
+        <ion-label>
           {{ item.name.display }}<span *ngIf="hold.cellphone === item.db.cellphone">(me)</span>
           <p>{{ item.phone.number }}</p>
         </ion-label>

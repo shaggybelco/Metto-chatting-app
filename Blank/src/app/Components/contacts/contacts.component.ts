@@ -198,16 +198,16 @@ export class ContactsComponent implements OnInit {
       }
     }
 
-     // Remove current user from contacts
+    // Remove current user from contacts
     let otherUserContacts: any;
-     const currentUser = this.hold;
-     if (currentUser && currentUser.cellphone) {
-       const currentUserNumber = currentUser.cellphone.toString().replace(/\D/g, '');
-       otherUserContacts = this.contacts.filter((contact:Contact) => {
-         const contactNumber = contact?.db?.cellphone?.toString().replace(/\D/g, '');
-         return contactNumber !== currentUserNumber;
-       });
-     }
+    const currentUser = this.hold;
+    if (currentUser && currentUser.cellphone) {
+      const currentUserNumber = currentUser.cellphone.toString().replace(/\D/g, '');
+      otherUserContacts = this.contacts.filter((contact: Contact) => {
+        const contactNumber = contact?.db?.cellphone?.toString().replace(/\D/g, '');
+        return contactNumber !== currentUserNumber;
+      });
+    }
 
     this.storage.setContacts(otherUserContacts);
     setLocalStorageItem('contacts', this.contacts);

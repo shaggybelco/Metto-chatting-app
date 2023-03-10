@@ -67,7 +67,8 @@
 
     <ion-card *ngIf="type === 'group'">
       <ion-card-header>
-        <ion-card-title>{{member.length === 1 ? member.length + ' participant' : member.length + ' participants'}}</ion-card-title>
+        <ion-card-title>{{member.length === 1 ? member.length + ' participant' : member.length + '
+          participants'}}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-item lines="none" detail="false" *ngFor="let item of member">
@@ -76,7 +77,8 @@
               [src]="item.user.isAvatar ? item.user.avatar:  'https://ionicframework.com/docs/img/demos/avatar.svg'" />
           </ion-avatar>
           <ion-label>
-            {{item.group.created_by === hold.id && item.user._id === hold.id? 'You' : item.user.name}} <p>{{item.user._id === created_by ? 'Admin': ''}}</p>
+            {{item.group.created_by === hold.id && item.user._id === hold.id? 'You' : item.user.name}} <p>
+              {{item.user._id === created_by ? 'Admin': ''}}</p>
           </ion-label>
 
           <ion-buttons slot="end" *ngIf="created_by === hold.id && item.user._id !== hold.id">
@@ -89,7 +91,8 @@
 
     <ion-card *ngIf="type === 'group'">
       <ion-card-content>
-        <ion-button color="danger" expand="block"><ion-icon name="exit-outline" slot="start"></ion-icon>Leave the group</ion-button>
+        <ion-button color="danger" expand="block"><ion-icon name="exit-outline" slot="start"></ion-icon>Leave the
+          group</ion-button>
       </ion-card-content>
     </ion-card>
   </div>

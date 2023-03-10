@@ -34,28 +34,28 @@ export class OtherProfileComponent implements OnInit {
     //   this.router.navigate(['/tab/profile'])
     // }
     // else
-      if (this.type === 'user') {
-        this.prof.getMe(this.otherId).subscribe({
-          next: (res: any) => {
-            this.me = res[0];
-            this.username = this.me.name;
-          },
-          error: (err: any) => {
-            console.log(err);
-          },
-        });
-      } else if (this.type === 'group') {
-        this.prof.getGroup(this.otherId).subscribe({
-          next: (res: any) => {
-            this.me = res.group;
-            this.member = res.members;
-            this.username = this.me.name;
-            this.created_by = res.group.created_by._id
-          },
-          error: (err: any) => {
-            console.log(err);
-          },
-        });
-      }
+    if (this.type === 'user') {
+      this.prof.getMe(this.otherId).subscribe({
+        next: (res: any) => {
+          this.me = res[0];
+          this.username = this.me.name;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+    } else if (this.type === 'group') {
+      this.prof.getGroup(this.otherId).subscribe({
+        next: (res: any) => {
+          this.me = res.group;
+          this.member = res.members;
+          this.username = this.me.name;
+          this.created_by = res.group.created_by._id
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+    }
   }
 }
