@@ -110,6 +110,7 @@ export class NewChatPage implements OnInit {
 
   async createGroup() {
     if (this.selectedContacts.length > 0) {
+
       if (this.file) {
         this.isAvatar = true;
       } else {
@@ -117,6 +118,21 @@ export class NewChatPage implements OnInit {
       }
       const CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
       let imgUrl = '';
+
+      const addMe: Contact = {
+        db: {
+          _id: this.hold.id
+        },
+        name: {
+          display: this.hold.name,
+          given: this.hold.name,
+          middle: '',
+          family: '',
+          prefix: '',
+          suffix: '',
+        },
+        phone: this.hold.cellphone
+      }
 
       if (this.isAvatar) {
         const formData = new FormData();
@@ -142,7 +158,7 @@ export class NewChatPage implements OnInit {
                 created_by: this.hold.id,
                 isAvatar: this.isAvatar,
                 avatar: imgUrl,
-                users: this.selectedContacts
+                users: this.selectedContacts.concat(addMe)
               };
 
               this.chat.createGroup(data).subscribe({
@@ -164,7 +180,7 @@ export class NewChatPage implements OnInit {
           created_by: this.hold.id,
           isAvatar: this.isAvatar,
           avatar: imgUrl,
-          users: this.selectedContacts
+          users: this.selectedContacts.concat(addMe)
         };
 
         this.chat.createGroup(data).subscribe({
@@ -176,7 +192,7 @@ export class NewChatPage implements OnInit {
         })
       }
 
-    }else{
+    } else {
       // toast
       this.chat.showError('You not selected participants')
     }

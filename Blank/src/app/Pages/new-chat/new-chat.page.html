@@ -25,26 +25,17 @@
       <ion-header>
         <ion-toolbar color="secondary">
           <ion-buttons slot="start">
-            <ion-button (click)="cancel()" fill="solid" color="danger"
-              >Cancel</ion-button
-            >
+            <ion-button (click)="cancel()" fill="solid" color="danger">Cancel</ion-button>
           </ion-buttons>
-          <ion-title class="text-center"
-            >New group
+          <ion-title class="text-center">New group
             <p class="text-xs" *ngIf="selectedContacts.length > 0">
               {{selectedContacts.length == 1 ? selectedContacts.length + '
               participant' : selectedContacts.length + ' participants'}}
             </p>
           </ion-title>
           <ion-buttons slot="end">
-            <ion-button
-              (click)="createGroup();"
-              [disabled]="selectedContacts.length < 0"
-              fill="solid"
-              color="primary"
-              [strong]="true"
-              >Create</ion-button
-            >
+            <ion-button (click)="createGroup();" [disabled]="selectedContacts.length < 0" fill="solid" color="primary"
+              [strong]="true">Create</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -52,63 +43,34 @@
       <ion-content>
         <div class="flex justify-center mb-6 mt-6">
           <ion-avatar class="avatar">
-            <img
-              *ngIf="!file"
-              alt="not"
-              src="https://ionicframework.com/docs/img/demos/avatar.svg"
-            />
+            <img *ngIf="!file" alt="not" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
             <img *ngIf="file" [src]="dataUrl" />
-            <ion-icon
-              class="add bg-base-100"
-              (click)="openFileBrowser()"
-              button
-              color="primary"
-              style="font-size: 1.5rem"
-              name="add-circle"
-            ></ion-icon>
+            <ion-icon class="add bg-base-100" (click)="openFileBrowser()" button color="primary"
+              style="font-size: 1.5rem" name="add-circle"></ion-icon>
           </ion-avatar>
         </div>
         <ion-item lines="none">
           <ion-label position="stacked">Name</ion-label>
-          <ion-input
-            type="text"
-            placeholder="Group name"
-            [(ngModel)]="name"
-            maxLength="30"
-          ></ion-input>
+          <ion-input type="text" placeholder="Group name" [(ngModel)]="name" maxLength="30"></ion-input>
         </ion-item>
 
         <ion-item lines="none">
           <ion-label position="stacked">Description</ion-label>
-          <ion-textarea
-            [autoGrow]="true"
-            type="text"
-            placeholder="Group description"
-            [(ngModel)]="desc"
-            maxLength="150"
-          ></ion-textarea>
+          <ion-textarea [autoGrow]="true" type="text" placeholder="Group description" [(ngModel)]="desc"
+            maxLength="150"></ion-textarea>
         </ion-item>
 
         <!-- <pre>{{selectedContacts | json}}</pre> -->
         <div class="flex overflow-x-scroll sticky-header">
-          <div
-            class="flex-shrink-0 m-2 w-14"
-            *ngFor="let item of selectedContacts"
-          >
-            <ion-icon
-              name="close-circle"
-              class="relative text-2xl ml-10 bg-base-100 z-10 mv"
-              (click)="removeItem(item)"
-              color="warning"
-            ></ion-icon>
+          <div class="flex-shrink-0 m-2 w-14" *ngFor="let item of selectedContacts">
+            <ion-icon name="close-circle" class="relative text-2xl ml-10 bg-base-100 z-10 mv" (click)="removeItem(item)"
+              color="warning"></ion-icon>
             <ion-avatar slot="start" class="avatar">
-              <img
-                [src]="
+              <img [src]="
                 item.db.isAvatar
                   ? item.db.avatar
                   : 'https://ionicframework.com/docs/img/demos/avatar.svg'
-              "
-              />
+              " />
             </ion-avatar>
 
             <div class="w-18 text-center overflow-hidden mt-4">
@@ -122,49 +84,23 @@
         <ion-list class="">
           <div *ngIf="contactToChoseOn.length > 0">
             <ion-text class="px-2 m-3">Select contacts</ion-text>
-            <ion-item
-              lines="none"
-              detail="false"
-              button
-              *ngFor="let item of contactToChoseOn"
-              (click)="addItem(item)"
-            >
+            <ion-item lines="none" detail="false" button *ngFor="let item of contactToChoseOn" (click)="addItem(item)">
               <ion-avatar slot="start" class="avatar">
-                <img
-                  [src]="
+                <img [src]="
                     item.db.isAvatar
                       ? item.db.avatar
                       : 'https://ionicframework.com/docs/img/demos/avatar.svg'
-                  "
-                />
+                  " />
               </ion-avatar>
               <ion-label>
-                {{ item.name.display }}<span
-                  *ngIf="hold.cellphone === item.db.cellphone"
-                  >(me)</span
-                >
+                {{ item.name.display }}<span *ngIf="hold.cellphone === item.db.cellphone">(me)</span>
                 <p>{{ item.phone.number }}</p>
               </ion-label>
-              <ion-icon
-                *ngIf="isSelected(item)"
-                name="checkmark-circle-sharp"
-                class="relative text-2xl z-50"
-                color="success"
-                slot="end"
-              ></ion-icon>
+              <ion-icon *ngIf="isSelected(item)" name="checkmark-circle-sharp" class="relative text-2xl z-50"
+                color="success" slot="end"></ion-icon>
             </ion-item>
           </div>
         </ion-list>
-
-        <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-          <ion-fab-button
-            color="secondary"
-            [routerLink]="['/new-chat']"
-            routerLinkActive="new-chat"
-          >
-            <ion-icon name="chatbubble-ellipses"></ion-icon>
-          </ion-fab-button>
-        </ion-fab> -->
       </ion-content>
     </ng-template>
   </ion-modal>
