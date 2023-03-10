@@ -141,7 +141,7 @@ export class NewChatPage implements OnInit {
               created_by: this.hold.id,
               isAvatar: this.isAvatar,
               avatar: imgUrl,
-              user: this.selectedContacts
+              users: this.selectedContacts
             };
 
             this.chat.createGroup(data).subscribe({
@@ -162,7 +162,8 @@ export class NewChatPage implements OnInit {
         description: this.desc,
         created_by: this.hold.id,
         isAvatar: this.isAvatar,
-        user: this.selectedContacts
+        avatar: imgUrl,
+        users: this.selectedContacts
       };
 
       this.chat.createGroup(data).subscribe({
