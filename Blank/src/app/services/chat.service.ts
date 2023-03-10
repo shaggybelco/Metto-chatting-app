@@ -48,7 +48,8 @@ export class ChatService {
   }
 
   createGroup(group: any) {
-    return this.http.get(`${environment.base}/api/create`, group);
+    console.log(group);
+    return this.http.get(`${environment.baseUrl}/create`, group);
   }
 
   unreadCount = 0;
