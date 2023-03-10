@@ -25,10 +25,14 @@ module.exports.createGroup = (req, res) => {
 
         member.save(member).then((members) => {
           console.log(members);
+          res.status(200).json(members)
         });
       }
+
+      
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json(error)
   }
 };

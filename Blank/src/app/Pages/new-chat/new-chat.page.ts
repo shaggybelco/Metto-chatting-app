@@ -109,72 +109,76 @@ export class NewChatPage implements OnInit {
   }
 
   async createGroup() {
-    if (this.file) {
-      this.isAvatar = true;
-    } else {
-      this.isAvatar = false;
-    }
-    const CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
-    let imgUrl = '';
+    if (this.selectedContacts.length > 0) {
+      if (this.file) {
+        this.isAvatar = true;
+      } else {
+        this.isAvatar = false;
+      }
+      const CLOUDINARY_URL = `${environment.CLOUDINARY_URL}/${environment.cloud_name}/upload`;
+      let imgUrl = '';
 
-    if (this.isAvatar) {
-      const formData = new FormData();
-      formData.append('file', this.dataUrl);
-      formData.append('upload_preset', environment.cloud_preset);
-      formData.append('api_key', environment.api_key);
-      formData.append('api_secret', environment.api_secret);
-      formData.append('folder', 'chatpp');
-      this.http
-        .post(CLOUDINARY_URL, formData, {
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-          },
-        })
-        .subscribe({
+      if (this.isAvatar) {
+        const formData = new FormData();
+        formData.append('file', this.dataUrl);
+        formData.append('upload_preset', environment.cloud_preset);
+        formData.append('api_key', environment.api_key);
+        formData.append('api_secret', environment.api_secret);
+        formData.append('folder', 'chatpp');
+        this.http
+          .post(CLOUDINARY_URL, formData, {
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+          })
+          .subscribe({
+            next: (res: any) => {
+              console.log(res);
+              imgUrl = res.secure_url;
+
+              const data = {
+                name: this.name,
+                description: this.desc,
+                created_by: this.hold.id,
+                isAvatar: this.isAvatar,
+                avatar: imgUrl,
+                users: this.selectedContacts
+              };
+
+              this.chat.createGroup(data).subscribe({
+                next: (res: any) => {
+                  console.log(res);
+                }, error: (err: any) => {
+                  console.log(err);
+                }
+              })
+            },
+            error: (err: any) => {
+              console.log(err);
+            },
+          });
+      } else {
+        const data = {
+          name: this.name,
+          description: this.desc,
+          created_by: this.hold.id,
+          isAvatar: this.isAvatar,
+          avatar: imgUrl,
+          users: this.selectedContacts
+        };
+
+        this.chat.createGroup(data).subscribe({
           next: (res: any) => {
             console.log(res);
-            imgUrl = res.secure_url;
-
-            const data = {
-              name: this.name,
-              description: this.desc,
-              created_by: this.hold.id,
-              isAvatar: this.isAvatar,
-              avatar: imgUrl,
-              users: this.selectedContacts
-            };
-
-            this.chat.createGroup(data).subscribe({
-              next: (res: any) => {
-                console.log(res);
-              },error: (err: any) => { 
-                console.log(err);
-              }
-            })
-          },
-          error: (err: any) => {
+          }, error: (err: any) => {
             console.log(err);
-          },
-        });
+          }
+        })
+      }
+
     }else{
-      const data = {
-        name: this.name,
-        description: this.desc,
-        created_by: this.hold.id,
-        isAvatar: this.isAvatar,
-        avatar: imgUrl,
-        users: this.selectedContacts
-      };
-
-      this.chat.createGroup(data).subscribe({
-        next: (res: any) => {
-          console.log(res);
-        },error: (err: any) => { 
-          console.log(err);
-        }
-      })
+      // toast
+      this.chat.showError('You not selected participants')
     }
-
-    
   }
 }

@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { PhotoService } from './photo.service';
 import { io, Socket } from "socket.io-client";
+import { Toast } from '@capacitor/toast';
 
 // const socket = io(`${environment.base}`);
 
@@ -33,6 +34,15 @@ export class ChatService {
     });
   }
 
+  showError = async (msg: any) => {
+    await Toast.show({
+      text: msg,
+      duration: 'long',
+      position: 'bottom',
+    });
+  };
+
+  
   getSocket(): Socket {
     return this.socket;
   }

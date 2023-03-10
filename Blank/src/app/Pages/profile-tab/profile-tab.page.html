@@ -100,7 +100,7 @@
           </div>
           <!-- <h1 *ngIf="file" class="text-center">file selected</h1> -->
           <div class="avte">
-            <ion-button color="secondary" (click)="openFileBrowser()">Change picture</ion-button>
+            <ion-button color="secondary" [disabled]="prof.upload$ | async" (click)="openFileBrowser()">Change picture</ion-button>
           </div>
 
           <div class="avte">
