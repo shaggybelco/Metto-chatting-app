@@ -194,7 +194,7 @@ export class NewChatPage implements OnInit {
 
     } else {
       // toast
-      this.chat.showError('You not selected participants')
+      this.chat.showError('You have not selected participants')
     }
   }
 }

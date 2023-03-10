@@ -32,9 +32,11 @@ export class PhoneInputComponent implements OnInit {
     private token: TokenService,
     private phone: PhoneNumberUtil,
     private countriesArray: CountriesService
-  ) { }
+  ) { 
+    this.countries= this.countriesArray.countries;
+  }
 
-  countries: Country[] = this.countriesArray.countries;
+  countries: Country[] = [];  
   public load$: BehaviorSubject<any> = new BehaviorSubject(false);
 
   selectedFruitsText: string = '0 Items';

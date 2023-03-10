@@ -34,7 +34,7 @@
             </p>
           </ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="createGroup();" [disabled]="selectedContacts.length < 0" fill="solid" color="primary"
+            <ion-button (click)="createGroup();" [disabled]="selectedContacts.length === 0" fill="solid" color="primary"
               [strong]="true">Create</ion-button>
           </ion-buttons>
         </ion-toolbar>
