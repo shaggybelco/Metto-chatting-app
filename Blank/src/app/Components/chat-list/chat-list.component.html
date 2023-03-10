@@ -1,41 +1,50 @@
 <!-- retreived data -->
 <!-- [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]" -->
 <ion-list>
-  <ion-item detail="false" button *ngFor="let user of userList; let i = index"
-    (click)="goToMessage(user.receiver._id, user.receiver.name, user.lastMessage.recipient_type, i)">
-    <ion-avatar *ngIf="user.lastMessage.recipient_type === 'user'"
-      [class]="isUserOnline(user.receiver._id) && user.lastMessage.recipient_type !== 'group' && status?.length !== 0 ? 'avatar online' : 'avatar offline'"
-      slot="start">
-      <img alt="Silhouette of a person's head"
-        [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
-      <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
-    </ion-avatar>
 
-    <ion-avatar *ngIf="user.lastMessage.recipient_type === 'group'" class="avatar" slot="start">
-      <img alt="Silhouette of a person's head"
-        [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
-      <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
-    </ion-avatar>
-    <ion-label>
-      {{user.receiver.name}}
-      <span *ngIf="user.receiver._id === hold.id">(You)</span>
-      <div class="flex opacity-50 justify-start align-middle text-center space-x-0.5">
-        <ion-icon *ngIf="user.lastMessage?.sender?._id === hold.id" slot="start" name="checkmark-done"></ion-icon>
-        <p *ngIf="user.lastMessage?.message && !vals || user.receiver._id !== otherUserID">{{user.lastMessage?.message}}
+  <ion-item-sliding detail="false" button *ngFor="let user of userList; let i = index">
+    <ion-item (click)="goToMessage(user.receiver._id, user.receiver.name, user.lastMessage.recipient_type, i)">
+      <ion-avatar *ngIf="user.lastMessage.recipient_type === 'user'"
+        [class]="isUserOnline(user.receiver._id) && user.lastMessage.recipient_type !== 'group' && status?.length !== 0 ? 'avatar online' : 'avatar offline'"
+        slot="start">
+        <img alt="Silhouette of a person's head"
+          [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+        <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
+      </ion-avatar>
+
+      <ion-avatar *ngIf="user.lastMessage.recipient_type === 'group'" class="avatar" slot="start">
+        <img alt="Silhouette of a person's head"
+          [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+        <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
+      </ion-avatar>
+      <ion-label>
+        {{user.receiver.name}}
+        <span *ngIf="user.receiver._id === hold.id">(You)</span>
+        <div class="flex opacity-50 justify-start align-middle text-center space-x-0.5">
+          <ion-icon *ngIf="user.lastMessage?.sender?._id === hold.id" slot="start" name="checkmark-done"></ion-icon>
+          <p *ngIf="user.lastMessage?.message && !vals || user.receiver._id !== otherUserID">
+            {{user.lastMessage?.message}}
+          </p>
+          <p *ngIf="!user.lastMessage?.message" class="items-end space-x-0.5 text-center mb-0">
+            <ion-icon slot="start" class="relative" name="image"></ion-icon>
+            <span *ngIf="!vals || user.receiver._id !== otherUserID">Photo</span>
+          </p>
+          <!-- <p *ngIf="!user.lastMessage.message && !vals && user.receiver._id !== otherUserID">Photo</p> -->
+          <p *ngIf="vals && user.receiver._id === otherUserID" class="text-blue-400 font-bold">Typing...</p>
+        </div>
+      </ion-label>
+      <div class="time">
+        <p class="flex gap-1">
+          <span class="text-sm">{{trans.transform(user.lastMessage?.createdAt)}}</span>
+          <ion-badge slot="end" *ngIf="user.unreadCount > 0" color="secondary">{{user.unreadCount}}</ion-badge>
         </p>
-        <p *ngIf="!user.lastMessage?.message" class="items-end space-x-0.5 text-center mb-0">
-          <ion-icon slot="start" class="relative" name="image"></ion-icon>
-          <span *ngIf="!vals || user.receiver._id !== otherUserID">Photo</span>
-        </p>
-        <!-- <p *ngIf="!user.lastMessage.message && !vals && user.receiver._id !== otherUserID">Photo</p> -->
-        <p *ngIf="vals && user.receiver._id === otherUserID" class="text-blue-400 font-bold">Typing...</p>
       </div>
-    </ion-label>
-    <div class="time">
-      <p class="flex gap-1">
-        <span class="text-sm">{{trans.transform(user.lastMessage?.createdAt)}}</span>
-        <ion-badge slot="end" *ngIf="user.unreadCount > 0" color="secondary">{{user.unreadCount}}</ion-badge>
-      </p>
-    </div>
-  </ion-item>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option color="danger" button>
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
 </ion-list>

@@ -61,7 +61,9 @@
             <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
               [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
               [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
-              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
+              [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'"
+              
+              >
               <div
                 [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
                 <time class="text-xs opacity-60 font-bold mb-2"
