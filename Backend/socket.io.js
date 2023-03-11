@@ -11,7 +11,7 @@ module.exports = Socket = (server) => {
     },
   });
 
-  let users = {};
+  let users = [];
   let onlineUsers = {};
 
   io.on("connection", (socket) => {
