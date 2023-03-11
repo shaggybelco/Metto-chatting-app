@@ -37,7 +37,7 @@ module.exports = Socket = (server) => {
         delete users[disconnectedUserID];
         offlineUsers[disconnectedUserID] = "offline";
 
-        // console.log(offlineUsers);
+        console.log(offlineUsers);
         // console.log(users);
         io.emit("status", { users: Object.keys(users) });
       }

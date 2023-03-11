@@ -35,6 +35,8 @@ export class ChatListComponent implements OnInit {
 
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
+      console.log(status);
+      
     })
 
   }
@@ -61,7 +63,7 @@ export class ChatListComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     for (const msg of this.userList) {
-      console.log(msg);
+      // console.log(msg);
       
     }
     this.storage.set('users', this.userList);

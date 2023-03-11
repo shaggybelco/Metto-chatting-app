@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar color="secondary">
     <ion-item lines="none" color="secondary">
       <ion-buttons slot="start">
@@ -22,7 +22,7 @@
             ? 'You' : item.user?.name}}{{!isLast ? ', ' : ''}}</span>
         </p>
         <p *ngIf="vals && typeId === id" class="text-blue-400">typing</p>
-        <p *ngIf="!vals && typeId !== id && type !== 'group'" class="opacity-80">{{isUserOnline(id) ? 'online':
+        <p *ngIf="!vals && typeId !== id && type === 'user'" class="opacity-80">{{isUserOnline(id) ? 'online':
           'offline'}}</p>
       </ion-label>
       <ion-buttons slot="end">
@@ -102,23 +102,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div *ngFor="let mess of message$ | async">
-        <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
-
-          <div [style]="mess.file ? 'padding: 2px;': ''"
-            [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
-            <div class="chat-header space-x-2 flex justify-between" *ngIf="!mess.isFile">
-              <span class="text-xs opacity-50" *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</span>
-              <time class="text-xs opacity-50">{{trans.transform(mess.createdAt)}}</time>
-            </div>
-            <img *ngIf="mess.isFile" lazy style="width: 300px; border-radius: 15px" [src]="mess.file" />
-            <span class="w-full" [style]="mess.isFile && mess.message ? 'padding: 10px;': ''">
-              {{mess.message}}
-            </span>
-          </div>
-        </div>
-      </div> -->
     </section>
   </div>
 
@@ -163,16 +146,6 @@
   </div>
 
   <ion-toolbar>
-    <!-- <ion-item lines="none"> -->
-    <!-- <ion-buttons slot="start">
-        <ion-button color="secondary" id="click-trigger">
-          <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="camera"></ion-icon>
-        </ion-button>
-      </ion-buttons> -->
-    <!-- <ion-textarea placeholder="Type something here" [(ngModel)]="message" [autoGrow]="true" (keypress)="startTyping()"
-        (keyup.enter)="send()" class="bg-base-200 rounded-2xl"
-        >
-      </ion-textarea> -->
     <div class="stretch mx-2 flex flex-row gap-3 pt-2 last:mb-2 md:last:mb-6 lg:mx-auto lg:max-w-3xl lg:pt-6">
       <div class="relative flex h-full flex-1 md:flex-col">
         <div
@@ -202,12 +175,5 @@
         </div>
       </div>
     </div>
-
-    <!-- <ion-buttons>
-        <ion-button color="secondary" shape="round" (click)="send()">
-          <ion-icon style="font-size: 1.5rem; font-weight: bolder" name="send"></ion-icon>
-        </ion-button>
-      </ion-buttons> -->
-    <!-- </ion-item> -->
   </ion-toolbar>
 </ion-footer>

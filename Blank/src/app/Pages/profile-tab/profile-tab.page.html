@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar color="secondary">
     <ion-title>Profile </ion-title>
   </ion-toolbar>
@@ -73,7 +73,7 @@
       [presentingElement]="presentingElement"
     >
       <ng-template>
-        <ion-header>
+        <ion-header class="ion-no-border">
           <ion-toolbar color="secondary">
             <ion-title>Update profile</ion-title>
             <ion-progress-bar *ngIf="prof.upload$ | async" type="indeterminate" color="danger"></ion-progress-bar>

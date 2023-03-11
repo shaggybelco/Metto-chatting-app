@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-button (click)="cancelChanges()">Cancel</ion-button>
@@ -9,7 +9,7 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="secondary">
-    <ion-searchbar (ionInput)="searchbarInput($event)"></ion-searchbar>
+    <ion-searchbar animated="true" searchIcon="search" (ionInput)="searchbarInput($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +21,7 @@
         <img src="{{ item.flag}}" alt="{{item.name}}"/>
       </ion-avatar>
       <ion-label>{{ item.name }}</ion-label>
-      <ion-radio
+      <ion-radio color="secondary"
         [value]="item" 
       ></ion-radio>
     </ion-item>

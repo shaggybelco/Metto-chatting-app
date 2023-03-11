@@ -262,8 +262,6 @@ export class MessagePage implements OnInit {
     this.chat.getMessages(messageQueryParams, this.page).subscribe({
       next: (res: any) => {
         for (const message of res) {
-           console.log(message);
-           
           this.messages.unshift(message);
         }
 
@@ -383,7 +381,7 @@ export class MessagePage implements OnInit {
     this.message = '';
     this.holdingFiles = [];
     this.showScrollDownButton = false;
-    this.slowScrollToBottom();
+    // this.slowScrollToBottom();
   }
 
   ngOnDestroy() {

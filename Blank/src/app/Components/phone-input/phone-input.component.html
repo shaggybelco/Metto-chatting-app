@@ -1,7 +1,7 @@
 <div class="center">
   <ion-card>
     <ion-card-header>
-      <ion-progress-bar *ngIf="load$ |async" type="indeterminate"></ion-progress-bar>
+      <ion-progress-bar *ngIf="load$ |async" color="secondary" type="indeterminate"></ion-progress-bar>
       <ion-list [inset]="true">
         <ion-item [button]="true" [detail]="false" id="select-country">
           <ion-avatar slot="start" class="avatar">
@@ -20,15 +20,6 @@
     <ion-card-header>
       <div class="grid p-fluid">
         <div class="col-12 md:col-6 lg:col-4">
-          <!-- <span>Cellphone number</span> -->
-          <!-- <p-inputMask
-            [mask]="selectedCountry.mask"
-            [placeholder]="selectedCountry.mask"
-            [(ngModel)]="cellphone"
-            (onInput)="cellphoneChange($event)"
-          >
-          </p-inputMask> -->
-
           <ion-item>
             <ion-label position="floating">Cellphone</ion-label>
             <ion-input type="tel" [maxlength]="selectedCountry.mask.length" (onInput)="cellphoneChange($event)"
@@ -55,7 +46,7 @@
 
 <ion-modal [isOpen]="isModalOpen">
   <ng-template>
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar color="secondary">
         <ion-title>Register</ion-title>
         <ion-buttons slot="end">
@@ -93,7 +84,7 @@
 
 <ion-modal [isOpen]="isUser">
   <ng-template>
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar color="secondary">
         <ion-title>Login</ion-title>
         <ion-buttons slot="end">
