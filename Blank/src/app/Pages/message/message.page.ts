@@ -127,7 +127,7 @@ export class MessagePage implements OnInit {
   }
 
   filteredUnread() {
-    const unreadMessages = this.messages.filter((message: Message) => !message.read);
+    const unreadMessages = this.messages.filter((message: Message) => !message.read && message.receiver._id.toString() === this.hold.id);
     // console.log(unreadMessages)
     // Mark the unread messages as read and emit a 'message-read' event to the server
     unreadMessages.forEach(message => {
