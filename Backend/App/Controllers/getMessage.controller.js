@@ -76,7 +76,7 @@ exports.getMessages = async (req, res, next) => {
               receiver: req.params.id,
             },
           ],
-          _id: { $lt: lastMessageId }
+          _id: { $lt: lastMessageId.toString() }
         })
           .sort({ createdAt: -1 })
           .limit(pageSize);
