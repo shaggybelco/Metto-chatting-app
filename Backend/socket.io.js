@@ -61,7 +61,7 @@ module.exports = Socket = (server) => {
             console.log(err);
             return;
           }
-      
+
           console.log(result);
           io.to(users[loggedInUser]).emit("read", result);
           io.to(users[messageId.receiver._id]).emit("read", result);
@@ -109,10 +109,9 @@ module.exports = Socket = (server) => {
                     receiver: user._id,
                   },
                 ],
-              })
-                .sort({ createdAt: -1 })
-                .skip(skip)
-                .limit(pageSize);
+              }).sort({ createdAt: -1 });
+              // .skip(skip)
+              // .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -130,9 +129,9 @@ module.exports = Socket = (server) => {
                     path: "receiver",
                     model: "user" | "group",
                   })
-                  .sort({ createdAt: -1 })
-                  .skip(skip)
-                  .limit(pageSize);
+                  .sort({ createdAt: -1 });
+                // .skip(skip)
+                // .limit(pageSize);
               }
 
               messages = await Promise.all(
@@ -187,10 +186,9 @@ module.exports = Socket = (server) => {
                     receiver: user._id,
                   },
                 ],
-              })
-                .sort({ createdAt: -1 })
-                .skip(skip)
-                .limit(pageSize);
+              }).sort({ createdAt: -1 });
+              // .skip(skip)
+              // .limit(pageSize);
 
               // Check if receiver is a user or a group
               let receiver = await User.findOne({ _id: otherUser._id });
@@ -208,9 +206,9 @@ module.exports = Socket = (server) => {
                     path: "receiver",
                     model: "user" | "group",
                   })
-                  .sort({ createdAt: -1 })
-                  .skip(skip)
-                  .limit(pageSize);
+                  .sort({ createdAt: -1 });
+                // .skip(skip)
+                // .limit(pageSize);
               }
 
               messages = await Promise.all(
@@ -232,86 +230,6 @@ module.exports = Socket = (server) => {
       } catch (error) {
         console.log(error);
       }
-
-      // const otherUser = await User.find({ _id: data.receiver });
-
-      // if (otherUser.length > 0) {
-      //   const me = await User.find({ _id: data.sender });
-
-      //   if (me.length > 0) {
-      //     var message =
-      //       "Message from " + me[0].name + " message: " + data.message;
-
-      //     const chat = new Chat({
-      //       sender: data.sender,
-      //       receiver: data.receiver,
-      //       message: data.message,
-      //     });
-
-      //     chat
-      //       .save(chat)
-      //       .then(async (sent) => {
-      //         User.findOneAndUpdate(
-      //           { _id: me[0]._id },
-      //           { $push: { chats: sent._id }, $set: { lastMessage: sent._id } },
-      //           (error) => {
-      //             if (error) return console.error(error);
-
-      //             User.findOneAndUpdate(
-      //               { _id: otherUser[0]._id },
-      //               {
-      //                 $push: { chats: sent._id },
-      //                 $set: { lastMessage: sent._id },
-      //               },
-      //               (error) => {
-      //                 if (error) return console.error(error);
-
-      //                 console.log("Users updated successfully");
-
-      //                 User.find({ _id: me[0]._id })
-      //                   .populate({
-      //                     path: "chats",
-      //                     populate: [
-      //                       {
-      //                         path: "sender",
-      //                         model: "users",
-      //                       },
-      //                       {
-      //                         path: "receiver",
-      //                         model: "users",
-      //                       },
-      //                     ],
-      //                     model: "chats",
-      //                     match: {
-      //                       $or: [
-      //                         { sender: me[0]._id, receiver: otherUser[0]._id },
-      //                         { sender: otherUser[0]._id, receiver: me[0]._id },
-      //                       ],
-      //                     },
-      //                   })
-
-      //                   .exec((error, chat) => {
-      //                     console.log(chat);
-      //                     if (error) {
-      //                       console.log(error);
-      //                     }
-
-      //                     console.log("emited");
-
-      //                     io.to(users[otherUser[0]._id]).emit("mesRec", chat);
-      //                     io.to(users[me[0]._id]).emit("mesRec", chat);
-      //                   });
-      //               }
-      //             );
-      //           }
-      //         );
-      //       })
-      //       .catch((error) => {
-      //         console.log(error);
-      //         // res.status(400).json({ error: "Message did not send", data: error });
-      //       });
-      //   }
-      // }
     });
   });
 };

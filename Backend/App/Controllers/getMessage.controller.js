@@ -1,37 +1,4 @@
-// const db = require("../Models");
-// const Message = db.messages;
 
-// exports.getMessages = (req, res, next) => {
-//   console.log(req.params);
-//   try {
-//     Message.find({
-//       $or: [
-//         {
-//           sender: req.params.id,
-//           receiver: req.params.receiver,
-//         },
-//         {
-//           sender: req.params.receiver,
-//           receiver: req.params.id,
-//         },
-//       ],
-//     })
-//       .populate({
-//         path: "sender",
-//         model: "user",
-//       })
-//       .populate({
-//         path: "receiver",
-//         model: "user" | "groups",
-//       })
-//       .then((user) => {
-//         // console.log(user);
-//         res.status(200).json(user);
-//       });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 const db = require("../Models");
 const Message = db.messages;
@@ -57,8 +24,8 @@ exports.getMessages = async (req, res, next) => {
       ],
     })
       .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(pageSize);
+      // .skip(skip)
+      // .limit(pageSize);
 
     // Check if receiver is a user or a group
     let receiver = await User.findOne({ _id: req.params.receiver });
@@ -76,8 +43,8 @@ exports.getMessages = async (req, res, next) => {
           model: "user" | "group",
         })
         .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(pageSize);
+    //     .skip(skip)
+    //     .limit(pageSize);
     }
 
     messages = await Promise.all(
