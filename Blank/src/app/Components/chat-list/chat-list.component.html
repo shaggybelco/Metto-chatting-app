@@ -1,5 +1,3 @@
-<!-- retreived data -->
-<!-- [routerLink]="['/message', user.receiver._id, user.receiver.name, user.lastMessage.recipient_type]" -->
 <ion-list>
 
   <ion-item-sliding detail="false" button *ngFor="let user of userList; let i = index">
@@ -9,13 +7,11 @@
         slot="start">
         <img alt="Silhouette of a person's head"
           [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
-        <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
       </ion-avatar>
 
       <ion-avatar *ngIf="user.lastMessage.recipient_type === 'group'" class="avatar" slot="start">
         <img alt="Silhouette of a person's head"
           [src]="user.receiver.isAvatar ? user.receiver.avatar : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
-        <!-- <img *ngIf="user.receiver.isAvatar" [src]="user.receiver.avatar" lazy /> -->
       </ion-avatar>
       <ion-label>
         {{user.receiver.name}}

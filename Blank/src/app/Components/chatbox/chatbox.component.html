@@ -1,0 +1,38 @@
+
+<ion-item 
+  lines="none" 
+  [class]="chat.sender._id != current_user_id ? 'sender' : 'user'">
+  <ion-label 
+    [slot]="chat.sender._id == current_user_id ? 'end' : 'start'" class="ion-text-wrap">
+    <ion-text>{{chat.message}}</ion-text>
+    <ion-note>
+      <!-- <small>{{(chat?.createdAt)?.toDate() | date: 'HH:mm'}}</small> -->
+      <small>10:00AM</small>
+      <ion-icon 
+        [color]="chat.sender._id == current_user_id ? 'light' : 'primary'" 
+        name="checkmark-done-outline"></ion-icon>
+    </ion-note>
+  </ion-label>
+</ion-item>
+
+<!-- <div *ngFor="let mess of message$ | async">
+  <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+    <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
+      [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
+      [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
+      [ngClass]="mess.sender._id !== hold.id ? 'chat-bubble': 'chat-bubble chat-bubble-info'">
+      <div
+        [ngClass]="mess.recipient_type === 'group' ? 'chat-header space-x-2 flex justify-between': 'chat-header space-x-2 flex justify-start'">
+        <time class="text-xs opacity-60 font-bold mb-2"
+          *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</time>
+        <time class="text-xs opacity-60 font-bold mb-2 flex-end"
+          *ngIf="mess.recipient_type === 'group'">{{mess.sender.cellphone}}</time>
+      </div>
+      <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2"
+        style="min-width: 300px; min-height: 200px !important; border-radius: 16px" [src]="mess.file" />
+      {{mess.message}}
+      <div class="chat-header space-x-2 flex justify-end relative">
+        <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>
+      </div>
+    </div>
+  </div> -->

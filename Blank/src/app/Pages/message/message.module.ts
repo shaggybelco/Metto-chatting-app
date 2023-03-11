@@ -8,6 +8,7 @@ import { MessagePageRoutingModule } from './message-routing.module';
 
 import { MessagePage } from './message.page';
 import { ChatsTabPageModule } from '../chats-tab/chats-tab.module';
+import { ChatboxComponent } from 'src/app/Components/chatbox/chatbox.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { ChatsTabPageModule } from '../chats-tab/chats-tab.module';
     FormsModule,
     ChatsTabPageModule
   ],
-  declarations: [MessagePage]
+  declarations: [MessagePage, ChatboxComponent]
 })
 export class MessagePageModule {}

@@ -5,6 +5,12 @@
 //   --padding-end: 0;
 // }
 
+ion-content {
+  ion-list {
+      background: transparent;
+  }
+}
+
 ion-textarea {
   --padding-bottom: 0;
   --padding-top: 0;

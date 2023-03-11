@@ -58,7 +58,7 @@
   </ion-infinite-scroll> -->
 
       <div *ngIf="!isLoading">
-        <div *ngFor="let mess of message$ | async">
+        <!-- <div *ngFor="let mess of message$ | async">
           <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
             <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
               [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
@@ -69,7 +69,7 @@
                 <time class="text-xs opacity-60 font-bold mb-2"
                   *ngIf="mess.recipient_type === 'group'">{{mess.sender.name}}</time>
                 <time class="text-xs opacity-60 font-bold mb-2 flex-end"
-                  *ngIf="mess.recipient_type === 'group'">0{{mess.sender.cellphone}}</time>
+                  *ngIf="mess.recipient_type === 'group'">{{mess.sender.cellphone}}</time>
               </div>
               <img *ngIf="mess.isFile" lazy lazy class="w-full mb-2"
                 style="min-width: 300px; min-height: 200px !important; border-radius: 16px" [src]="mess.file" />
@@ -78,8 +78,29 @@
                 <time class="text-xs opacity-60 px-2">{{trans.transform(mess.createdAt)}}</time>
               </div>
             </div>
-          </div>
-        </div>
+          </div> 
+        </div> -->
+
+        <ion-list lines="none" *ngIf="(message$) as chat$">
+          <ion-item-sliding class="chats-group" *ngFor="let chat of chat$ | async">
+            <ion-item-options side="start">
+              <ion-item-option color="success">
+                <ion-icon slot="icon-only" name="archive"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+            
+            <app-chatbox [chat]="chat" [current_user_id]="hold.id"></app-chatbox>
+
+            <ion-item-options side="end">
+              <ion-item-option>
+                <ion-icon slot="icon-only" name="heart"></ion-icon>
+              </ion-item-option>
+              <ion-item-option color="danger">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+            </ion-item-sliding>
+        </ion-list>
       </div>
 
       <div *ngIf="isLoading">
