@@ -19,7 +19,7 @@ module.exports = Socket = (server) => {
       console.log(userID);
       users[userID] = socket.id;
       onlineUsers[userID] = "online";
-      console.log(users);
+      console.log(onlineUsers);
 
       io.emit("status", { users: Object.keys(onlineUsers) });
     });
@@ -38,7 +38,7 @@ module.exports = Socket = (server) => {
         offlineUsers[disconnectedUserID] = "offline";
 
         console.log(offlineUsers);
-        // console.log(users);
+        console.log(users);
         io.emit("status", { users: Object.keys(users) });
       }
     });

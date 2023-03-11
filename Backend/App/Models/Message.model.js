@@ -30,6 +30,12 @@ module.exports = (mongoose) => {
           type: String,
           default: "",
         },
+        deletedBy: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+          },
+        ],
       },
       { timestamps: true }
     )
