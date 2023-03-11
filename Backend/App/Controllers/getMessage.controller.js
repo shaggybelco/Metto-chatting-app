@@ -60,28 +60,6 @@ exports.getMessages = async (req, res, next) => {
       .skip(skip)
       .limit(pageSize);
 
-      if (messages.length > 0) {
-        // Get the ID of the last message in the current page
-        const lastMessageId = messages[messages.length - 1]._id;
-      
-        // Retrieve the next page of messages
-        messages = await Message.find({
-          $or: [
-            {
-              sender: req.params.id,
-              receiver: req.params.receiver,
-            },
-            {
-              sender: req.params.receiver,
-              receiver: req.params.id,
-            },
-          ],
-          _id: { $lt: lastMessageId.toString() }
-        })
-          .sort({ createdAt: -1 })
-          .limit(pageSize);
-      }
-
     // Check if receiver is a user or a group
     let receiver = await User.findOne({ _id: req.params.receiver });
     if (!receiver) {

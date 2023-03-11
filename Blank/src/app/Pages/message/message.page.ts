@@ -177,10 +177,10 @@ export class MessagePage implements OnInit {
             );
           })
         );
-        this.slowScrollToBottom();
+       
       },
     });
-
+    this.slowScrollToBottom();
     this.getMembers();
   }
 
