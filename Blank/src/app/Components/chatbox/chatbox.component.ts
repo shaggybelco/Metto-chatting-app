@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
 import { Message } from 'src/app/model/messages.model';
+import { TransformService } from 'src/app/services/transform.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -9,7 +10,7 @@ import { Message } from 'src/app/model/messages.model';
 })
 export class ChatboxComponent implements OnInit {
 
-  constructor() { }
+  constructor(public trans: TransformService) { }
 
   @ViewChild(IonContent, { static: true }) content!: IonContent;
   @Input() chat!: Message;

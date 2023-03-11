@@ -58,7 +58,7 @@
   </ion-infinite-scroll> -->
 
       <div *ngIf="!isLoading">
-        <!-- <div *ngFor="let mess of message$ | async">
+        <div *ngFor="let mess of message$ | async">
           <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
             <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
               [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
@@ -79,28 +79,7 @@
               </div>
             </div>
           </div> 
-        </div> -->
-
-        <ion-list lines="none" *ngIf="(message$) as chat$">
-          <ion-item-sliding class="chats-group" *ngFor="let chat of chat$ | async">
-            <ion-item-options side="start">
-              <ion-item-option color="success">
-                <ion-icon slot="icon-only" name="archive"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-            
-            <app-chatbox [chat]="chat" [current_user_id]="hold.id"></app-chatbox>
-
-            <ion-item-options side="end">
-              <ion-item-option>
-                <ion-icon slot="icon-only" name="heart"></ion-icon>
-              </ion-item-option>
-              <ion-item-option color="danger">
-                <ion-icon slot="icon-only" name="trash"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-            </ion-item-sliding>
-        </ion-list>
+        </div>
       </div>
 
       <div *ngIf="isLoading">
