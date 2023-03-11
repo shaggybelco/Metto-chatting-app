@@ -61,27 +61,25 @@ exports.getMessages = async (req, res, next) => {
       .limit(pageSize);
 
       if (messages.length > 0) {
-        // Check if the last message in the current page is the same as the new message
-        const lastMessage = messages[messages.length - 1];
-        const newMessage = await Message.findOne({ _id: req.body.messageId });
-        if (lastMessage._id.toString() === newMessage._id.toString()) {
-          // Display the new message on the next page
-          messages = await Message.find({
-            $or: [
-              {
-                sender: req.params.id,
-                receiver: req.params.receiver,
-              },
-              {
-                sender: req.params.receiver,
-                receiver: req.params.id,
-              },
-            ],
-          })
-            .sort({ createdAt: -1 })
-            .skip(skip + pageSize)
-            .limit(pageSize);
-        }
+        // Get the ID of the last message in the current page
+        const lastMessageId = messages[messages.length - 1]._id;
+      
+        // Retrieve the next page of messages
+        messages = await Message.find({
+          $or: [
+            {
+              sender: req.params.id,
+              receiver: req.params.receiver,
+            },
+            {
+              sender: req.params.receiver,
+              receiver: req.params.id,
+            },
+          ],
+          _id: { $lt: lastMessageId }
+        })
+          .sort({ createdAt: -1 })
+          .limit(pageSize);
       }
 
     // Check if receiver is a user or a group
