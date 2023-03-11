@@ -6,6 +6,7 @@ import { StatusBar } from '@capacitor/status-bar';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from '../../services/storage.service';
 import { ChatService } from '../../services/chat.service';
+import { Socket } from 'socket.io-client';
 
 @Component({
   selector: 'app-chats-tab',
@@ -21,12 +22,18 @@ export class ChatsTabPage implements OnInit {
     private chat: ChatService
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
+    this.socket = this.chat.getSocket();
+    this.socket.on("connect", () => {
+      this.socket.emit('connected', this.hold.id);
+      console.log(this.socket.id)
+    });
   }
 
 
   isUser = false;
   isModalOpen = false;
-
+  private socket!: Socket;
+  
   setIsUser(isUser: boolean) {
     this.isUser = isUser;
   }

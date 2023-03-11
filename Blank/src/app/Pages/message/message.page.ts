@@ -55,10 +55,9 @@ export class MessagePage implements OnInit {
     chat.getStatus().subscribe((status: any) => {
       this.status = status.users;
     });
-    const ids = this.route.snapshot.params['id'];
 
     this.socket.on("connect", () => {
-      this.socket.emit('connected', ids);
+      this.socket.emit('connected', this.hold.id);
       console.log(this.socket.id)
     });
 
