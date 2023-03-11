@@ -167,7 +167,6 @@ export class MessagePage implements OnInit {
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   ngOnInit(): void {
-    this.chat.connect(this.hold.id);
     this.getMessages();
     this.chat.getNewMessage().subscribe({
       next: (val: Message[]) => {

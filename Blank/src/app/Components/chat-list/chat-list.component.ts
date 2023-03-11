@@ -28,7 +28,6 @@ export class ChatListComponent implements OnInit {
       this.vals = val;
     });
 
-    this.chat.connect(this.hold.id);
 
     this.chat.otherUserID$.subscribe((val: string) => {
       this.otherUserID = val;
@@ -45,7 +44,6 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit(): void {
     this.hold = this.token.decode();
-    this.chat.connect(this.hold.id);
   }
 
   isUserOnline(userID: string): boolean {

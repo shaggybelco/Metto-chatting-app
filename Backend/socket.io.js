@@ -16,9 +16,10 @@ module.exports = Socket = (server) => {
 
   io.on("connection", (socket) => {
     socket.on("connected", (userID) => {
+      console.log(userID);
       users[userID] = socket.id;
       onlineUsers[userID] = "online";
-      console.log(users);
+      // console.log(users);
 
       io.emit("status", { users: Object.keys(onlineUsers) });
     });

@@ -51,7 +51,6 @@ export class ChatsTabPage implements OnInit {
   users$ = this.userSource.asObservable();
   ngOnInit() {
     this.hold = this.token.decode();
-    this.chat.connect(this.hold.id);
     if (this.storage.get('users') === null) {
       this.getUsersWithLastMessage();
     } else {
