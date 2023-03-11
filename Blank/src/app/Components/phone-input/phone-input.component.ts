@@ -131,7 +131,10 @@ export class PhoneInputComponent implements OnInit {
               this.setIsUser(true);
               this.load$.next(false);
             }
-          },
+          },error: (err: any)=>{
+            console.log(err);
+            this.load$.next(false);
+          }
 
         });
     }

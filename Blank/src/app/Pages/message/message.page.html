@@ -20,8 +20,8 @@
         <p *ngIf="type === 'group'">
           <span class="text-xs opacity-50" *ngFor="let item of members; let isLast = last">{{item.user?._id === hold.id ? 'You' :  item.user?.name}}{{!isLast ? ', ' : ''}}</span>
         </p>
-        <p *ngIf="vals" class="text-blue-400">typing</p>
-        <p *ngIf="!vals && type === 'user'" class="opacity-80">{{isUserOnline(id) ? 'online': 'offline'}}</p>
+        <p *ngIf="vals && typeId === id" class="text-blue-400">typing</p>
+          <p *ngIf="!vals || typeId !== id && type === 'user'" class="opacity-80">{{isUserOnline(id) ? 'online': 'offline'}}</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button>
@@ -57,7 +57,7 @@
 
       <div *ngIf="!isLoading">
         <div *ngFor="let mess of message$ | async">
-          <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'">
+          <div [ngClass]="mess.sender._id === hold.id? 'chat chat-end':'chat chat-start'" >
             <div [style]="mess.file && !mess.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
               [style]="mess.file && mess.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
               [style]="mess.message  && !mess.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"

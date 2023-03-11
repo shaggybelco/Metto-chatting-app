@@ -48,7 +48,7 @@
 </ion-modal>
 
 <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button (click)="onSubmit()">
+  <ion-fab-button color="secondary" (click)="onSubmit()">
     <ion-icon name="caret-forward-outline"></ion-icon>
   </ion-fab-button>
 </ion-fab>
@@ -56,7 +56,7 @@
 <ion-modal [isOpen]="isModalOpen">
   <ng-template>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="secondary">
         <ion-title>Register</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="setOpen(false)">Close</ion-button>
@@ -83,7 +83,7 @@
       </div>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button (click)="Register(); setOpen(false)">
+        <ion-fab-button color="secondary" (click)="Register(); setOpen(false)">
           <ion-icon name="checkmark-circle"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -94,7 +94,7 @@
 <ion-modal [isOpen]="isUser">
   <ng-template>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="secondary">
         <ion-title>Login</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="setIsUser(false)">Close</ion-button>
@@ -115,7 +115,7 @@
         </ion-item>
       </div>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button (click)="signin(); setIsUser(false)">
+        <ion-fab-button color="secondary" (click)="signin(); setIsUser(false)">
           <ion-icon name="checkmark-circle"></ion-icon>
         </ion-fab-button>
       </ion-fab>

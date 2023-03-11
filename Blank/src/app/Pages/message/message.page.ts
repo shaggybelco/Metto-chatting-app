@@ -14,6 +14,7 @@ import { StatusBar } from '@capacitor/status-bar';
 import { Message } from '../../model/messages.model';
 import { UserService } from '../../services/user.service';
 import { Socket } from 'socket.io-client';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-message',
@@ -33,12 +34,19 @@ export class MessagePage implements OnInit {
     public trans: TransformService,
     public photoService: PhotoService,
     private router: Router,
-    private user: UserService
+    private user: UserService,
+    private http: HttpClient
   ) {
     StatusBar.setBackgroundColor({ color: '#3dc2ff' });
     this.chat.listenToTyping().subscribe((val: any) => {
       this.vals = val;
+      // console.log(val)
     });
+
+    chat.otherUserID$.subscribe((id: any)=>{
+      console.log(id)
+      this.typeId = id
+    })
 
     this.socket = this.chat.getSocket();
 
@@ -53,6 +61,10 @@ export class MessagePage implements OnInit {
       this.socket.emit('connected', ids);
       console.log(this.socket.id)
     });
+
+    this.socket.on('read', (read) => {
+      console.log(read + ' read')
+    })
   }
 
   id = this.route.snapshot.params['id'];
@@ -60,6 +72,7 @@ export class MessagePage implements OnInit {
   type = this.route.snapshot.params['type'];
   profile: string = '';
   haveAvatar = false;
+  typeId!: string;
 
   hold: any = this.token.decode();
   message: string = '';
@@ -99,6 +112,9 @@ export class MessagePage implements OnInit {
         this.scrollToBottom();
       }, 1000);
     }
+
+    this.filteredUnread();
+
   }
 
   resizeTextarea(event: any) {
@@ -108,6 +124,20 @@ export class MessagePage implements OnInit {
     if (event.target.value.length === 0) {
       event.target.style.height = '24px';
     }
+  }
+
+  filteredUnread() {
+    const unreadMessages = this.messages.filter((message: Message) => !message.read);
+    // console.log(unreadMessages)
+    // Mark the unread messages as read and emit a 'message-read' event to the server
+    unreadMessages.forEach(message => {
+      // console.log(message)
+      message.read = true;
+      this.socket.emit('msgRead', message, this.hold.id);
+    });
+
+    // Update the messages in your local data model
+    this.messages = this.messages;
   }
 
   originalY = 0;
@@ -219,7 +249,7 @@ export class MessagePage implements OnInit {
       error: (error: any) => {
         console.log(error);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -234,6 +264,8 @@ export class MessagePage implements OnInit {
     this.chat.getMessages(messageQueryParams, this.page).subscribe({
       next: (res: any) => {
         for (const message of res) {
+           console.log(message);
+           
           this.messages.unshift(message);
         }
 

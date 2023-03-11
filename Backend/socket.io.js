@@ -20,14 +20,8 @@ module.exports = Socket = (server) => {
       onlineUsers[userID] = "online";
       console.log(users);
 
-      io.emit("status", { users:  Object.keys(onlineUsers)});
+      io.emit("status", { users: Object.keys(onlineUsers) });
     });
-
-    // setInterval(() => {
-    //   Object.keys(users).forEach((userID) => {
-    //     io.to(users[userID]).emit("status", { userID, status: "online" });
-    //   });
-    // }, 60000);
 
     socket.on("disconnect", () => {
       const disconnectedUserID = Object.keys(users).find(
@@ -36,75 +30,42 @@ module.exports = Socket = (server) => {
 
       let offlineUsers = {};
 
-      console.log(disconnectedUserID)
-     
+      // console.log(disconnectedUserID);
+
       if (disconnectedUserID) {
         delete users[disconnectedUserID];
         offlineUsers[disconnectedUserID] = "offline";
 
-        console.log(offlineUsers)
-        console.log(users)
-        io.emit("status", { users: Object.keys(users)});
+        // console.log(offlineUsers);
+        // console.log(users);
+        io.emit("status", { users: Object.keys(users) });
       }
     });
 
     socket.on("typing", (data) => {
-      // console.log(data);
+      console.log(data);
       if (users[data.receiver]) {
         io.to(users[data.receiver]).emit("typing", data.sender);
         // console.log('type')
       }
     });
 
-    socket.on("read", (msgRead) => {
-      console.log(msgRead);
-      try {
-        Chat.updateMany(
-          { receiver: msgRead.receiver, isRead: false },
-          { $set: { isRead: true } },
-          (error, result) => {
-            User.find({ _id: msgRead.receiver })
-              .populate({
-                path: "chats",
-                populate: [
-                  {
-                    path: "sender",
-                    model: "users",
-                  },
-                  {
-                    path: "receiver",
-                    model: "users",
-                  },
-                ],
-                populate: {
-                  path: "lastMessage",
-                  model: "chats",
-                },
-                model: "chats",
-                match: {
-                  $or: [
-                    { sender: msgRead.sender, receiver: msgRead.receiver },
-                    { sender: msgRead.receiver, receiver: msgRead.sender },
-                  ],
-                },
-              })
-
-              .exec((error, chat) => {
-                console.log(chat);
-                if (error) {
-                  console.log(error);
-                }
-
-                console.log("emited");
-
-                io.to(msgRead.receiver).emit("mesRec", chat);
-                io.to(msgRead.sender).emit("mesRec", chat);
-              });
+    socket.on("msgRead", (messageId, loggedInUser) => {
+      console.log(messageId, loggedInUser);
+      Message.updateOne(
+        { _id: messageId._id, receiver: loggedInUser },
+        { read: true },
+        (err, result) => {
+          if (err) {
+            console.log(err);
+            return;
           }
-        );
-      } catch (error) {
-        next(error);
-      }
+      
+          console.log(result);
+          io.to(users[loggedInUser]).emit("read", result);
+          io.to(users[messageId.receiver._id]).emit("read", result);
+        }
+      );
     });
 
     socket.on("send", async (data) => {

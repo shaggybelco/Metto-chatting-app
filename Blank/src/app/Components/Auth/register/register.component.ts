@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private token: TokenService
   ) {
-    StatusBar.setBackgroundColor({ color: '#3880ff' });
+    StatusBar.setBackgroundColor({ color: '#3dc2ff' });
   }
 
   keyPress(event: any) {
