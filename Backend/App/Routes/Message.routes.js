@@ -9,6 +9,6 @@ app.use(bodyparser.json());
 const controller = require("../Controllers/Message.controller");
 
 app.get("/messages/:id/:receiver", controller.getMessages);
-app.delete("/messages/:id/:messID", controller.deleteMessage);
+app.delete("/messages/:id/:messID", controller.deleteForOne);
 
 module.exports = app;

@@ -205,6 +205,8 @@ export class MessagePage implements OnInit {
         console.log(res);
       },error: (error: any)=>{
         console.log(error);
+      },complete: ()=>{
+        console.log('Delete Message completed');
       }
     });
   }
