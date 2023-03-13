@@ -1,5 +1,3 @@
-
-
 const db = require("../Models");
 const Message = db.messages;
 const User = db.users;
@@ -22,10 +20,9 @@ exports.getMessages = async (req, res, next) => {
           receiver: req.params.id,
         },
       ],
-    })
-      .sort({ createdAt: -1 })
-      // .skip(skip)
-      // .limit(pageSize);
+    }).sort({ createdAt: -1 });
+    // .skip(skip)
+    // .limit(pageSize);
 
     // Check if receiver is a user or a group
     let receiver = await User.findOne({ _id: req.params.receiver });
@@ -42,9 +39,9 @@ exports.getMessages = async (req, res, next) => {
           path: "receiver",
           model: "user" | "group",
         })
-        .sort({ createdAt: -1 })
-    //     .skip(skip)
-    //     .limit(pageSize);
+        .sort({ createdAt: -1 });
+      //     .skip(skip)
+      //     .limit(pageSize);
     }
 
     messages = await Promise.all(
@@ -63,21 +60,17 @@ exports.getMessages = async (req, res, next) => {
   }
 };
 
-
 exports.deleteForOne = async (req, res) => {
-  exports.deleteForOne = async (req, res) => {
-    try {
-      const updatedMessage = await Message.findByIdAndUpdate(
-        req.params.messID,
-        { $push: { deletedBy: req.params.id } },
-        { new: true }
-      );
-      console.log(updatedMessage);
-      res.status(200).json(updatedMessage);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: err });
-    }
-  };
-  
-}
+  try {
+    const updatedMessage = await Message.findByIdAndUpdate(
+      req.params.messID,
+      { $push: { deletedBy: req.params.id } },
+      { new: true }
+    );
+    console.log(updatedMessage);
+    res.status(200).json(updatedMessage);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
