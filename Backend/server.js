@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 const reg = require("./App/Routes/register.routes");
 const log = require("./App/Routes/login.routes");
 const users = require("./App/Routes/getUsers.routes");
-const message = require("./App/Routes/getMessage.routes");
+const message = require("./App/Routes/Message.routes");
 const send = require("./App/Routes/sendMessage.routes");
 const create = require("./App/Routes/createGroup.routes");
 

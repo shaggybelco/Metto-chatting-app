@@ -12,7 +12,7 @@
 </ion-item> -->
 
 
-  <div [ngClass]="chat.sender._id === current_user_id ? 'chat chat-end':'chat chat-start'">
+ <div [ngClass]="chat.sender._id === current_user_id ? 'chat chat-end':'chat chat-start'">
     <div [style]="chat.file && !chat.message ? 'padding: 0.2rem;': 'padding: 0.2rem;'"
       [style]="chat.file && chat.message ? 'padding: 0.3rem;': 'padding: 0.2rem;'"
       [style]="chat.message  && !chat.isFile ? 'padding: 0.6rem;': 'padding: 0.2rem;'"
@@ -31,3 +31,5 @@
         <time class="text-xs opacity-60 px-2">{{trans.transform(chat.createdAt)}}</time>
       </div>
     </div>
+
+  

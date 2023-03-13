@@ -41,6 +41,10 @@ export class ChatService {
       position: 'bottom',
     });
   };
+  
+  deleteMessage(id: any, messId: any): Observable<any>{
+    return this.http.delete(`${environment.baseUrl}/message/${id}/${messId}`);
+  }
 
   
   getSocket(): Socket {

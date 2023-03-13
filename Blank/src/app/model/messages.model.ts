@@ -1,7 +1,7 @@
 import { UserFully } from "./receiver.model";
 
 export interface Message {
-    _id: string;
+    _id?: string;
     createdAt: string;
     file: string;
     isFile: boolean;

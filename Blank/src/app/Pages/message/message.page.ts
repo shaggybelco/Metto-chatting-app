@@ -166,6 +166,50 @@ export class MessagePage implements OnInit {
   userType: Subscription = new Subscription();
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
 
+  private pressTimer: any;
+
+  onMouseDown(event: any) {
+    console.log(event);
+    this.pressTimer = setTimeout(() => {
+      console.log('Hold gesture detected');
+      // Perform your desired action here
+    }, 1000);
+  }
+
+  onMouseUp(event: any) {
+    console.log(event);
+    clearTimeout(this.pressTimer);
+  }
+
+  selectedMessage!: Message;
+
+  onTouchStart(event: any, message: Message) {
+    console.log(event, message);
+    this.selectedMessage = message;
+    this.pressTimer = setTimeout(() => {
+      console.log('Hold gesture detected');
+      this.showMenu = true;
+      // Perform your desired action here
+    }, 1000);
+  }
+
+  showMenu = false;
+  onTouchEnd(event: any) {
+    console.log(event);
+    clearTimeout(this.pressTimer);
+  }
+
+  deleteMessage() {
+    this.chat.deleteMessage(this.id, this.selectedMessage._id).subscribe({
+      next: (res: any)=>{
+        console.log(res);
+      },error: (error: any)=>{
+        console.log(error);
+      }
+    });
+  }
+
+  
   ngOnInit(): void {
     this.getMessages();
     this.chat.getNewMessage().subscribe({

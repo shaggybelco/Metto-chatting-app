@@ -62,3 +62,23 @@ exports.getMessages = async (req, res, next) => {
     res.status(500).send({ message: error.message });
   }
 };
+
+
+exports.deleteForOne = async (req, res, next) => {
+  try {
+    Message.findByIdAndUpdate(
+      req.params.messID,
+      { $push: { deletedBy: req.params.id } },
+      { new: true },
+      (err, updatedMessage) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(updatedMessage);
+      }
+    );
+  } catch (error) {
+    res.status.json(500).send({ message: error.message });
+  }
+}
