@@ -43,7 +43,7 @@ export class ChatService {
   };
   
   deleteMessage(id: any, messId: any): Observable<any>{
-    return this.http.delete(`${environment.baseUrl}/message/${id}/${messId}`);
+    return this.http.delete(`${environment.baseUrl}/messages/${id}/${messId}`);
   }
 
   
