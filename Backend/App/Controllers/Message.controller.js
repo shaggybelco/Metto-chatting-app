@@ -65,7 +65,7 @@ exports.getMessages = async (req, res, next) => {
 
 
 exports.deleteForOne = async (req, res) => {
-  try {
+  
    await Message.findByIdAndUpdate(
       req.params.messID,
       { $push: { deletedBy: req.params.id } },
@@ -79,7 +79,5 @@ exports.deleteForOne = async (req, res) => {
         res.status(200).json(updatedMessage);
       }
     );
-  } catch (error) {
-    res.status.json(500).send(error);
-  }
+ 
 }

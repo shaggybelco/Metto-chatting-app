@@ -184,7 +184,6 @@ export class MessagePage implements OnInit {
   selectedMessage!: Message;
 
   onTouchStart(event: any, message: Message) {
-    console.log(event, message);
     this.selectedMessage = message;
     this.pressTimer = setTimeout(() => {
       console.log('Hold gesture detected');
@@ -200,7 +199,8 @@ export class MessagePage implements OnInit {
   }
 
   deleteMessage() {
-    this.chat.deleteMessage(this.id, this.selectedMessage._id).subscribe({
+    console.log(this.selectedMessage);
+    this.chat.deleteMessage(this.hold.id, this.selectedMessage._id).subscribe({
       next: (res: any)=>{
         console.log(res);
       },error: (error: any)=>{
