@@ -64,9 +64,9 @@ exports.getMessages = async (req, res, next) => {
 };
 
 
-exports.deleteForOne = async (req, res, next) => {
+exports.deleteForOne = async (req, res) => {
   try {
-    Message.findByIdAndUpdate(
+   await Message.findByIdAndUpdate(
       req.params.messID,
       { $push: { deletedBy: req.params.id } },
       { new: true },
@@ -76,9 +76,10 @@ exports.deleteForOne = async (req, res, next) => {
           return;
         }
         console.log(updatedMessage);
+        res.status(200).json(updatedMessage);
       }
     );
   } catch (error) {
-    res.status.json(500).send({ message: error.message });
+    res.status.json(500).send(error);
   }
 }
