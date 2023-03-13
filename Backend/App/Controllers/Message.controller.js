@@ -65,19 +65,19 @@ exports.getMessages = async (req, res, next) => {
 
 
 exports.deleteForOne = async (req, res) => {
+  exports.deleteForOne = async (req, res) => {
+    try {
+      const updatedMessage = await Message.findByIdAndUpdate(
+        req.params.messID,
+        { $push: { deletedBy: req.params.id } },
+        { new: true }
+      );
+      console.log(updatedMessage);
+      res.status(200).json(updatedMessage);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  };
   
-   await Message.findByIdAndUpdate(
-      req.params.messID,
-      { $push: { deletedBy: req.params.id } },
-      { new: true },
-      (err, updatedMessage) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log(updatedMessage);
-        res.status(200).json(updatedMessage);
-      }
-    );
- 
 }
