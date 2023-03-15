@@ -20,6 +20,7 @@ exports.getMessages = async (req, res, next) => {
           receiver: req.params.id,
         },
       ],
+      deletedBy: { $nin: [req.params.id] }
     }).sort({ createdAt: -1 });
     // .skip(skip)
     // .limit(pageSize);
