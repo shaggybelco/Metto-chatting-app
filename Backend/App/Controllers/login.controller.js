@@ -6,9 +6,6 @@ const User = db.users;
 exports.login = async (req, res) => {
   const { cellphone, password } = req.body;
 
-  const SECRET_KEY =
-    "iaujshfklausfokjvuorjvksuirefkjauirjkauerfvkajbsru;foajckrabuv";
-
   try {
     const user = await User.find({ cellphone: cellphone });
 
@@ -27,14 +24,21 @@ exports.login = async (req, res) => {
             cellphone: user[0].cellphone,
             name: user[0].name,
           },
-          SECRET_KEY,
+          process.env.JWT_SECRET,
           {
             expiresIn: "5h",
           }
         );
-        res
-          .status(200)
-          .json({ message: "successfully logged in", token: token });
+        res.status(200).json({
+          message: "successfully logged in",
+          token: token,
+          user: {
+            cellphone: user[0].cellphone,
+            name: user[0].name,
+            isAvatar: user[0].isAvatar,
+            avatar: user[0].avatar,
+          },
+        });
       } else {
         res.status(400).json({ error: "wrong password" });
       }

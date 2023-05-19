@@ -16,7 +16,7 @@ module.exports.getusers = async (req, res) => {
 
 module.exports.getMembers = async (req, res) => {
   try {
-    const members = await GroupMember.find({ group: req.params.id })
+    const members = await GroupMember.find({ group: id })
       .populate({
         path: "group",
         model: "group",
@@ -34,11 +34,11 @@ module.exports.getMembers = async (req, res) => {
 
 module.exports.getGroup = async (req, res) => {
   try {
-    const group = await Group.findOne({ _id: req.params.id }).populate({
+    const group = await Group.findOne({ _id: id }).populate({
       path: "created_by",
       model: "user",
     });
-    const members = await GroupMember.find({ group: req.params.id })
+    const members = await GroupMember.find({ group: id })
       .populate({
         path: "group",
         model: "group",
@@ -57,17 +57,17 @@ module.exports.getGroup = async (req, res) => {
 module.exports.getUsersWithMessage = async (req, res, next) => {
   try {
     const messages = await Message.find({
-      $or: [{ sender: req.params.id }, { receiver: req.params.id }],
+      $or: [{ sender: id }, { receiver: id }],
     }).sort({ createdAt: -1 });
 
     const users = await User.find({
       _id: {
         $in: messages
-          .filter((m) => m.sender.toString() !== req.params.id)
+          .filter((m) => m.sender.toString() !== id)
           .map((m) => m.sender)
           .concat(
             messages
-              .filter((m) => m.receiver.toString() !== req.params.id)
+              .filter((m) => m.receiver.toString() !== id)
               .map((m) => m.receiver)
           ),
       },
@@ -77,10 +77,10 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
     for (const user of users) {
       const filteredMessages = messages.filter(
         (m) =>
-          (m.sender.toString() === req.params.id &&
+          (m.sender.toString() === id &&
             m.receiver.toString() === user._id.toString()) ||
           (m.sender.toString() === user._id.toString() &&
-            m.receiver.toString() === req.params.id)
+            m.receiver.toString() === id)
       );
       if (filteredMessages.length) {
         lastMessages.push({
@@ -99,7 +99,8 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
 };
 
 module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
-  const id = req.params.id;
+  const id = req.userId;
+  console.log(id);
   try {
     const groupID = await GroupMember.find({ user: { $eq: id } });
 
@@ -111,8 +112,8 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
     }
     const messages = await Message.find({
       $or: [
-        { sender: req.params.id },
-        { receiver: req.params.id },
+        { sender: id },
+        { receiver: id },
         { receiver: { $in: groupID?.group } },
       ],
     })
@@ -124,14 +125,14 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       .sort({ createdAt: -1 });
 
     const userIds = messages
-      .filter((m) => m.sender._id.toString() !== req.params.id)
+      .filter((m) => m.sender._id.toString() !== id)
       .map((m) => m.sender._id)
       .concat(
         messages
-          .filter((m) => m.receiver._id.toString() !== req.params.id)
+          .filter((m) => m.receiver._id.toString() !== id)
           .map((m) => m.receiver._id)
       )
-      .concat(req.params.id); // add user's id to the array
+      .concat(id); // add user's id to the array
 
     const groupIds = messages
       .filter((m) => m.recipient_type === "group")
@@ -144,7 +145,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
     const groups = await Group.find({
       _id: { $in: [...groupID.map((g) => g.group), ...groupIds] },
-      // created_by: req.params.id,
+      // created_by: id,
     });
 
     // console.log(groups);
@@ -152,16 +153,16 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
     for (const user of users) {
       const filteredMessages = messages.filter(
         (m) =>
-          (m.sender._id.toString() === req.params.id &&
+          (m.sender._id.toString() === id &&
             m.receiver._id.toString() === user._id.toString()) ||
           (m.sender._id.toString() === user._id.toString() &&
-            m.receiver._id.toString() === req.params.id)
+            m.receiver._id.toString() === id)
       );
       if (filteredMessages.length) {
         lastMessages.push({
           receiver: user,
           lastMessage: filteredMessages[0],
-          unreadCount: filteredMessages.filter((m) => m.read === false && m.receiver._id.toString() === req.params.id).length,
+          unreadCount: filteredMessages.filter((m) => m.read === false && m.receiver._id.toString() === id).length,
           filteredMessages: filteredMessages,
         });
       }
@@ -213,8 +214,9 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 
 // get logged in user
 exports.getMe = async (req, res, next) => {
+  const id = req.userId;
   try {
-    const hold = await User.find({ _id: req.params.id });
+    const hold = await User.find({ _id: id });
 
     res.status(200).json(hold);
   } catch (error) {
@@ -226,7 +228,7 @@ exports.getMe = async (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
   const { image, isAvatar, name } = req.body;
-  const id = req.params.id;
+  const id = id;
   console.log(req.body);
   console.log(image);
   try {

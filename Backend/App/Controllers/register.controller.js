@@ -22,7 +22,6 @@ exports.register = async (req, res) => {
         const user = new User({
           name: req.body.name,
           cellphone: req.body.cellphone,
-          country: req.body.country,
           password: hash,
         });
 
@@ -35,7 +34,7 @@ exports.register = async (req, res) => {
                 cellphone: user.cellphone,
                 name: user.name,
               },
-              SECRET_KEY,
+              process.env.JWT_SECRET,
               {
                 expiresIn: "5h",
               }

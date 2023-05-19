@@ -47,6 +47,6 @@ app.use("/api", message);
 app.use("/api", send);
 app.use("/api", create);
 
-server.listen(port, () => {
+server.listen(port, "0.0.0.0", () => {
   console.log(`connect to http://localhost:${port}`);
 });
