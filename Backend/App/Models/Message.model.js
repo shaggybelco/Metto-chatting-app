@@ -6,6 +6,7 @@ module.exports = (mongoose) => {
         sender: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
+          select: "_id name cellphone isAvatar avatar"
         },
         recipient_type: {
           type: String,
@@ -14,6 +15,7 @@ module.exports = (mongoose) => {
         receiver: {
           type: mongoose.Schema.Types.ObjectId,
           refPath: "recipient_type",
+          select: "_id name cellphone isAvatar avatar"
         },
         message: {
           type: String,
