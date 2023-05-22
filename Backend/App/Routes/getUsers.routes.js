@@ -11,7 +11,7 @@ const { verifyJWT } = require("../Middlewares/VerifyOTP");
 
 app.get('/users/:id', controller.getusers);
 app.get('/userm', verifyJWT ,controller.getUsersAndGroupsWithMessage);
-app.get('/me/:id',verifyJWT, controller.getMe);
+app.get('/me',verifyJWT, controller.getMe);
 app.put('/updatepp/:id', controller.updateProfile);
 app.get('/groupmembers/:id', controller.getMembers);
 app.get('/group/:id', controller.getGroup);

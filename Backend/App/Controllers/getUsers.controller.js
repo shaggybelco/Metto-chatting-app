@@ -100,7 +100,6 @@ module.exports.getUsersWithMessage = async (req, res, next) => {
 
 module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
   const id = req.userId;
-  console.log(id);
   try {
     const groupID = await GroupMember.find({ user: { $eq: id } });
 
@@ -120,8 +119,13 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
       .populate({
         path: "receiver",
         model: "user" | "group",
+        select: "_id name cellphone isAvatar avatar", // Select the specified fields for the "receiver" (User) population
       })
-      .populate({ path: "sender", model: "user" })
+      .populate({
+        path: "sender",
+        model: "user",
+        select: "_id name cellphone isAvatar avatar",
+      }) // Select the specified fields for the "sender" (User) population
       .sort({ createdAt: -1 });
 
     const userIds = messages
@@ -141,7 +145,7 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
     // console.log(groupIds);
     const users = await User.find({
       _id: { $in: userIds },
-    });
+    }).select("_id name cellphone isAvatar avatar");
 
     const groups = await Group.find({
       _id: { $in: [...groupID.map((g) => g.group), ...groupIds] },
@@ -162,7 +166,9 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
         lastMessages.push({
           receiver: user,
           lastMessage: filteredMessages[0],
-          unreadCount: filteredMessages.filter((m) => m.read === false && m.receiver._id.toString() === id).length,
+          unreadCount: filteredMessages.filter(
+            (m) => m.read === false && m.receiver._id.toString() === id
+          ).length,
           filteredMessages: filteredMessages,
         });
       }
@@ -216,7 +222,9 @@ module.exports.getUsersAndGroupsWithMessage = async (req, res, next) => {
 exports.getMe = async (req, res, next) => {
   const id = req.userId;
   try {
-    const hold = await User.find({ _id: id });
+    const hold = await User.findOne({ _id: id }).select(
+      "_id name cellphone isAvatar avatar"
+    );
 
     res.status(200).json(hold);
   } catch (error) {

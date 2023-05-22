@@ -5,7 +5,7 @@ const User = db.users;
 
 exports.register = async (req, res) => {
   try {
-    const user = await User.find({ cellphone: req.body.cellphone});
+    const user = await User.find({ cellphone: req.body.cellphone });
     // console.log(user);
 
     const SECRET_KEY =
@@ -34,10 +34,7 @@ exports.register = async (req, res) => {
                 cellphone: user.cellphone,
                 name: user.name,
               },
-              process.env.JWT_SECRET,
-              {
-                expiresIn: "5h",
-              }
+              process.env.JWT_SECRET
             );
             res
               .status(200)
@@ -52,4 +49,3 @@ exports.register = async (req, res) => {
     console.log(err);
   }
 };
-

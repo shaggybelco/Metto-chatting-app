@@ -24,15 +24,13 @@ exports.login = async (req, res) => {
             cellphone: user[0].cellphone,
             name: user[0].name,
           },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: "5h",
-          }
+          process.env.JWT_SECRET
         );
         res.status(200).json({
           message: "successfully logged in",
           token: token,
           user: {
+            id: user[0].id,
             cellphone: user[0].cellphone,
             name: user[0].name,
             isAvatar: user[0].isAvatar,
