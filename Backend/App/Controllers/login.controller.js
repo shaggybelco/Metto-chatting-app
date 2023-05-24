@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../Models");
+const admin = require("../Configs/firebase.config");
 const User = db.users;
 
 exports.login = async (req, res) => {

@@ -1,15 +1,28 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../Models");
+const admin = require("../Configs/firebase.config");
+
 const User = db.users;
 
 exports.register = async (req, res) => {
   try {
     const user = await User.find({ cellphone: req.body.cellphone });
-    // console.log(user);
+    // console.log(req.body.cellphone);
+    // const userFind = await admin.auth().getUserByPhoneNumber(req.body.cellphone).then((user) => {
+    //   console.log(user);
+    // }).catch((error) => {
+    //   console.log(error);
+    // });
 
-    const SECRET_KEY =
-      "iaujshfklausfokjvuorjvksuirefkjauirjkauerfvkajbsru;foajckrabuv";
+
+
+    // const userR = await admin.auth().createUser({
+    //   phoneNumber:  req.body.cellphone,
+    //   password: req.body.password,
+    // });
+
+    // console.log(userR);
 
     if (user.length != 0) {
       res.status(400).json({ error: "User exists" });
