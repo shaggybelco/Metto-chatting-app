@@ -20,7 +20,7 @@ exports.login = async (req, res) => {
       } else if (results === true) {
         const token = jwt.sign(
           {
-            id: user[0].id,
+            id: user[0]._id,
             cellphone: user[0].cellphone,
             name: user[0].name,
           },
@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
           message: "successfully logged in",
           token: token,
           user: {
-            id: user[0].id,
+            id: user[0]._id,
             cellphone: user[0].cellphone,
             name: user[0].name,
             isAvatar: user[0].isAvatar,
